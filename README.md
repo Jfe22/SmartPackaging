@@ -2,9 +2,12 @@
 Platform for Smart Packaging Management
 
 
-enum packType {Primary, Secondary, Tertiary} 
+enum packType 
+
+	{Primary, Secondary, Tertiary} 
 
 class packEnvironment
+
 	float/int percentLeft
 	boolean expired
 
@@ -16,6 +19,7 @@ class packEnvironment
 
 
 class SmartPackage
+
 	int id
 	PackType type
 	String material
@@ -24,6 +28,7 @@ class SmartPackage
 
 
 class SmartTransportPackage
+
 	int id
 	Order order
 	SmartPackage[] packages VS Products products[] --
@@ -34,6 +39,7 @@ class SmartTransportPackage
                                     packages. mandar mail ao prof
 
 class Order
+
 	int id
 	Date orderDate
 	Date estDeliveryDate
@@ -42,6 +48,7 @@ class Order
 	...
 
 class Product 
+
 	int id
 	String name
 	String expireDate
@@ -52,6 +59,7 @@ class Product
 
 
 class User 
+
 	int id - (VS username)
 	string name
 	string password
@@ -59,14 +67,17 @@ class User
 
 
 class Consumer extends User
+
 	...
 	...
 
 class Operator extends User
+
 	...
 	...
 
 class Producer extends User
+
 	...
 	...
 
