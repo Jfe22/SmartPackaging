@@ -1,23 +1,37 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.PackType;
 
 @Entity
 public class SmartPackage {
     @Id
     int id;
     @NotNull
-    String name;
+    PackType type;
     @NotNull
-    String destination;
+    String material;
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    Product product;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    Order order;
+
+
+
+    float currentTemperature;
+    float currentHumidity;
+    float currentAtmPressure;
+    String currentLocation;
+    float maxGForce;
+
 
     public SmartPackage() {}
-    public SmartPackage(int id, String name, String destination) {
+    public SmartPackage(int id) {
         this.id = id;
-        this.name = name;
-        this.destination = destination;
     }
 
     public int getId() {
@@ -28,19 +42,4 @@ public class SmartPackage {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
 }

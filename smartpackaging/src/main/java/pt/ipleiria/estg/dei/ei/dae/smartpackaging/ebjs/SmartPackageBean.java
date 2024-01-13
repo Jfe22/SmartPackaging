@@ -10,8 +10,8 @@ public class SmartPackageBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(int id, String name, String destination) {
-        SmartPackage smartPackage = new SmartPackage(id, name, destination);
+    public void create(int id, String name) {
+        SmartPackage smartPackage = new SmartPackage(id);
         entityManager.persist(smartPackage);
     }
 

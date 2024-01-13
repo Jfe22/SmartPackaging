@@ -17,9 +17,9 @@ public class ConfigBean {
     public void populateDB() {
         System.out.println("Hello jave ee");
 
-        smartPackageBean.create(1, "first", "ali");
-        smartPackageBean.create(2, "second", "aqui");
-        smartPackageBean.create(3, "3rd", "somewhere");
-        smartPackageBean.create(4, "4rd", "nowhere");
+        smartPackageBean.create(1, "first");
+        smartPackageBean.create(2, "second");
+        smartPackageBean.create(3, "3rd");
+        smartPackageBean.create(4, "4rd");
     }
 }
