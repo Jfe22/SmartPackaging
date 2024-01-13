@@ -6,6 +6,13 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllProducts",
+                query = "SELECT p FROM Product p ORDER BY p.name"
+        )
+})
+@Table(name = "products")
 public class Product {
     @Id
     int id;
@@ -14,14 +21,14 @@ public class Product {
     @NotNull
     String expireDate;
     @NotNull
-    float weight;
+    double weight;
     @NotNull
     String ingredients;
     @OneToOne(mappedBy = "product")
     SmartPackage smartPackage;
 
     public Product() {}
-    public Product(int id, String name, String expireDate, float weight, String ingredients, Order order) {
+    public Product(int id, String name, String expireDate, double weight, String ingredients) {
         this.id = id;
         this.name = name;
         this.expireDate = expireDate;
@@ -53,11 +60,11 @@ public class Product {
         this.expireDate = expireDate;
     }
 
-    public float getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
@@ -69,4 +76,11 @@ public class Product {
         this.ingredients = ingredients;
     }
 
+    public SmartPackage getSmartPackage() {
+        return smartPackage;
+    }
+
+    public void setSmartPackage(SmartPackage smartPackage) {
+        this.smartPackage = smartPackage;
+    }
 }

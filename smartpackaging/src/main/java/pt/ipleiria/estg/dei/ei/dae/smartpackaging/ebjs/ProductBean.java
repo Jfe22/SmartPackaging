@@ -6,20 +6,17 @@ import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Product;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
-import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.PackType;
+
+import java.util.Date;
 
 @Stateless
-public class SmartPackageBean {
+public class ProductBean {
+
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(int id, PackType type, String material, int product_id) {
-
-        Product product = entityManager.find(Product.class, product_id);
-        if (product == null) return;
-
-        SmartPackage smartPackage = new SmartPackage(id, type, material, product);
-        entityManager.persist(smartPackage);
+    public void create(int id, String name, String expireDate, double weight, String ingredients) {
+        Product product = new Product(id, name, expireDate, weight, ingredients);
+        entityManager.persist(product);
     }
-
 }

@@ -8,6 +8,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllOrders",
+                query = "SELECT o FROM Order o ORDER BY o.id"
+        )
+})
+@Table(name = "orders")
 public class Order {
     @Id
     int id;
@@ -24,7 +31,7 @@ public class Order {
         this.id = id;
         this.orderDate = orderDate;
         this.estDeleviryDate = estDeleviryDate;
-        List<Product> products = new LinkedList<>();
+        smartPackages = new LinkedList<>();
     }
 
     public int getId() {
