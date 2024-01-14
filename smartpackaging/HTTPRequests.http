@@ -1,0 +1,31 @@
+#### PRODUCTS
+GET http://localhost:8080/smartpackaging/api/products/
+Accept: application/json
+
+###
+POST http://localhost:8080/smartpackaging/api/products/
+Content-Type: application/json
+
+{
+  "id": 12,
+  "name": "postedProd",
+  "date": "2020-02-03",
+  "weight": 12.2,
+  "ingredients": "abc dce efg"
+}
+
+###
+PUT http://localhost:8080/smartpackaging/api/products/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "updatedName",
+  "date": "2033-02-03",
+  "weight": 32.2,
+  "ingredients": "apple silicon"
+}
+
+###
+DELETE http://localhost:8080/smartpackaging/api/products/12
+Content-Type: application/json

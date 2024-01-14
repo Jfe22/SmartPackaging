@@ -11,13 +11,12 @@ public class ProductDTO implements Serializable {
     int smartPackageId;
 
     public ProductDTO() {}
-    public ProductDTO(int id, String name, String date, double weight, String ingredients, int smartPackageId) {
+    public ProductDTO(int id, String name, String date, double weight, String ingredients) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.weight = weight;
         this.ingredients = ingredients;
-        this.smartPackageId = smartPackageId;
     }
 
     public int getId() {
