@@ -3,7 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,15 +19,17 @@ public class Order {
     @Id
     int id;
     @NotNull
-    Date orderDate;
+    LocalDate orderDate;
     @NotNull
-    Date estDeleviryDate;
+    LocalDate estDeleviryDate;
     @NotNull
     @OneToMany (fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.REMOVE)
     List<SmartPackage> smartPackages;
+    @OneToOne(mappedBy = "order")
+    TransportPackage transportPackage;
 
     public Order() {}
-    public Order(int id, Date orderDate, Date estDeleviryDate) {
+    public Order(int id, LocalDate orderDate, LocalDate estDeleviryDate) {
         this.id = id;
         this.orderDate = orderDate;
         this.estDeleviryDate = estDeleviryDate;
@@ -42,19 +44,19 @@ public class Order {
         this.id = id;
     }
 
-    public Date getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
-    public Date getEstDeleviryDate() {
+    public LocalDate getEstDeleviryDate() {
         return estDeleviryDate;
     }
 
-    public void setEstDeleviryDate(Date estDeleviryDate) {
+    public void setEstDeleviryDate(LocalDate estDeleviryDate) {
         this.estDeleviryDate = estDeleviryDate;
     }
 

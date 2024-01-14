@@ -3,7 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @NamedQueries({
@@ -19,7 +19,7 @@ public class Product {
     @NotNull
     String name;
     @NotNull
-    String expireDate;
+    LocalDate expireDate;
     @NotNull
     double weight;
     @NotNull
@@ -28,7 +28,7 @@ public class Product {
     SmartPackage smartPackage;
 
     public Product() {}
-    public Product(int id, String name, String expireDate, double weight, String ingredients) {
+    public Product(int id, String name, LocalDate expireDate, double weight, String ingredients) {
         this.id = id;
         this.name = name;
         this.expireDate = expireDate;
@@ -52,11 +52,11 @@ public class Product {
         this.name = name;
     }
 
-    public String getExpireDate() {
+    public LocalDate getExpireDate() {
         return expireDate;
     }
 
-    public void setExpireDate(String expireDate) {
+    public void setExpireDate(LocalDate expireDate) {
         this.expireDate = expireDate;
     }
 
