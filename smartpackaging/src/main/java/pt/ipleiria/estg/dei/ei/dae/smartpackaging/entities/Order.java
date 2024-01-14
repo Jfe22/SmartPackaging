@@ -28,7 +28,7 @@ public class Order {
     @OneToOne(mappedBy = "order")
     TransportPackage transportPackage;
 
-    public Order() {}
+    public Order() { smartPackages = new LinkedList<>(); }
     public Order(int id, LocalDate orderDate, LocalDate estDeleviryDate) {
         this.id = id;
         this.orderDate = orderDate;
@@ -74,5 +74,13 @@ public class Order {
 
     public void removeSmartPackage(SmartPackage smartPackage) {
         this.smartPackages.remove(smartPackage);
+    }
+
+    public TransportPackage getTransportPackage() {
+        return transportPackage;
+    }
+
+    public void setTransportPackage(TransportPackage transportPackage) {
+        this.transportPackage = transportPackage;
     }
 }

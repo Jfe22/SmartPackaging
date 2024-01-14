@@ -11,7 +11,6 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.ProductBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Product;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Path("products")
