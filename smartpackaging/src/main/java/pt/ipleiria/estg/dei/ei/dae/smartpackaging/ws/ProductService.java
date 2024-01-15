@@ -51,6 +51,9 @@ public class ProductService {
     @POST
     @Path("/")
     public Response createNewProduct (ProductDTO productDTO) {
+        if (productBean.find(productDTO.getId()) != null)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
         productBean.create(
                 productDTO.getId(),
                 productDTO.getName(),

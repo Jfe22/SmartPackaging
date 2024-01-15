@@ -34,7 +34,7 @@ public class ProductBean {
         Product product = entityManager.find(Product.class, id);
         if (product == null) return;
 
-        product.setId(id);
+        //product.setId(id);
         product.setName(name);
         product.setExpireDate(expireDate);
         product.setWeight(weight);

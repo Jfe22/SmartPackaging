@@ -26,4 +26,8 @@ public class TransportPackageBean {
         return entityManager.createNamedQuery("getAllTransportPackages", TransportPackage.class).getResultList();
     }
 
+    public TransportPackage find (int id) {
+        return entityManager.find(TransportPackage.class, id);
+    }
+
 }

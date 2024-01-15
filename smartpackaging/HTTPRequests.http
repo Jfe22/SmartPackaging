@@ -29,3 +29,32 @@ Content-Type: application/json
 ###
 DELETE http://localhost:8080/smartpackaging/api/products/12
 Content-Type: application/json
+
+
+#### SMARTPACKAGES
+GET http://localhost:8080/smartpackaging/api/smartpackages/
+Accept: application/json
+
+###
+POST http://localhost:8080/smartpackaging/api/smartpackages/
+Content-Type: application/json
+
+{
+  "id": 3,
+  "packType": "PRIMARY",
+  "material": "cartao",
+  "productId": 3
+}
+
+###
+PUT http://localhost:8080/smartpackaging/api/smartpackages/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "material": "testing",
+  "currentTemperature": 40,
+  "currentHumidity": 90,
+  "currentAtmPressure": 80,
+  "maxGForce": 10
+}

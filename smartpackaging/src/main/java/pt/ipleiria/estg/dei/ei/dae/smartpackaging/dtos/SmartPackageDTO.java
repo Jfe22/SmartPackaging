@@ -15,13 +15,12 @@ public class SmartPackageDTO {
 
     public SmartPackageDTO() {}
 
-    public SmartPackageDTO(int id, String packType, String material, int productId, String productName, int orderId) {
+    public SmartPackageDTO(int id, String packType, String material, int productId, String productName) {
         this.id = id;
         this.packType = packType;
         this.material = material;
         this.productId = productId;
         this.productName = productName;
-        this.orderId = orderId;
     }
 
     public int getId() {

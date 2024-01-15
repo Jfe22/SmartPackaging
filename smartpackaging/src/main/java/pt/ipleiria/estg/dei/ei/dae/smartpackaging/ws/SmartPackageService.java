@@ -26,8 +26,7 @@ public class SmartPackageService {
             smartPackage.getType().toString(),
             smartPackage.getMaterial(),
             smartPackage.getProduct().getId(),
-            smartPackage.getProduct().getName(),
-            smartPackage.getOrder().getId()
+            smartPackage.getProduct().getName()
         );
     }
 
@@ -55,6 +54,9 @@ public class SmartPackageService {
     @POST
     @Path("/")
     public Response createSmartPackage(SmartPackageDTO smartPackageDTO) {
+        if (smartPackageBean.find(smartPackageDTO.getId()) != null)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
         smartPackageBean.create(
                 smartPackageDTO.getId(),
                 PackType.valueOf(smartPackageDTO.getPackType()),
@@ -91,7 +93,7 @@ public class SmartPackageService {
         );
 
         SmartPackage updatedSmartPackage = smartPackageBean.find(id);
-        return Response.status(Response.Status.OK).entity(toDTO(smartPackage)).build();
+        return Response.status(Response.Status.OK).entity(toDTO(updatedSmartPackage)).build();
     }
 
     @DELETE
