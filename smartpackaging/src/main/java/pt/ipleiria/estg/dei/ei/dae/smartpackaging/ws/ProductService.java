@@ -45,7 +45,7 @@ public class ProductService {
         Product product = productBean.find(id);
         if (product == null) return Response.status(Response.Status.NOT_FOUND).build();
 
-        return Response.status(Response.Status.CREATED).entity(toDTO(product)).build();
+        return Response.status(Response.Status.OK).entity(toDTO(product)).build();
     }
 
     @POST

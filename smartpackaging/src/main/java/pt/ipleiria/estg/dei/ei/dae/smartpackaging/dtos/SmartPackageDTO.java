@@ -4,6 +4,7 @@ public class SmartPackageDTO {
     int id;
     String packType;
     String material;
+    int productId;
     String productName;
     int orderId;
 
@@ -14,10 +15,11 @@ public class SmartPackageDTO {
 
     public SmartPackageDTO() {}
 
-    public SmartPackageDTO(int id, String packType, String material, String productName, int orderId) {
+    public SmartPackageDTO(int id, String packType, String material, int productId, String productName, int orderId) {
         this.id = id;
         this.packType = packType;
         this.material = material;
+        this.productId = productId;
         this.productName = productName;
         this.orderId = orderId;
     }
@@ -44,6 +46,14 @@ public class SmartPackageDTO {
 
     public void setMaterial(String material) {
         this.material = material;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
