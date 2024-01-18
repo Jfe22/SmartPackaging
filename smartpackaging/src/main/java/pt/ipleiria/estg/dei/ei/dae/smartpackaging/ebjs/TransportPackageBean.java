@@ -30,4 +30,19 @@ public class TransportPackageBean {
         return entityManager.find(TransportPackage.class, id);
     }
 
+    public void update(int id, String currentLocation, int order_id) {
+        TransportPackage transportPackage = entityManager.find(TransportPackage.class, id);
+        Order order = entityManager.find(Order.class, order_id);
+
+        transportPackage.setCurrentLocation(currentLocation);
+        transportPackage.setOrder(order);
+
+        entityManager.persist(transportPackage);
+    }
+
+    public void delete(int id) {
+        TransportPackage transportPackage = find(id);
+        entityManager.remove(transportPackage);
+    }
+
 }

@@ -100,3 +100,39 @@ Content-Type: application/json
 ###
 DELETE http://localhost:8080/smartpackaging/api/orders/3
 Content-Type: application/json
+
+
+
+#### TRANSPORTPACKAGES
+GET http://localhost:8080/smartpackaging/api/transportpackages
+Accept: application/json
+
+###
+GET http://localhost:8080/smartpackaging/api/transportpackages/1
+Accept: application/json
+
+###
+POST http://localhost:8080/smartpackaging/api/transportpackages
+Content-Type: application/json
+
+{
+  "id": 4,
+  "currentLocation": "a chegar",
+  "orderId": "2"
+
+}
+
+###
+PUT http://localhost:8080/smartpackaging/api/transportpackages/4
+Content-Type: application/json
+
+{
+  "id": 4,
+  "currentLocation": "a porta de casa",
+  "orderId": "3"
+
+}
+
+###
+DELETE http://localhost:8080/smartpackaging/api/transportpackages/4
+Content-Type: application/json
