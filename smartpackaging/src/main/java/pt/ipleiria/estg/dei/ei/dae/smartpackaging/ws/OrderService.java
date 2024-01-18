@@ -5,8 +5,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.OrderDTO;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.SmartPackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.OrderBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,16 +22,35 @@ public class OrderService {
     private OrderBean orderBean;
 
     private OrderDTO toDTO(Order order) {
-        return new OrderDTO(
+        OrderDTO orderDTO = new OrderDTO(
             order.getId(),
             order.getOrderDate().toString(),
-            order.getEstDeleviryDate().toString(),
-            order.getTransportPackage().getId()
+            order.getEstDeleviryDate().toString()
         );
+       orderDTO.setSmartPackagesDTOs(smartPackageToDTOs(order.getSmartPackages()));
+       return orderDTO;
     }
 
     private List<OrderDTO> toDTOs(List<Order> orders) {
         return orders.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    private SmartPackageDTO smartPackageToDTO(SmartPackage smartPackage) {
+        return new SmartPackageDTO(
+                smartPackage.getId(),
+                smartPackage.getType().toString(),
+                smartPackage.getMaterial(),
+                smartPackage.getProduct().getId(),
+                smartPackage.getProduct().getName(),
+                smartPackage.getCurrentAtmPressure(),
+                smartPackage.getCurrentHumidity(),
+                smartPackage.getCurrentTemperature(),
+                smartPackage.getMaxGForce()
+        );
+    }
+
+    private List<SmartPackageDTO> smartPackageToDTOs(List<SmartPackage> smartPackages) {
+        return smartPackages.stream().map(this::smartPackageToDTO).collect(Collectors.toList());
     }
 
     @GET
@@ -41,7 +62,7 @@ public class OrderService {
     @GET
     @Path("{id}")
     public Response getOrder(@PathParam("id") int id) {
-        Order order = orderBean.find(id);
+        Order order = orderBean.findWithSmartPackages(id);
         if (order == null)
             return Response.status(Response.Status.NOT_FOUND).build();
 
@@ -78,12 +99,11 @@ public class OrderService {
         orderBean.update(
                 id,
                 LocalDate.parse(orderDTO.getOrderDate()),
-                LocalDate.parse(orderDTO.getExtDeliveryDate()),
-                orderDTO.getTransportPackageId()
+                LocalDate.parse(orderDTO.getExtDeliveryDate())
         );
 
-        //order vai estar upadated aqui ou temos de chamar o find de novo?
-        return Response.status(Response.Status.OK).entity(toDTO(order)).build();
+        Order updatedOrder = orderBean.find(id);
+        return Response.status(Response.Status.OK).entity(toDTO(updatedOrder)).build();
     }
 
     @DELETE

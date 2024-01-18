@@ -8,15 +8,13 @@ public class OrderDTO {
     String orderDate;
     String extDeliveryDate;
     List<SmartPackageDTO> smartPackagesDTOs;
-    int transportPackageId;
 
-    public OrderDTO() { smartPackagesDTOs = new LinkedList<>(); }
+    public OrderDTO() { this.smartPackagesDTOs = new LinkedList<>(); }
 
-    public OrderDTO(int id, String orderDate, String extDeliveryDate, int transportPackageId) {
+    public OrderDTO(int id, String orderDate, String extDeliveryDate) {
         this.id = id;
         this.orderDate = orderDate;
         this.extDeliveryDate = extDeliveryDate;
-        this.transportPackageId = transportPackageId;
         smartPackagesDTOs = new LinkedList<>();
     }
 
@@ -60,11 +58,7 @@ public class OrderDTO {
         smartPackagesDTOs.remove(smartPackageDTO);
     }
 
-    public int getTransportPackageId() {
-        return transportPackageId;
-    }
+  //  public int getTransportPackageId() {return transportPackageId;}
 
-    public void setTransportPackageId(int transportPackageId) {
-        this.transportPackageId = transportPackageId;
-    }
+   // public void setTransportPackageId(int transportPackageId) {this.transportPackageId = transportPackageId;}
 }

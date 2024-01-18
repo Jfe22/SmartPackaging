@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.TransportPackage;
 
@@ -15,6 +16,17 @@ public class OrderBean {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public Order find(int id) {
+        return entityManager.find(Order.class, id);
+    }
+
+    public Order findWithSmartPackages(int id) {
+        Order order = find(id);
+        Hibernate.initialize(order.getSmartPackages());
+
+        return order;
+    }
+
     public void create(int order_id, LocalDate orderDate, LocalDate estDeliveryDate ) {
         Order order = new Order(order_id, orderDate, estDeliveryDate);
         entityManager.persist(order);
@@ -24,20 +36,12 @@ public class OrderBean {
         return entityManager.createNamedQuery("getAllOrders", Order.class).getResultList();
     }
 
-    public Order find(int id) {
-        return entityManager.find(Order.class, id);
-    }
-
-    public void update(int orderId, LocalDate orderDate, LocalDate extDeliveryDate, int transportPackageId) {
+    public void update(int orderId, LocalDate orderDate, LocalDate extDeliveryDate) {
         Order order = find(orderId);
         if (order == null) return;
 
-        TransportPackage transportPackage = entityManager.find(TransportPackage.class, transportPackageId);
-        //transport package can be null
-
         order.setOrderDate(orderDate);
         order.setEstDeleviryDate(extDeliveryDate);
-        order.setTransportPackage(transportPackage);
         entityManager.persist(order);
     }
 
