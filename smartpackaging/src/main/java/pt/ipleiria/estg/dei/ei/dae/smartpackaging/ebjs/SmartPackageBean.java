@@ -22,6 +22,10 @@ public class SmartPackageBean {
 
         SmartPackage smartPackage = new SmartPackage(id, type, material, product);
         entityManager.persist(smartPackage);
+
+        // adds smart package to corresponding product
+        product.setSmartPackage(smartPackage);
+        entityManager.persist(product);
     }
 
     public List<SmartPackage> getAllSmartPackages() {
@@ -32,28 +36,25 @@ public class SmartPackageBean {
         return entityManager.find(SmartPackage.class, id);
     }
 
-    //public void update(SmartPackageDTO smartPackageDTO) {
-    public void update(int id, String packType, String material, int productId, int orderId, double curAtmPres, double curHum, double curTemp,  double maxGForce) {
+    public void update(int id, String packType, String material, int productId, double currentAtmPressure, double currentHumidity, double currentTemperature,  double maxGForce) {
         SmartPackage smartPackage = find(id);
-        if (smartPackage == null) return;
+        //if (smartPackage == null) return;
 
         Product product = entityManager.find(Product.class, productId);
-        if (product == null) return;
-
-        Order order = entityManager.find(Order.class, orderId);
-
+        //if (product == null) return;
 
         smartPackage.setType(PackType.valueOf(packType));
         smartPackage.setMaterial(material);
-
         smartPackage.setProduct(product);
-        smartPackage.setOrder(order);
 
-        smartPackage.setCurrentAtmPressure(curAtmPres);
-        smartPackage.setCurrentHumidity(curHum);
-        smartPackage.setCurrentTemperature(curTemp);
+        smartPackage.setCurrentAtmPressure(currentAtmPressure);
+        smartPackage.setCurrentHumidity(currentHumidity);
+        smartPackage.setCurrentTemperature(currentTemperature);
         smartPackage.setMaxGForce(maxGForce);
+
+        System.out.println(smartPackage.getCurrentAtmPressure());
         entityManager.persist(smartPackage);
+        System.out.println(smartPackage.getCurrentAtmPressure());
     }
 
     public void delete(int id) {

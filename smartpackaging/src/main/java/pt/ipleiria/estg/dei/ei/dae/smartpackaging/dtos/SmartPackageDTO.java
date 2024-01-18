@@ -15,12 +15,16 @@ public class SmartPackageDTO {
 
     public SmartPackageDTO() {}
 
-    public SmartPackageDTO(int id, String packType, String material, int productId, String productName) {
+    public SmartPackageDTO(int id, String packType, String material, int productId, String productName, double currentAtmPressure, double currentHumidity, double currentTemperature, double maxGForce) {
         this.id = id;
         this.packType = packType;
         this.material = material;
         this.productId = productId;
         this.productName = productName;
+        this.currentAtmPressure = currentAtmPressure;
+        this.currentHumidity = currentHumidity;
+        this.currentTemperature = currentTemperature;
+        this.maxGForce = maxGForce;
     }
 
     public int getId() {

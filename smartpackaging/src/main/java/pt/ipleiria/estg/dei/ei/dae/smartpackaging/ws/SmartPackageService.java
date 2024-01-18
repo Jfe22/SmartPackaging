@@ -26,7 +26,11 @@ public class SmartPackageService {
             smartPackage.getType().toString(),
             smartPackage.getMaterial(),
             smartPackage.getProduct().getId(),
-            smartPackage.getProduct().getName()
+            smartPackage.getProduct().getName(),
+            smartPackage.getCurrentAtmPressure(),
+            smartPackage.getCurrentHumidity(),
+            smartPackage.getCurrentTemperature(),
+            smartPackage.getMaxGForce()
         );
     }
 
@@ -85,7 +89,6 @@ public class SmartPackageService {
                 smartPackageDTO.getPackType(),
                 smartPackageDTO.getMaterial(),
                 smartPackageDTO.getProductId(),
-                smartPackageDTO.getOrderId(),
                 smartPackageDTO.getCurrentAtmPressure(),
                 smartPackageDTO.getCurrentHumidity(),
                 smartPackageDTO.getCurrentTemperature(),

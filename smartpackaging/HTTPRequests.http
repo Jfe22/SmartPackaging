@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "name": "updatedName",
+  "name": "updatedNammmmme",
   "date": "2033-02-03",
   "weight": 32.2,
   "ingredients": "apple silicon"
@@ -52,9 +52,15 @@ Content-Type: application/json
 
 {
   "id": 1,
+  "packType": "SECONDARY",
   "material": "testing",
+  "productId": 1,
   "currentTemperature": 40,
   "currentHumidity": 90,
   "currentAtmPressure": 80,
   "maxGForce": 10
 }
+
+###
+DELETE http://localhost:8080/smartpackaging/api/smartpackages/1
+Content-Type: application/json

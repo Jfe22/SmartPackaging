@@ -31,7 +31,7 @@ public class ProductBean {
     }
 
     public void update(int id, String name, LocalDate expireDate, double weight, String ingredients) {
-        Product product = entityManager.find(Product.class, id);
+        Product product = find(id);
         if (product == null) return;
 
         //product.setId(id);

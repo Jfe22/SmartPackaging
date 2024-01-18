@@ -8,7 +8,7 @@ public class ProductDTO implements Serializable {
     String date;
     double weight;
     String ingredients;
-    int smartPackageId;
+    //int smartPackageId;
 
     public ProductDTO() {}
     public ProductDTO(int id, String name, String date, double weight, String ingredients) {
@@ -59,11 +59,7 @@ public class ProductDTO implements Serializable {
         this.ingredients = ingredients;
     }
 
-    public int getSmartPackageId() {
-        return smartPackageId;
-    }
+    //public int getSmartPackageId() {return smartPackageId;}
 
-    public void setSmartPackageId(int smartPackageId) {
-        this.smartPackageId = smartPackageId;
-    }
+    //public void setSmartPackageId(int smartPackageId) {this.smartPackageId = smartPackageId;}
 }
