@@ -131,6 +131,27 @@ Content-Type: application/json
 
 ### UPDATE A USER
 PUT http://localhost:8080/smartpackaging/api/users/3
+#### TRANSPORTPACKAGES
+GET http://localhost:8080/smartpackaging/api/transportpackages
+Accept: application/json
+
+###
+GET http://localhost:8080/smartpackaging/api/transportpackages/1
+Accept: application/json
+
+###
+POST http://localhost:8080/smartpackaging/api/transportpackages
+Content-Type: application/json
+
+{
+  "id": 4,
+  "currentLocation": "a chegar",
+  "orderId": "2"
+
+}
+
+###
+PUT http://localhost:8080/smartpackaging/api/transportpackages/2
 Content-Type: application/json
 
 {

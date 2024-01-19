@@ -47,7 +47,7 @@ public class SmartPackageService {
 
     @GET
     @Path("{id}")
-    public Response getAllSmartPackages(@PathParam("id") int id) {
+    public Response getSmartPackage(@PathParam("id") int id) {
         SmartPackage smartPackage = smartPackageBean.find(id);
         if (smartPackage == null)
             return Response.status(Response.Status.NOT_FOUND).build();

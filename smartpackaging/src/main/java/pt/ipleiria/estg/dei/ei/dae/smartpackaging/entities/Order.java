@@ -15,7 +15,7 @@ import java.util.List;
         )
 })
 @Table(name = "orders")
-public class Order {
+public class Order extends Versionable {
     @Id
     int id;
     @NotNull

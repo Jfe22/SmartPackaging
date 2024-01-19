@@ -12,7 +12,7 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.PackType;
         )
 })
 @Table(name = "smartpackages")
-public class SmartPackage {
+public class SmartPackage extends Versionable {
     @Id
     int id;
     @NotNull

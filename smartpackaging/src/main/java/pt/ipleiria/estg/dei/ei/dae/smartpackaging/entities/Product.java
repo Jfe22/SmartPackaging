@@ -13,7 +13,7 @@ import java.time.LocalDate;
         )
 })
 @Table(name = "products")
-public class Product {
+public class Product extends Versionable {
     @Id
     int id;
     @NotNull

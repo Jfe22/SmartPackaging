@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Product;
@@ -34,7 +35,8 @@ public class ProductBean {
         Product product = find(id);
         if (product == null) return;
 
-        //product.setId(id);
+        entityManager.lock(product, LockModeType.OPTIMISTIC);
+
         product.setName(name);
         product.setExpireDate(expireDate);
         product.setWeight(weight);
