@@ -72,7 +72,7 @@ GET http://localhost:8080/smartpackaging/api/orders
 Accept: application/json
 
 ###
-GET http://localhost:8080/smartpackaging/api/orders
+GET http://localhost:8080/smartpackaging/api/orders/2323
 Accept: application/json
 
 ###
@@ -80,25 +80,25 @@ POST http://localhost:8080/smartpackaging/api/orders
 Content-Type: application/json
 
 {
-  "id": 4,
+  "id": 2,
   "orderDate": "2024-02-22",
   "extDeliveryDate": "2024-02-23"
 
 }
 
 ###
-PUT http://localhost:8080/smartpackaging/api/orders/3
+PUT http://localhost:8080/smartpackaging/api/orders/32
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 32,
   "orderDate": "2044-02-22",
   "extDeliveryDate": "2044-02-23"
 
 }
 
 ###
-DELETE http://localhost:8080/smartpackaging/api/orders/3
+DELETE http://localhost:8080/smartpackaging/api/orders/323
 Content-Type: application/json
 
 

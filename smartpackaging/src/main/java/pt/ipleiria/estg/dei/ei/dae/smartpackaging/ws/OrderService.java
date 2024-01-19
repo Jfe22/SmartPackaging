@@ -9,6 +9,9 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.SmartPackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.OrderBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -61,64 +64,43 @@ public class OrderService {
 
     @GET
     @Path("{id}")
-    public Response getOrder(@PathParam("id") int id) {
-        Order order = orderBean.findWithSmartPackages(id);
-        if (order == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
+    public Response getOrder(@PathParam("id") int id)
+    throws MyEntityNotFoundException {
+        Order order = orderBean.find(id);
         return  Response.status(Response.Status.CREATED).entity(toDTO(order)).build();
     }
 
     @POST
     @Path("/")
-    public Response createOrder(OrderDTO orderDTO) {
-        if (orderBean.find(orderDTO.getId()) != null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
+    public Response createOrder(OrderDTO orderDTO)
+    throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         orderBean.create(
                 orderDTO.getId(),
                 LocalDate.parse(orderDTO.getOrderDate()),
                 LocalDate.parse(orderDTO.getExtDeliveryDate())
         );
-
         Order order = orderBean.find(orderDTO.getId());
-
         return  Response.status(Response.Status.CREATED).entity(toDTO(order)).build();
     }
 
     @PUT
     @Path("{id}")
-    public Response updateOrder(@PathParam("id") int id, OrderDTO orderDTO) {
-        if (id != orderDTO.getId())
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-        Order order = orderBean.find(id);
-        if (order == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
+    public Response updateOrder(@PathParam("id") int id, OrderDTO orderDTO)
+    throws MyEntityNotFoundException, MyConstraintViolationException {
         orderBean.update(
                 id,
                 LocalDate.parse(orderDTO.getOrderDate()),
                 LocalDate.parse(orderDTO.getExtDeliveryDate())
         );
-
         Order updatedOrder = orderBean.find(id);
         return Response.status(Response.Status.OK).entity(toDTO(updatedOrder)).build();
     }
 
     @DELETE
     @Path("{id}")
-    public Response deleteOrder(@PathParam("id") int id) {
-        if (orderBean.find(id) == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
+    public Response deleteOrder(@PathParam("id") int id)
+    throws MyEntityNotFoundException {
         orderBean.delete(id);
-        if (orderBean.find(id) != null) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-
         return Response.status(Response.Status.OK).build();
     }
-
-
 }
