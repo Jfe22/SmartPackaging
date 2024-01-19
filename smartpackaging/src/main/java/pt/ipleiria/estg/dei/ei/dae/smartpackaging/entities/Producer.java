@@ -1,10 +1,17 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @DiscriminatorValue("PRODUCER")
-public class Producer extends User {
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllProducers",
+                query = "SELECT p FROM Producer p ORDER BY p.id"
+        )
+})
+public class Producer extends User implements Serializable {
     private String qualityControlData; // e.g., environmental conditions
     private String productResponsibilityCost; // e.g., cost of re-entry of a product
 

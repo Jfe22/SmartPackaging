@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos;
 
-public class OperatorDTO extends UserDTO {
+public class OperatorDTO {
     private String locationAndTracking;
     private String environmentalConditions;
     private String securityAlerts;

@@ -25,11 +25,11 @@ public class UserService {
 
     private UserDTO toDTO(User user) {
         UserDTO dto = new UserDTO();
-        // Assuming your UserDTO includes id and other necessary fields
+
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
-        dto.setPassword(user.getPassword()); // Hash the password before setting
         dto.setEmail(user.getEmail());
+        dto.setPassword(user.getPassword()); // Hash the password before setting
         dto.setRole(user.getRole());
         return dto;
     }

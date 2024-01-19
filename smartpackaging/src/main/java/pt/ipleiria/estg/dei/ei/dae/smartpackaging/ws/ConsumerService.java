@@ -4,6 +4,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.core.Response;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.UserDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.ConsumerBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.ConsumerDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
@@ -15,15 +16,16 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ConsumerService {
-
     @EJB
     private ConsumerBean consumerBean;
 
-    // Converts an entity to DTO
     private ConsumerDTO toDTO(Consumer consumer) {
         ConsumerDTO dto = new ConsumerDTO();
-        // Assuming your UserDTO includes id and other necessary fields
+
         dto.setId(consumer.getId());
+        dto.setUsername(consumer.getUsername());
+        dto.setEmail(consumer.getEmail());
+        dto.setPassword(consumer.getPassword());
         dto.setDeliveryUpdates(consumer.getDeliveryUpdatesData());
         dto.setQualityInformation(consumer.getQualityInformationData());
         dto.setSecurityAlerts(consumer.getSecurityAlertData());
@@ -37,6 +39,12 @@ public class ConsumerService {
     }
 
     @GET
+    @Path("/")
+    public List<ConsumerDTO> getAllConsumers() {
+        return toDTOs(consumerBean.getAllConsumers());
+    }
+
+    @GET
     @Path("/{id}")
     public Response getConsumer(@PathParam("id") Long id) {
         Consumer consumer = consumerBean.find(id);
@@ -46,5 +54,10 @@ public class ConsumerService {
         return Response.ok(toDTO(consumer)).build();
     }
 
-    // Additional CRUD operations (POST, PUT, DELETE) similar to UserService and OrderService
+    @DELETE
+    @Path("/{id}")
+    public Response deleteConsumer(@PathParam("id") Long id) {
+        consumerBean.delete(id);
+        return Response.noContent().build();
+    }
 }

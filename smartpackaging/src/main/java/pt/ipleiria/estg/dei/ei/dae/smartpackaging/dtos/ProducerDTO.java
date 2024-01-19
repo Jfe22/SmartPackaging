@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos;
 
-public class ProducerDTO extends UserDTO {
+public class ProducerDTO {
     private String qualityControlData;
     private String productResponsibilityCost;
 
