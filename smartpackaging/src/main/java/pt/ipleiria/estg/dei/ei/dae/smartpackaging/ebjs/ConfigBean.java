@@ -23,6 +23,8 @@ public class ConfigBean {
     private OrderBean orderBean;
     @EJB
     private TransportPackageBean transportPackageBean;
+    @EJB
+    private UserBean userBean;
 
     @PostConstruct
     public void populateDB() {
@@ -44,5 +46,11 @@ public class ConfigBean {
 
         transportPackageBean.create(1, "ali", 1);
         transportPackageBean.create(2, "aqui", 2);
+
+        // users and roles
+        userBean.create(1, "admin", "admin@example.com", "adminpass");
+        userBean.create(2, "user", "user@example.com", "userpass");
+        userBean.create(3, "user2", "user2@example.com", "user2pass");
+
     }
 }

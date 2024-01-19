@@ -27,7 +27,9 @@ public class Product {
     @OneToOne(mappedBy = "product")
     SmartPackage smartPackage;
 
-    public Product() {}
+    public Product() {
+    }
+
     public Product(int id, String name, LocalDate expireDate, double weight, String ingredients) {
         this.id = id;
         this.name = name;

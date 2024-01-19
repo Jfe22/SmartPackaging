@@ -100,3 +100,47 @@ Content-Type: application/json
 ###
 DELETE http://localhost:8080/smartpackaging/api/orders/3
 Content-Type: application/json
+
+
+
+#### USERS
+GET http://localhost:8080/smartpackaging/api/users
+Accept: application/json
+
+### POST AN ADMIN USER
+POST http://localhost:8080/smartpackaging/api/users
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "email": "admin@example.com",
+  "password": "admin123",
+  "role": "ADMIN"
+}
+
+### POST A NORMAL USER
+POST http://localhost:8080/smartpackaging/api/users
+Content-Type: application/json
+
+{
+  "username": "user",
+  "email": "user@example.com",
+  "password": "user123",
+  "role": "USER"
+}
+
+### UPDATE A USER
+PUT http://localhost:8080/smartpackaging/api/users/3
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "updated Name",
+  "email": "admin@example.com",
+  "password": "admin123",
+  "role": "ADMIN"
+}
+
+### DELETE A USER
+DELETE http://localhost:8080/smartpackaging/api/users/3
+Content-Type: application/json

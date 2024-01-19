@@ -2,6 +2,8 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.User;
 
 import java.util.List;
@@ -11,36 +13,45 @@ public class UserBean {
     @PersistenceContext
     private EntityManager em;
 
-    public void createUser(User user) {
-        // Implement logic to create a new user
+    // find user
+    public User find(Long id) {
+        return em.find(User.class, id);
     }
 
-    public User findUser(Long id) {
-        // Implement logic to find a user by ID
-        return null; // Replace this with the actual return value
+    // create user
+    public void create(int user_id, String username, String email, String password) {
+        User user = new User(user_id, username, email, hashPassword(password));
+        em.persist(user);
     }
 
-    // Additional methods for user authentication, updating user info, etc.
     // update user
-    public User updateUser(Long id, User updatedUser) {
-        User user = em.find(User.class, id);
-        if (user != null) {
-            // Update fields
-            user.setUsername(updatedUser.getUsername());
-            user.setPassword(updatedUser.getPassword()); // Ensure this is hashed
-            user.setEmail(updatedUser.getEmail());
-            user.setRole(updatedUser.getRole());
-            em.merge(user);
-        }
-        return user;
+    public void updateUser(Long id, User updatedUser) {
+        User user = find(id);
+        if (user == null) return;
+
+        // Update fields
+        user.setUsername(updatedUser.getUsername());
+        user.setPassword(updatedUser.getPassword()); // Ensure this is hashed
+        user.setEmail(updatedUser.getEmail());
+        user.setRole(updatedUser.getRole());
+        em.persist(user);
     }
 
     // delete user
     public void deleteUser(Long id) {
-        User user = em.find(User.class, id);
-        if (user != null) {
-            em.remove(user);
-        }
+        User user = find(id);
+        if (user == null) return;
+
+        em.remove(user);
+    }
+
+    public List<User> getAllUsers() {
+        return em.createNamedQuery("getAllUsers", User.class).getResultList();
+    }
+
+    private String hashPassword(String password) {
+        // Implement password hashing here
+        return password; // Replace this with actual hashed password
     }
 
     // authenticate user

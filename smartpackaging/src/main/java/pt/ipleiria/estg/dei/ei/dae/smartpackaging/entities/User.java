@@ -1,27 +1,45 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import javax.management.relation.Role;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllUsers",
+                query = "SELECT u FROM User u ORDER BY u.id"
+        )
+})
+@Table(name = "users")
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
+    @NotNull
     private String username;
+    @NotNull
     private String password;
+    @NotNull
     private String email;
+    @NotNull
     private String role; // or use an Enum for roles
 
     public User() {
     }
 
+    public User(int id, String username, String email, String password) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password; // Ensure this is hashed
+        this.role = "user"; // Default role is user
+    }
+
     // Getters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -42,7 +60,7 @@ public class User {
     }
 
     // Setters
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

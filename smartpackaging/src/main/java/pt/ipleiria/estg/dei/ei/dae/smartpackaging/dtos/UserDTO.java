@@ -6,7 +6,7 @@ import javax.management.relation.Role;
 import java.util.Objects;
 
 public class UserDTO {
-    private Long id;
+    private int id;
     private String username;
     private String email;
     private String password;
@@ -24,7 +24,7 @@ public class UserDTO {
     }
 
     // Getters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -45,7 +45,7 @@ public class UserDTO {
     }
 
     // Setters
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
