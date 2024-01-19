@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
@@ -39,6 +40,8 @@ public class OrderBean {
     public void update(int orderId, LocalDate orderDate, LocalDate extDeliveryDate) {
         Order order = find(orderId);
         if (order == null) return;
+
+        entityManager.lock(order, LockModeType.OPTIMISTIC);
 
         order.setOrderDate(orderDate);
         order.setEstDeleviryDate(extDeliveryDate);

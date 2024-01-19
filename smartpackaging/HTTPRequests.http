@@ -123,11 +123,11 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8080/smartpackaging/api/transportpackages/4
+PUT http://localhost:8080/smartpackaging/api/transportpackages/2
 Content-Type: application/json
 
 {
-  "id": 4,
+  "id": 2,
   "currentLocation": "a porta de casa",
   "orderId": "3"
 

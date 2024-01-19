@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
         )
 })
 @Table(name = "transportpackages")
-public class TransportPackage {
+public class TransportPackage extends Versionable {
     @Id
     int id;
     @NotNull

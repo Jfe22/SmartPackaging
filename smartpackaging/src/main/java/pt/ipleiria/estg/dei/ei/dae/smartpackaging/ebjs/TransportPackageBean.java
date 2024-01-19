@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
@@ -33,6 +34,8 @@ public class TransportPackageBean {
     public void update(int id, String currentLocation, int order_id) {
         TransportPackage transportPackage = entityManager.find(TransportPackage.class, id);
         Order order = entityManager.find(Order.class, order_id);
+
+        entityManager.lock(transportPackage, LockModeType.OPTIMISTIC);
 
         transportPackage.setCurrentLocation(currentLocation);
         transportPackage.setOrder(order);

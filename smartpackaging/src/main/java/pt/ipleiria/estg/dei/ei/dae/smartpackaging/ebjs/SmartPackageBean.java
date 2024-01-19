@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.SmartPackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
@@ -42,6 +43,8 @@ public class SmartPackageBean {
 
         Product product = entityManager.find(Product.class, productId);
         //if (product == null) return;
+
+        entityManager.lock(smartPackage, LockModeType.OPTIMISTIC);
 
         smartPackage.setType(PackType.valueOf(packType));
         smartPackage.setMaterial(material);
