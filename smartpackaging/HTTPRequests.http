@@ -15,11 +15,11 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8080/smartpackaging/api/products/1
+PUT http://localhost:8080/smartpackaging/api/products/6
 Content-Type: application/json
 
 {
-  "id": 1,
+  "id": 7,
   "name": "updatedNammmmme",
   "date": "2033-02-03",
   "weight": 32.2,
@@ -32,7 +32,7 @@ Content-Type: application/json
 
 
 #### SMARTPACKAGES ---------------------------------------------------
-GET http://localhost:8080/smartpackaging/api/smartpackages/
+GET http://localhost:8080/smartpackaging/api/smartpackages/2323
 Accept: application/json
 
 ###
@@ -40,7 +40,7 @@ POST http://localhost:8080/smartpackaging/api/smartpackages/
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 4,
   "packType": "PRIMARY",
   "material": "cartao",
   "productId": 3
@@ -54,7 +54,7 @@ Content-Type: application/json
   "id": 1,
   "packType": "SECONDARY",
   "material": "testing",
-  "productId": 1,
+  "productId": 133,
   "currentTemperature": 40,
   "currentHumidity": 90,
   "currentAtmPressure": 80,
@@ -62,7 +62,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/smartpackaging/api/smartpackages/1
+DELETE http://localhost:8080/smartpackaging/api/smartpackages/12
 Content-Type: application/json
 
 

@@ -38,21 +38,29 @@ public class ConfigBean {
 
         try {
             productBean.create(1, "first prod", LocalDate.of(2024, 9, 29), 1.3, "massa, peperoni, queijo");
-            productBean.create(1, "second prod", LocalDate.of(2030, 9, 29), 0.2, "cpu, gpu, ram");
+            productBean.create(2, "second prod", LocalDate.of(2030, 9, 29), 0.2, "cpu, gpu, ram");
             productBean.create(3, "3rd prod", LocalDate.now(), 1.2, "isto aquilo e o outro");
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
 
-        smartPackageBean.create(1, PackType.PRIMARY, "plastic", 1);
-        smartPackageBean.create(2, PackType.PRIMARY, "plastic", 2);
+        try {
+            smartPackageBean.create(1, PackType.PRIMARY, "plastic", 1);
+            smartPackageBean.create(2, PackType.PRIMARY, "plastic", 2);
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
 
         orderBean.create(1, LocalDate.of(2024, 1, 20), LocalDate.of(2024, 1, 26));
         orderBean.create(2, LocalDate.now(), LocalDate.now().plusDays(7));
         orderBean.create(3, LocalDate.now(), LocalDate.now().plusDays(2));
 
-        smartPackageBean.addPackageToOrder(1, 1);
-        smartPackageBean.addPackageToOrder(2, 1);
+        try {
+            smartPackageBean.addPackageToOrder(1, 1);
+            smartPackageBean.addPackageToOrder(2, 1);
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
 
         transportPackageBean.create(1, "ali", 1);
         transportPackageBean.create(2, "aqui", 2);

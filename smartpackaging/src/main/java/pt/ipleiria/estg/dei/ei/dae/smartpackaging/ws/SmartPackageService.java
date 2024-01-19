@@ -8,6 +8,9 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.SmartPackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.SmartPackageBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.PackType;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,20 +50,16 @@ public class SmartPackageService {
 
     @GET
     @Path("{id}")
-    public Response getSmartPackage(@PathParam("id") int id) {
+    public Response getSmartPackage(@PathParam("id") int id)
+    throws MyEntityNotFoundException {
         SmartPackage smartPackage = smartPackageBean.find(id);
-        if (smartPackage == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
         return Response.status(Response.Status.OK).entity(toDTO(smartPackage)).build();
     }
 
     @POST
     @Path("/")
-    public Response createSmartPackage(SmartPackageDTO smartPackageDTO) {
-        if (smartPackageBean.find(smartPackageDTO.getId()) != null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
+    public Response createSmartPackage(SmartPackageDTO smartPackageDTO)
+    throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
         smartPackageBean.create(
                 smartPackageDTO.getId(),
                 PackType.valueOf(smartPackageDTO.getPackType()),
@@ -68,22 +67,13 @@ public class SmartPackageService {
                 smartPackageDTO.getProductId()
         );
         SmartPackage smartPackage = smartPackageBean.find(smartPackageDTO.getId());
-        if (smartPackage == null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
         return Response.status(Response.Status.CREATED).entity(toDTO(smartPackage)).build();
     }
 
     @PUT
     @Path("{id}")
-    public Response updateSmartPackage(@PathParam("id") int id, SmartPackageDTO smartPackageDTO) {
-        if (id != smartPackageDTO.getId())
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-        SmartPackage smartPackage = smartPackageBean.find(id);
-        if (smartPackage == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
+    public Response updateSmartPackage(@PathParam("id") int id, SmartPackageDTO smartPackageDTO)
+    throws MyEntityNotFoundException, MyConstraintViolationException {
         smartPackageBean.update(
                 smartPackageDTO.getId(),
                 smartPackageDTO.getPackType(),
@@ -94,21 +84,15 @@ public class SmartPackageService {
                 smartPackageDTO.getCurrentTemperature(),
                 smartPackageDTO.getMaxGForce()
         );
-
-        SmartPackage updatedSmartPackage = smartPackageBean.find(id);
-        return Response.status(Response.Status.OK).entity(toDTO(updatedSmartPackage)).build();
+        SmartPackage smartPackage = smartPackageBean.find(id);
+        return Response.status(Response.Status.OK).entity(toDTO(smartPackage)).build();
     }
 
     @DELETE
     @Path("{id}")
-    public Response deleteSmartPackage(@PathParam("id") int id) {
-        if (smartPackageBean.find(id) == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
+    public Response deleteSmartPackage(@PathParam("id") int id)
+    throws MyEntityNotFoundException {
         smartPackageBean.delete(id);
-        if (smartPackageBean.find(id) != null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
         return Response.status(Response.Status.OK).build();
     }
 

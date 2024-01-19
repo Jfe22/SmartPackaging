@@ -76,8 +76,8 @@ public class ProductService {
                 productDTO.getWeight(),
                 productDTO.getIngredients()
         );
-        Product updatedProduct = productBean.find(id);
-        return Response.status(Response.Status.OK).entity(toDTO(updatedProduct)).build();
+        Product product = productBean.find(id);
+        return Response.status(Response.Status.OK).entity(toDTO(product)).build();
     }
 
     @DELETE

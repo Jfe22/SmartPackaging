@@ -4,11 +4,16 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.validation.ConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.SmartPackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Product;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.PackType;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
 
@@ -17,65 +22,100 @@ public class SmartPackageBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(int id, PackType type, String material, int product_id) {
+    public boolean exists(int id) {
+        Query query = entityManager.createQuery("SELECT COUNT(s.id) FROM SmartPackage s WHERE s.id = :id", Long.class);
+        query.setParameter("id", id);
+        return (Long)query.getSingleResult() > 0L;
+    }
+
+
+    public void create(int id, PackType type, String material, int product_id)
+    throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
+        if (exists(id))
+            throw new MyEntityExistsException("SmartPackage with id " + id + " already exists");
+
         Product product = entityManager.find(Product.class, product_id);
-        if (product == null) return;
+        if (product == null)
+            throw new MyEntityNotFoundException("Prodcut with id " + id + " doesn't exist");
 
-        SmartPackage smartPackage = new SmartPackage(id, type, material, product);
-        entityManager.persist(smartPackage);
+        try {
+            SmartPackage smartPackage = new SmartPackage(id, type, material, product);
+            product.setSmartPackage(smartPackage);
+            entityManager.persist(smartPackage);
+            //entityManager.flush();
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(e);
+        }
 
-        // adds smart package to corresponding product
-        product.setSmartPackage(smartPackage);
-        entityManager.persist(product);
     }
 
     public List<SmartPackage> getAllSmartPackages() {
         return entityManager.createNamedQuery("getAllSmartPackages", SmartPackage.class).getResultList();
     }
 
-    public SmartPackage find(int id) {
-        return entityManager.find(SmartPackage.class, id);
+    public SmartPackage find(int id)
+    throws MyEntityNotFoundException {
+        SmartPackage smartPackage = entityManager.find(SmartPackage.class, id);
+        if (smartPackage == null)
+            throw new MyEntityNotFoundException("Smartpackage with id " + id + " doesn't exist");
+
+        return  smartPackage;
     }
 
-    public void update(int id, String packType, String material, int productId, double currentAtmPressure, double currentHumidity, double currentTemperature,  double maxGForce) {
+    public void update(int id, String packType, String material, int productId, double currentAtmPressure, double currentHumidity, double currentTemperature,  double maxGForce)
+    throws MyEntityNotFoundException, MyConstraintViolationException {
         SmartPackage smartPackage = find(id);
-        //if (smartPackage == null) return;
 
         Product product = entityManager.find(Product.class, productId);
-        //if (product == null) return;
+        if (product == null)
+            throw new MyEntityNotFoundException("Product with id " + productId + " doesn't exist");
 
         entityManager.lock(smartPackage, LockModeType.OPTIMISTIC);
 
-        smartPackage.setType(PackType.valueOf(packType));
-        smartPackage.setMaterial(material);
-        smartPackage.setProduct(product);
+        try {
+            smartPackage.setType(PackType.valueOf(packType));
+            smartPackage.setMaterial(material);
+            smartPackage.setProduct(product);
 
-        smartPackage.setCurrentAtmPressure(currentAtmPressure);
-        smartPackage.setCurrentHumidity(currentHumidity);
-        smartPackage.setCurrentTemperature(currentTemperature);
-        smartPackage.setMaxGForce(maxGForce);
+            smartPackage.setCurrentAtmPressure(currentAtmPressure);
+            smartPackage.setCurrentHumidity(currentHumidity);
+            smartPackage.setCurrentTemperature(currentTemperature);
+            smartPackage.setMaxGForce(maxGForce);
 
-        System.out.println(smartPackage.getCurrentAtmPressure());
-        entityManager.persist(smartPackage);
-        System.out.println(smartPackage.getCurrentAtmPressure());
+            entityManager.merge(smartPackage);
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(e);
+        }
     }
 
-    public void delete(int id) {
+    public void delete(int id)
+    throws MyEntityNotFoundException {
         SmartPackage smartPackage = find(id);
-        if (smartPackage == null) return;
-
         entityManager.remove(smartPackage);
     }
 
-    public void addPackageToOrder(int pack_id, int order_id) {
-        SmartPackage smartPackage = entityManager.find(SmartPackage.class, pack_id);
-        if (smartPackage == null) return;
+    public void addPackageToOrder(int pack_id, int order_id)
+    throws MyEntityNotFoundException {
+        SmartPackage smartPackage = find(pack_id);
 
         Order order = entityManager.find(Order.class, order_id);
-        if (order == null) return;
+        if (order == null)
+            throw new MyEntityNotFoundException("Order with id " + order_id + " doesn't exist");
 
         order.addSmartPackage(smartPackage);
         smartPackage.setOrder(order);
+    }
+
+    public void removePackageFromOrder(int pack_id, int order_id)
+    throws MyEntityNotFoundException {
+        SmartPackage smartPackage = find(pack_id);
+
+        Order order = entityManager.find(Order.class, order_id);
+        if (order == null)
+            throw new MyEntityNotFoundException("Order with id " + order_id + " doesn't exist");
+
+        order.removeSmartPackage(smartPackage);
+        smartPackage.setOrder(null);
     }
 
 }

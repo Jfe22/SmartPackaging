@@ -66,7 +66,7 @@ public class ProductBean {
             product.setExpireDate(expireDate);
             product.setWeight(weight);
             product.setIngredients(ingredients);
-            entityManager.persist(product);
+            entityManager.merge(product);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
         }
@@ -74,7 +74,7 @@ public class ProductBean {
 
     public void delete(int id)
     throws MyEntityNotFoundException {
-        Product product = entityManager.find(Product.class, id);
+        Product product = find(id);
         entityManager.remove(product);
     }
 }
