@@ -7,7 +7,9 @@ import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Product;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.User;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.PackType;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -26,6 +28,8 @@ public class ConfigBean {
     private TransportPackageBean transportPackageBean;
     @EJB
     private UserBean userBean;
+    @EJB
+    private ConsumerBean consumerBean;
     private static final Logger logger = Logger.getLogger("ebjs.ConfigBean");
 
     @PostConstruct
@@ -53,10 +57,14 @@ public class ConfigBean {
         transportPackageBean.create(1, "ali", 1);
         transportPackageBean.create(2, "aqui", 2);
 
-        // users and roles
-        userBean.create(1, "admin", "admin@example.com", "adminpass");
-        userBean.create(2, "user", "user@example.com", "userpass");
-        userBean.create(3, "user2", "user2@example.com", "user2pass");
+        // userss
+        // userBean.create(1, "admin", "admin@example.com", "adminpass", UserRole.PRODUCER);
+        // userBean.create(2, "user", "user@example.com", "userpass", UserRole.CONSUMER);
+        // userBean.create(3, "user2", "user2@example.com", "user2pass", UserRole.OPERATOR);
 
+        // consumers
+        consumerBean.create(5, "consumer1", "consumer1@example.com", "123", UserRole.CONSUMER, null, null, null);
+        consumerBean.create(6, "consumer2", "consumer2@example.com", "123", UserRole.CONSUMER, null, null, null);
+        consumerBean.create(7, "consumer3", "consumer3@example.com", "123", UserRole.CONSUMER, null, null, null);
     }
 }

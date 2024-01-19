@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.User;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 
 import java.util.List;
 
@@ -19,8 +20,8 @@ public class UserBean {
     }
 
     // create user
-    public void create(int user_id, String username, String email, String password) {
-        User user = new User(user_id, username, email, hashPassword(password));
+    public void create(int user_id, String username, String email, String password, UserRole role) {
+        User user = new User(user_id, username, email, hashPassword(password), role);
         em.persist(user);
     }
 

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Operator;
 
 @Stateless
-public class OperatorBean extends UserBean {
+public class OperatorBean {
 
     @PersistenceContext
     private EntityManager em;

@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos;
 
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.User;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 
 import javax.management.relation.Role;
 import java.util.Objects;
@@ -10,7 +11,7 @@ public class UserDTO {
     private String username;
     private String email;
     private String password;
-    private String role;
+    private UserRole role;
 
     public UserDTO() {
     }
@@ -40,7 +41,7 @@ public class UserDTO {
         return password;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
@@ -61,7 +62,7 @@ public class UserDTO {
         this.password = password;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

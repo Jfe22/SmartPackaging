@@ -1,10 +1,17 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @DiscriminatorValue("OPERATOR")
-public class Operator extends User {
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllOperators",
+                query = "SELECT o FROM Operator o ORDER BY o.id"
+        )
+})
+public class Operator extends User implements Serializable {
     private String locationAndTrackingData; // e.g., real-time location and tracking
     private String environmentalConditionsData; // e.g., temperature, humidity
     private String securityAlertData; // e.g., detection of opening and access alerts

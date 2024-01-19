@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Producer;
 
 @Stateless
-public class ProducerBean extends UserBean {
+public class ProducerBean {
 
     @PersistenceContext
     private EntityManager em;
