@@ -11,6 +11,7 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.PackType;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.logging.Logger;
 
 @Startup
 @Singleton
@@ -25,14 +26,19 @@ public class ConfigBean {
     private TransportPackageBean transportPackageBean;
     @EJB
     private UserBean userBean;
+    private static final Logger logger = Logger.getLogger("ebjs.ConfigBean");
 
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello jave ee");
 
-        productBean.create(1, "first prod", LocalDate.of(2024, 9, 29), 1.3, "massa, peperoni, queijo");
-        productBean.create(2, "second prod", LocalDate.of(2030, 9, 29), 0.2, "cpu, gpu, ram");
-        productBean.create(3, "3rd prod", LocalDate.now(), 1.2, "isto aquilo e o outro");
+        try {
+            productBean.create(1, "first prod", LocalDate.of(2024, 9, 29), 1.3, "massa, peperoni, queijo");
+            productBean.create(1, "second prod", LocalDate.of(2030, 9, 29), 0.2, "cpu, gpu, ram");
+            productBean.create(3, "3rd prod", LocalDate.now(), 1.2, "isto aquilo e o outro");
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
 
         smartPackageBean.create(1, PackType.PRIMARY, "plastic", 1);
         smartPackageBean.create(2, PackType.PRIMARY, "plastic", 2);

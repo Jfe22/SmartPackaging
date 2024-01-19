@@ -7,7 +7,7 @@ POST http://localhost:8080/smartpackaging/api/products/
 Content-Type: application/json
 
 {
-  "id": 12,
+  "id": 1,
   "name": "postedProd",
   "date": "2020-02-03",
   "weight": 12.2,
