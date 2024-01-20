@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllOperators",
-                query = "SELECT o FROM Operator o ORDER BY o.id"
+                query = "SELECT o FROM Operator o ORDER BY o.username"
         )
 })
 public class Operator extends User implements Serializable {
@@ -20,15 +20,14 @@ public class Operator extends User implements Serializable {
 
     public Operator() {}
 
-    public Operator(int id, String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData) {
-        super(id, username, email, password, role);
+    public Operator(String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData) {
+        super(username, email, password, role);
         this.locationAndTrackingData = locationAndTrackingData;
         this.environmentalConditionsData = environmentalConditionsData;
         this.securityAlertData = securityAlertData;
     }
 
     // Getters and setters for Operator-specific attributes
-
     public String getLocationAndTrackingData() {
         return locationAndTrackingData;
     }

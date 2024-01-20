@@ -42,7 +42,7 @@ public class SmartPackageBean {
         return entityManager.createNamedQuery("getAllSmartPackages", SmartPackage.class).getResultList();
     }
 
-    public void create(int id, PackType type, String material, int product_id, int producer_id)
+    public void create(int id, PackType type, String material, int product_id, String producerName)
     throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
         if (exists(id))
             throw new MyEntityExistsException("SmartPackage with id " + id + " already exists");
@@ -51,9 +51,9 @@ public class SmartPackageBean {
         if (product == null)
             throw new MyEntityNotFoundException("Prodcut with id " + id + " doesn't exist");
 
-        Producer producer = entityManager.find(Producer.class, producer_id);
+        Producer producer = entityManager.find(Producer.class, producerName);
         if (producer == null)
-            throw new MyEntityNotFoundException("Producer with id " + producer_id + " doesn't exist");
+            throw new MyEntityNotFoundException("Producer with name " + producerName + " doesn't exist");
 
         try {
             SmartPackage smartPackage = new SmartPackage(id, type, material, product, producer);

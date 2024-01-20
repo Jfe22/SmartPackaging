@@ -29,7 +29,6 @@ public class OperatorService {
 
     private OperatorDTO toDTO(Operator operator) {
         return new OperatorDTO(
-                operator.getId(),
                 operator.getUsername(),
                 operator.getEmail(),
                 operator.getPassword(),
@@ -50,10 +49,10 @@ public class OperatorService {
     }
 
     @GET
-    @Path("/{id}")
-    public Response getOperator(@PathParam("id") int id)
+    @Path("/{username}")
+    public Response getOperator(@PathParam("username") String username)
             throws MyEntityNotFoundException {
-        Operator operator = operatorBean.find(id);
+        Operator operator = operatorBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(operator)).build();
     }
 
@@ -62,7 +61,6 @@ public class OperatorService {
     public Response createNewOperator(OperatorDTO operatorDTO)
             throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         operatorBean.create(
-                operatorDTO.getId(),
                 operatorDTO.getUsername(),
                 operatorDTO.getEmail(),
                 operatorDTO.getPassword(),
@@ -71,16 +69,15 @@ public class OperatorService {
                 operatorDTO.getEnvironmentalConditions(),
                 operatorDTO.getSecurityAlerts()
         );
-        Operator operator = operatorBean.find(operatorDTO.getId());
+        Operator operator = operatorBean.find(operatorDTO.getUsername());
         return Response.status(Response.Status.CREATED).entity(toDTO(operator)).build();
     }
 
     @PUT
-    @Path("/{id}")
-    public Response updateOperator(@PathParam("id") int id, OperatorDTO operatorDTO)
+    @Path("/{username}")
+    public Response updateOperator(@PathParam("username") String username, OperatorDTO operatorDTO)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         operatorBean.update(
-                id,
                 operatorDTO.getUsername(),
                 operatorDTO.getEmail(),
                 operatorDTO.getPassword(),
@@ -89,15 +86,15 @@ public class OperatorService {
                 operatorDTO.getEnvironmentalConditions(),
                 operatorDTO.getSecurityAlerts()
         );
-        Operator operator = operatorBean.find(id);
+        Operator operator = operatorBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(operator)).build();
     }
 
     @DELETE
-    @Path("/{id}")
-    public Response deleteOperator(@PathParam("id") int id)
+    @Path("/{username}")
+    public Response deleteOperator(@PathParam("username") String username)
             throws MyEntityNotFoundException {
-        operatorBean.delete(id);
+        operatorBean.delete(username);
         return Response.status(Response.Status.OK).build();
     }
 }

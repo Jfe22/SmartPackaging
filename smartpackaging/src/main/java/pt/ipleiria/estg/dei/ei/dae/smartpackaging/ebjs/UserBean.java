@@ -25,40 +25,20 @@ public class UserBean {
     private Hasher hasher;
 
     // check if user exists
-    public boolean exists(int id) {
-        Query query = em.createQuery("SELECT COUNT(u.id) FROM User u WHERE u.id = :id", Long.class);
-        query.setParameter("id", id);
+    public boolean exists(String username) {
+        Query query = em.createQuery("SELECT COUNT(u.username) FROM User u WHERE u.username = :username", Long.class);
+        query.setParameter("username", username);
         return (long) query.getSingleResult() > 0L;
     }
 
     // find user
-    public User find(int id)
+    public User find(String username)
             throws MyEntityNotFoundException {
-        User user = em.find(User.class, id);
+        User user = em.find(User.class, username);
         if (user == null)
-            throw new MyEntityNotFoundException("User with id: " + id + " doesn't exist");
+            throw new MyEntityNotFoundException("User " + username + " doesn't exist");
 
-        return em.find(User.class, id);
-    }
-
-    // find user by name
-    public User findByName(String username)
-            throws MyEntityNotFoundException {
-        // Fetch the user ID where username matches the provided username
-        TypedQuery<Integer> query = em.createQuery("SELECT u.id FROM User u WHERE u.username = :username", Integer.class);
-        query.setParameter("username", username);
-
-        Integer userId;
-        try {
-            userId = query.getSingleResult();
-        } catch (NoResultException e) {
-            // No user found with the given username
-            throw new MyEntityNotFoundException("User with username: " + username + " doesn't exist");
-        }
-
-        // find user with the given ID
-        User user = find(userId);
-        return user;
+        return em.find(User.class, username);
     }
 
     // find or fail user -> authentication
@@ -71,7 +51,7 @@ public class UserBean {
     // can login
     public boolean canLogin(String username, String password)
             throws MyEntityNotFoundException {
-        var user = findByName(username);
+        var user = find(username);
         return user != null && user.getPassword().equals(hasher.hash(password));
     }
 
@@ -81,13 +61,13 @@ public class UserBean {
     }
 
     // create user
-    public void create(int user_id, String username, String email, String password, UserRole role)
+    public void create(String username, String email, String password, UserRole role)
             throws MyEntityExistsException, MyConstraintViolationException {
-        if (exists(user_id))
-            throw new MyEntityExistsException("User with id: " + user_id + " alredy exists");
+        if (exists(username))
+            throw new MyEntityExistsException("User " + username + " already exists");
 
         try {
-            User newUser = new User(user_id, username, email, hasher.hash(password), role);
+            User newUser = new User(username, email, hasher.hash(password), role);
             em.persist(newUser);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -95,11 +75,11 @@ public class UserBean {
     }
 
     // update user
-    public void update(int id, String username, String email, String password, UserRole role)
+    public void update(String username, String email, String password, UserRole role)
             throws MyEntityNotFoundException, MyConstraintViolationException {
-        User user = find(id);
+        User user = find(username);
         if (user == null)
-            throw new MyEntityNotFoundException("User with id: " + id + " doesn't exist");
+            throw new MyEntityNotFoundException("User " + username + " doesn't exist");
 
         try {
             user.setUsername(username);
@@ -113,24 +93,9 @@ public class UserBean {
     }
 
     // delete user
-    public void delete(int id)
+    public void delete(String username)
             throws MyEntityNotFoundException {
-        User user = find(id);
+        User user = find(username);
         em.remove(user);
-    }
-
-    private String hashPassword(String password) {
-        // Implement password hashing here
-        return password; // Replace this with actual hashed password
-    }
-
-    // authenticate user
-    public User authenticateUser(String username, String password) {
-        TypedQuery<User> query = em.createQuery(
-                "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class);
-        query.setParameter("username", username);
-        query.setParameter("password", password); // Password should be hashed
-        List<User> users = query.getResultList();
-        return users.isEmpty() ? null : users.get(0);
     }
 }

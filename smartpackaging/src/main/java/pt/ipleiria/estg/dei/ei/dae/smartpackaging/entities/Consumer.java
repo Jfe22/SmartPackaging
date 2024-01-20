@@ -12,7 +12,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllConsumers",
-                query = "SELECT c FROM Consumer c ORDER BY c.id"
+                query = "SELECT c FROM Consumer c ORDER BY c.username"
         )
 })
 public class Consumer extends User implements Serializable {
@@ -23,10 +23,11 @@ public class Consumer extends User implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "consumer", cascade = CascadeType.REMOVE)
     List<Order> orders;
 
-    public Consumer() {}
+    public Consumer() {
+    }
 
-    public Consumer(int id, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData) {
-        super(id, username, email, password, role);
+    public Consumer(String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData) {
+        super(username, email, password, role);
         this.deliveryUpdatesData = deliveryUpdatesData;
         this.qualityInformationData = qualityInformationData;
         this.securityAlertData = securityAlertData;

@@ -43,18 +43,18 @@ public class ConfigBean {
         // consumers
         /*
         try {
-            consumerBean.create(5, "consumer1", "consumer1@example.com", "123", UserRole.CONSUMER, null, null, null);
-            consumerBean.create(6, "consumer2", "consumer2@example.com", "123", UserRole.CONSUMER, null, null, null);
-            consumerBean.create(7, "consumer3", "consumer3@example.com", "123", UserRole.CONSUMER, null, null, null);
+            consumerBean.create("consumer1", "consumer1@example.com", "123", UserRole.CONSUMER, null, null, null);
+            consumerBean.create("consumer2", "consumer2@example.com", "123", UserRole.CONSUMER, null, null, null);
+            consumerBean.create("consumer3", "consumer3@example.com", "123", UserRole.CONSUMER, null, null, null);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
 
         // operators
         try {
-            operatorBean.create(10, "operator1", "operator1@example.com", "123", UserRole.OPERATOR, null, null, null);
-            operatorBean.create(11, "operator2", "operator2@example.com", "123", UserRole.OPERATOR, null, null, null);
-            operatorBean.create(12, "operator3", "operator3@example.com", "123", UserRole.OPERATOR, null, null, null);
+            operatorBean.create("operator1", "operator1@example.com", "123", UserRole.OPERATOR, null, null, null);
+            operatorBean.create("operator2", "operator2@example.com", "123", UserRole.OPERATOR, null, null, null);
+            operatorBean.create("operator3", "operator3@example.com", "123", UserRole.OPERATOR, null, null, null);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
@@ -62,9 +62,9 @@ public class ConfigBean {
 
         // producers
         try {
-            producerBean.create(15, "producer1", "producer1@example.com", "123", UserRole.PRODUCER, null, null);
-            producerBean.create(16, "producer2", "producer2@example.com", "123", UserRole.PRODUCER, null, null);
-            producerBean.create(17, "producer3", "producer3@example.com", "123", UserRole.PRODUCER, null, null);
+            producerBean.create("prod1",  "producer1@example.com", "123", UserRole.PRODUCER, null, null);
+            producerBean.create("prod2",  "producer2@example.com", "123", UserRole.PRODUCER, null, null);
+            producerBean.create("prod3",  "producer3@example.com", "123", UserRole.PRODUCER, null, null);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
@@ -80,17 +80,17 @@ public class ConfigBean {
 
         // smartPackages
         try {
-            smartPackageBean.create(1, PackType.PRIMARY, "plastic", 1, 15);
-            smartPackageBean.create(2, PackType.PRIMARY, "plastic", 2, 15);
+            smartPackageBean.create(1, PackType.PRIMARY, "plastic", 1, "prod1");
+            smartPackageBean.create(2, PackType.PRIMARY, "plastic", 2, "prod1");
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
 
         // orders
         try {
-            orderBean.create(1, LocalDate.of(2024, 1, 20), LocalDate.of(2024, 1, 26), 5);
-            orderBean.create(2, LocalDate.now(), LocalDate.now().plusDays(7), 5);
-            orderBean.create(3, LocalDate.now(), LocalDate.now().plusDays(2), 6);
+            orderBean.create(1, LocalDate.of(2024, 1, 20), LocalDate.of(2024, 1, 26), "consumer1" );
+            orderBean.create(2, LocalDate.now(), LocalDate.now().plusDays(7), "consumer2");
+            orderBean.create(3, LocalDate.now(), LocalDate.now().plusDays(2), "consumer2");
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }

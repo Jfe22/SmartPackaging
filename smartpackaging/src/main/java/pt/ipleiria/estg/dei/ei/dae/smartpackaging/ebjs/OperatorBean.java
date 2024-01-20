@@ -22,20 +22,20 @@ public class OperatorBean {
     private Hasher hasher;
 
     // check if operator exists
-    public boolean exists(int id) {
-        Query query = em.createQuery("SELECT COUNT(o.id) FROM Operator o WHERE o.id = :id", Long.class);
-        query.setParameter("id", id);
+    public boolean exists(String username) {
+        Query query = em.createQuery("SELECT COUNT(o.username) FROM Operator o WHERE o.username = :username", Long.class);
+        query.setParameter("username", username);
         return (long) query.getSingleResult() > 0L;
     }
 
     // find operator
-    public Operator find(int id)
+    public Operator find(String username)
             throws MyEntityNotFoundException {
-        Operator operator = em.find(Operator.class, id);
+        Operator operator = em.find(Operator.class, username);
         if (operator == null)
-            throw new MyEntityNotFoundException("Operator with id: " + id + " doesn't exist");
+            throw new MyEntityNotFoundException("Operator " + username + " doesn't exist");
 
-        return em.find(Operator.class, id);
+        return em.find(Operator.class, username);
     }
 
     // get all operators
@@ -44,13 +44,13 @@ public class OperatorBean {
     }
 
     // create operator
-    public void create(int operator_id, String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData)
+    public void create(String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData)
             throws MyEntityExistsException, MyConstraintViolationException {
-        if (exists(operator_id))
-            throw new MyEntityExistsException("Operator with id: " + operator_id + " alredy exists");
+        if (exists(username))
+            throw new MyEntityExistsException("Operator " + username + " already exists");
 
         try {
-            Operator newOperator = new Operator(operator_id, username, email, hasher.hash(password), role, locationAndTrackingData, environmentalConditionsData, securityAlertData);
+            Operator newOperator = new Operator(username, email, hasher.hash(password), role, locationAndTrackingData, environmentalConditionsData, securityAlertData);
             em.persist(newOperator);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -58,9 +58,9 @@ public class OperatorBean {
     }
 
     // update operator
-    public void update(int operatorId, String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData)
+    public void update(String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData)
             throws MyEntityNotFoundException, MyConstraintViolationException {
-        Operator operator = find(operatorId);
+        Operator operator = find(username);
         em.lock(operator, LockModeType.OPTIMISTIC);
 
         try {
@@ -77,15 +77,9 @@ public class OperatorBean {
     }
 
     // delete operator
-    public void delete(int operatorId)
+    public void delete(String username)
             throws MyEntityNotFoundException {
-        Operator operator = find(operatorId);
+        Operator operator = find(username);
         em.remove(operator);
-    }
-
-    // hash password
-    private String hashPassword(String password) {
-        // Implement password hashing here
-        return password; // Replace this with actual hashed password
     }
 }

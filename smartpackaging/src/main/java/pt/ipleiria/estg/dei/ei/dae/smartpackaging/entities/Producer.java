@@ -12,7 +12,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllProducers",
-                query = "SELECT p FROM Producer p ORDER BY p.id"
+                query = "SELECT p FROM Producer p ORDER BY p.username"
         )
 })
 public class Producer extends User implements Serializable {
@@ -27,8 +27,8 @@ public class Producer extends User implements Serializable {
 
     public Producer() {}
 
-    public Producer(int id, String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost) {
-        super(id, username, email, password, role);
+    public Producer(String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost) {
+        super(username, email, password, role);
         this.qualityControlData = qualityControlData;
         this.productResponsibilityCost = productResponsibilityCost;
         smartPackages = new LinkedList<>();

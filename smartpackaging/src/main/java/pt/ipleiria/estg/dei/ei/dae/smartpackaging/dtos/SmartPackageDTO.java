@@ -8,7 +8,7 @@ public class SmartPackageDTO {
     String productName;
     int orderId;
 
-    int producerId;
+    String producerName;
 
     double currentTemperature;
     double currentHumidity;
@@ -17,13 +17,13 @@ public class SmartPackageDTO {
 
     public SmartPackageDTO() {}
 
-    public SmartPackageDTO(int id, String packType, String material, int productId, int producerId, String productName, double currentAtmPressure, double currentHumidity, double currentTemperature, double maxGForce) {
+    public SmartPackageDTO(int id, String packType, String material, int productId, String productName, String producerName, double currentAtmPressure, double currentHumidity, double currentTemperature, double maxGForce) {
         this.id = id;
         this.packType = packType;
         this.material = material;
         this.productId = productId;
-        this.producerId = producerId;
         this.productName = productName;
+        this.producerName = producerName;
         this.currentAtmPressure = currentAtmPressure;
         this.currentHumidity = currentHumidity;
         this.currentTemperature = currentTemperature;
@@ -110,11 +110,11 @@ public class SmartPackageDTO {
         this.maxGForce = maxGForce;
     }
 
-    public int getProducerId() {
-        return producerId;
+    public String getProducerName() {
+        return producerName;
     }
 
-    public void setProducerId(int producerId) {
-        this.producerId = producerId;
+    public void setProducerName(String producerName) {
+        this.producerName = producerName;
     }
 }

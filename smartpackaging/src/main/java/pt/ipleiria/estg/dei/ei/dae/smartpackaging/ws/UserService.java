@@ -27,7 +27,6 @@ public class UserService {
     private UserDTO toDTO(User user) {
         UserDTO dto = new UserDTO();
 
-        dto.setId(user.getId());
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
         dto.setPassword(user.getPassword()); // Hash the password before setting
@@ -46,35 +45,24 @@ public class UserService {
     }
 
     @PUT
-    @Path("/{id}")
-    public Response updateUser(@PathParam("id") int id, UserDTO userDTO)
+    @Path("/{username}")
+    public Response updateUser(@PathParam("username") String username, UserDTO userDTO)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         userBean.update(
-                id,
                 userDTO.getUsername(),
                 userDTO.getPassword(),
                 userDTO.getEmail(),
                 userDTO.getRole()
         );
-        User updatedUser = userBean.find(id);
+        User updatedUser = userBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(updatedUser)).build();
     }
 
     @DELETE
-    @Path("/{id}")
-    public Response deleteUser(@PathParam("id") int id)
+    @Path("/{username}")
+    public Response deleteUser(@PathParam("username") String username)
             throws MyEntityNotFoundException {
-        userBean.delete(id);
+        userBean.delete(username);
         return Response.status(Response.Status.OK).build();
-    }
-
-    @POST
-    @Path("/authenticate")
-    public Response authenticateUser(UserDTO userDTO) {
-        User authenticatedUser = userBean.authenticateUser(userDTO.getUsername(), userDTO.getPassword()); // Hash the password before sending
-        if (authenticatedUser == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
-        }
-        return Response.ok(new UserDTO(authenticatedUser)).build();
     }
 }

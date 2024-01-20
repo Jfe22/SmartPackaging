@@ -8,16 +8,16 @@ public class OrderDTO {
     String orderDate;
     String extDeliveryDate;
     List<SmartPackageDTO> smartPackagesDTOs;
-    int consumerId;
+    String consumerName;
 
 
     public OrderDTO() { this.smartPackagesDTOs = new LinkedList<>(); }
 
-    public OrderDTO(int id, String orderDate, String extDeliveryDate, int consumerId) {
+    public OrderDTO(int id, String orderDate, String extDeliveryDate, String consumerName) {
         this.id = id;
         this.orderDate = orderDate;
         this.extDeliveryDate = extDeliveryDate;
-        this.consumerId = consumerId;
+        this.consumerName = consumerName;
         smartPackagesDTOs = new LinkedList<>();
     }
 
@@ -61,11 +61,11 @@ public class OrderDTO {
         smartPackagesDTOs.remove(smartPackageDTO);
     }
 
-    public int getConsumerId() {
-        return consumerId;
+    public String getConsumerName() {
+        return consumerName;
     }
 
-    public void setConsumerId(int consumerId) {
-        this.consumerId = consumerId;
+    public void setConsumerName(String consumerName) {
+        this.consumerName = consumerName;
     }
 }

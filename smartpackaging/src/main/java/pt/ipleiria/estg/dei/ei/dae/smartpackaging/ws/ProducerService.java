@@ -29,7 +29,6 @@ public class ProducerService {
 
     private ProducerDTO toDTO(Producer producer) {
         return new ProducerDTO(
-                producer.getId(),
                 producer.getUsername(),
                 producer.getEmail(),
                 producer.getPassword(),
@@ -49,8 +48,8 @@ public class ProducerService {
                 smartPackage.getType().toString(),
                 smartPackage.getMaterial(),
                 smartPackage.getProduct().getId(),
-                smartPackage.getProducer().getId(),
                 smartPackage.getProduct().getName(),
+                smartPackage.getProducer().getUsername(),
                 smartPackage.getCurrentAtmPressure(),
                 smartPackage.getCurrentHumidity(),
                 smartPackage.getCurrentTemperature(),
@@ -69,18 +68,18 @@ public class ProducerService {
     }
 
     @GET
-    @Path("/{id}")
-    public Response getProducer(@PathParam("id") int id)
+    @Path("/{username}")
+    public Response getProducer(@PathParam("username") String username)
             throws MyEntityNotFoundException {
-        Producer producer = producerBean.find(id);
+        Producer producer = producerBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(producer)).build();
     }
 
     @GET
-    @Path("{id}/smartpackages")
-    public Response getProducerPackages(@PathParam("id") int id)
+    @Path("{username}/smartpackages")
+    public Response getProducerPackages(@PathParam("username") String username)
     throws MyEntityNotFoundException {
-        Producer producer =  producerBean.getProducerSmartPackages(id);
+        Producer producer =  producerBean.getProducerSmartPackages(username);
         List<SmartPackageDTO> smartPackageDTOs = smartPackageToDTOs(producer.getSmartPackages());
         return Response.ok(smartPackageDTOs).build();
     }
@@ -90,7 +89,6 @@ public class ProducerService {
     public Response createProducer(ProducerDTO producerDTO)
             throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
         producerBean.create(
-                producerDTO.getId(),
                 producerDTO.getUsername(),
                 producerDTO.getEmail(),
                 producerDTO.getPassword(),
@@ -98,16 +96,15 @@ public class ProducerService {
                 producerDTO.getQualityControlData(),
                 producerDTO.getProductResponsibilityCost()
         );
-        Producer newProducer = producerBean.find(producerDTO.getId());
+        Producer newProducer = producerBean.find(producerDTO.getUsername());
         return Response.status(Response.Status.CREATED).entity(toDTO(newProducer)).build();
     }
 
     @PUT
-    @Path("/{id}")
-    public Response updateProducer(@PathParam("id") int id, ProducerDTO producerDTO)
+    @Path("/{username}")
+    public Response updateProducer(@PathParam("username") String username, ProducerDTO producerDTO)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         producerBean.update(
-                id,
                 producerDTO.getUsername(),
                 producerDTO.getEmail(),
                 producerDTO.getPassword(),
@@ -115,15 +112,15 @@ public class ProducerService {
                 producerDTO.getQualityControlData(),
                 producerDTO.getProductResponsibilityCost()
         );
-        Producer updatedProducer = producerBean.find(id);
+        Producer updatedProducer = producerBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(updatedProducer)).build();
     }
 
     @DELETE
-    @Path("/{id}")
-    public Response deleteProducer(@PathParam("id") int id)
+    @Path("/{username}")
+    public Response deleteProducer(@PathParam("username") String username)
             throws MyEntityNotFoundException {
-        producerBean.delete(id);
+        producerBean.delete(username);
         return Response.status(Response.Status.OK).build();
     }
 }

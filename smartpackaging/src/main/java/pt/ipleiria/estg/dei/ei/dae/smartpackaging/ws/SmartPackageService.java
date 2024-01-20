@@ -29,8 +29,8 @@ public class SmartPackageService {
             smartPackage.getType().toString(),
             smartPackage.getMaterial(),
             smartPackage.getProduct().getId(),
-            smartPackage.getProducer().getId(),
             smartPackage.getProduct().getName(),
+            smartPackage.getProducer().getUsername(),
             smartPackage.getCurrentAtmPressure(),
             smartPackage.getCurrentHumidity(),
             smartPackage.getCurrentTemperature(),
@@ -66,7 +66,7 @@ public class SmartPackageService {
                 PackType.valueOf(smartPackageDTO.getPackType()),
                 smartPackageDTO.getMaterial(),
                 smartPackageDTO.getProductId(),
-                smartPackageDTO.getProducerId()
+                smartPackageDTO.getProducerName()
         );
         SmartPackage smartPackage = smartPackageBean.find(smartPackageDTO.getId());
         return Response.status(Response.Status.CREATED).entity(toDTO(smartPackage)).build();
