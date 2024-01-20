@@ -155,11 +155,12 @@ Content-Type: application/json
 #### CONSUMERS --------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/consumers
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3NzIzNjIsImV4cCI6MTcwNTc3NTk2Mn0.aoK3z_cYr-9Mmu2KLu8FZmfx5OYWCeu8Q4G10OZ4m4TUX-UjFJPngpv9iybEKbcs
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3NzkwNjYsImV4cCI6MTcwNTc4MjY2Nn0.5PJnOrGVZgRoo3bpdUfTJwTvm_7OJwfF0-ERzEyK1d5Btjhovw7D_aHN3mVv7Dji
 
 ###
 GET http://localhost:8080/smartpackaging/api/consumers/5
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3NzkwNjYsImV4cCI6MTcwNTc4MjY2Nn0.5PJnOrGVZgRoo3bpdUfTJwTvm_7OJwfF0-ERzEyK1d5Btjhovw7D_aHN3mVv7Dji
 
 ###
 POST http://localhost:8080/smartpackaging/api/consumers

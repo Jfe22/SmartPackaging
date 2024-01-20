@@ -13,14 +13,12 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllUsers",
-                query = "SELECT u FROM User u ORDER BY u.id"
+                query = "SELECT u FROM User u ORDER BY u.username"
         )
 })
 // @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User extends Versionable {
     @Id
-    private int id;
-    @NotNull
     private String username;
     @NotNull
     private String password;
@@ -31,8 +29,7 @@ public class User extends Versionable {
 
     public User() {}
 
-    public User(int id, String username, String email, String password, UserRole role) {
-        this.id = id;
+    public User(String username, String email, String password, UserRole role) {
         this.username = username;
         this.email = email;
         this.password = password; // Ensure this is hashed
@@ -40,10 +37,6 @@ public class User extends Versionable {
     }
 
     // Getters
-    public int getId() {
-        return id;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -61,10 +54,6 @@ public class User extends Versionable {
     }
 
     // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -81,29 +70,10 @@ public class User extends Versionable {
         this.role = role;
     }
 
-    // Additional methods
-    // equals() method
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return Objects.equals(getId(), user.getId()) &&
-                Objects.equals(getUsername(), user.getUsername()) &&
-                Objects.equals(getEmail(), user.getEmail());
-    }
-
-    // hashCode() method
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getEmail());
-    }
-
     // toString() method
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +

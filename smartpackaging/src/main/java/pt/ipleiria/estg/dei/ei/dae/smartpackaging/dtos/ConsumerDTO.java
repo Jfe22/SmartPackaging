@@ -5,21 +5,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ConsumerDTO implements Serializable {
-    private int id;
     private String username;
     private String email;
     private String password;
     private String deliveryUpdates;
     private String qualityInformation;
     private String securityAlerts;
-
     List<OrderDTO> ordersDTOs;
 
+    public ConsumerDTO() {
+    }
 
-    public ConsumerDTO() {}
-
-    public ConsumerDTO(int id, String username, String email, String password, String deliveryUpdates, String qualityInformation, String securityAlerts) {
-        this.id = id;
+    public ConsumerDTO(String username, String email, String password, String deliveryUpdates, String qualityInformation, String securityAlerts) {
         this.username = username;
         this.email = email;
         this.deliveryUpdates = deliveryUpdates;
@@ -29,14 +26,6 @@ public class ConsumerDTO implements Serializable {
     }
 
     // Getters and Setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -61,7 +50,9 @@ public class ConsumerDTO implements Serializable {
         this.password = password;
     }
 
-    public String getDeliveryUpdates() { return deliveryUpdates; }
+    public String getDeliveryUpdates() {
+        return deliveryUpdates;
+    }
 
     public void setDeliveryUpdates(String deliveryUpdates) {
         this.deliveryUpdates = deliveryUpdates;

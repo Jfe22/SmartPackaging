@@ -38,13 +38,12 @@ public class ConsumerService {
 
     private ConsumerDTO toDTO(Consumer consumer) {
         ConsumerDTO consumerDTO = new ConsumerDTO(
-            consumer.getId(),
-            consumer.getUsername(),
-            consumer.getEmail(),
-            consumer.getPassword(),
-            consumer.getDeliveryUpdatesData(),
-            consumer.getQualityInformationData(),
-            consumer.getSecurityAlertData()
+                consumer.getUsername(),
+                consumer.getEmail(),
+                consumer.getPassword(),
+                consumer.getDeliveryUpdatesData(),
+                consumer.getQualityInformationData(),
+                consumer.getSecurityAlertData()
         );
         consumerDTO.setOrdersDTOs(ordersToDTOs(consumer.getOrders()));
         return consumerDTO;
@@ -56,10 +55,9 @@ public class ConsumerService {
 
     private OrderDTO orderToDTO(Order order) {
         return new OrderDTO(
-                order.getId(),
                 order.getOrderDate().toString(),
                 order.getEstDeleviryDate().toString(),
-                order.getConsumer().getId()
+                order.getConsumer().getUsername()
         );
     }
 
@@ -69,16 +67,32 @@ public class ConsumerService {
 
     @GET
     @Path("/")
+    @RolesAllowed({"CONSUMER"})
     public List<ConsumerDTO> getAllConsumers() {
         return toDTOs(consumerBean.getAllConsumers());
     }
 
     @GET
-    @Path("/{id}")
-    public Response getConsumer(@PathParam("id") int id)
+    @Path("/{username}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
+    @RolesAllowed({"CONSUMER"})
+    public Response getConsumer(@PathParam("username") String username)
             throws MyEntityNotFoundException {
-        Consumer consumer = consumerBean.find(id);
-        return Response.status(Response.Status.OK).entity(toDTO(consumer)).build();
+        var principal = securityContext.getUserPrincipal();
+
+        if (!principal.getName().equals(username)) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        var entity = consumerBean.find(username);
+        if (entity == null) {
+            var errorMsg = "Username '%s' not found.".formatted(username);
+            var status = Response.Status.NOT_FOUND;
+            return Response.status(status).entity(errorMsg).build();
+        }
+
+        var dto = toDTO(entity);
+        return Response.ok(dto).build();
     }
 
     @POST
@@ -86,7 +100,6 @@ public class ConsumerService {
     public Response createConsumer(ConsumerDTO consumerDTO)
             throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
         consumerBean.create(
-                consumerDTO.getId(),
                 consumerDTO.getUsername(),
                 consumerDTO.getEmail(),
                 consumerDTO.getPassword(),
@@ -95,16 +108,15 @@ public class ConsumerService {
                 consumerDTO.getQualityInformation(),
                 consumerDTO.getSecurityAlerts()
         );
-        Consumer newConsumer = consumerBean.find(consumerDTO.getId());
+        Consumer newConsumer = consumerBean.find(consumerDTO.getUsername());
         return Response.status(Response.Status.CREATED).entity(toDTO(newConsumer)).build();
     }
 
     @PUT
-    @Path("/{id}")
-    public Response updateConsumer(@PathParam("id") int id, ConsumerDTO consumerDTO)
+    @Path("/{username}")
+    public Response updateConsumer(@PathParam("username") String username, ConsumerDTO consumerDTO)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         consumerBean.update(
-                id,
                 consumerDTO.getUsername(),
                 consumerDTO.getEmail(),
                 consumerDTO.getPassword(),
@@ -113,15 +125,15 @@ public class ConsumerService {
                 consumerDTO.getQualityInformation(),
                 consumerDTO.getSecurityAlerts()
         );
-        Consumer updatedConsumer = consumerBean.find(id);
+        Consumer updatedConsumer = consumerBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(updatedConsumer)).build();
     }
 
     @DELETE
-    @Path("{id}")
-    public Response deleteConsumer(@PathParam("id") int id)
+    @Path("{username}")
+    public Response deleteConsumer(@PathParam("username") String username)
             throws MyEntityNotFoundException {
-        consumerBean.delete(id);
+        consumerBean.delete(username);
         return Response.status(Response.Status.OK).build();
     }
 }

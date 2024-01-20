@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos;
 
 import java.io.Serializable;
+
 import jakarta.validation.constraints.NotBlank;
 
 public class AuthDTO implements Serializable {

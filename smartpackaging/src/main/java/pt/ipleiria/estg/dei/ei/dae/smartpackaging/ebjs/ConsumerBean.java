@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.persistence.*;
 import jakarta.validation.ConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.User;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
@@ -23,20 +24,20 @@ public class ConsumerBean {
     private Hasher hasher;
 
     // check if consumer exists
-    public boolean exists(int id) {
-        Query query = em.createQuery("SELECT COUNT(c.id) FROM Consumer c WHERE c.id = :id", Long.class);
-        query.setParameter("id", id);
+    public boolean exists(String username) {
+        Query query = em.createQuery("SELECT COUNT(c.username) FROM Consumer c WHERE c.username = :username", Long.class);
+        query.setParameter("username", username);
         return (long) query.getSingleResult() > 0L;
     }
 
     // find consumer
-    public Consumer find(int id)
+    public Consumer find(String username)
             throws MyEntityNotFoundException {
-        Consumer consumer = em.find(Consumer.class, id);
+        Consumer consumer = em.find(Consumer.class, username);
         if (consumer == null)
-            throw new MyEntityNotFoundException("Consumer with id: " + id + " doesn't exist");
+            throw new MyEntityNotFoundException("Consumer " + username + " doesn't exist");
 
-        return em.find(Consumer.class, id);
+        return em.find(Consumer.class, username);
     }
 
     // get all consumers
@@ -45,13 +46,13 @@ public class ConsumerBean {
     }
 
     // create consumer
-    public void create(int consumer_id, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData)
+    public void create(String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData)
             throws MyEntityExistsException, MyConstraintViolationException {
-        if (exists(consumer_id))
-            throw new MyEntityExistsException("Consumer with id: " + consumer_id + " alredy exists");
+        if (exists(username))
+            throw new MyEntityExistsException("Consumer " + username + " already exists");
 
         try {
-            Consumer newConsumer = new Consumer(consumer_id, username, email, hasher.hash(password), role, deliveryUpdatesData, qualityInformationData, securityAlertData);
+            Consumer newConsumer = new Consumer(username, email, hasher.hash(password), role, deliveryUpdatesData, qualityInformationData, securityAlertData);
             em.persist(newConsumer);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -59,9 +60,9 @@ public class ConsumerBean {
     }
 
     // update consumer
-    public void update(int consumerId, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData)
+    public void update(String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData)
             throws MyEntityNotFoundException, MyConstraintViolationException {
-        Consumer consumer = find(consumerId);
+        Consumer consumer = find(username);
         em.lock(consumer, LockModeType.OPTIMISTIC);
 
         try {
@@ -79,15 +80,9 @@ public class ConsumerBean {
     }
 
     // delete consumer
-    public void delete(int id)
+    public void delete(String username)
             throws MyEntityNotFoundException {
-        Consumer consumer = find(id);
+        Consumer consumer = find(username);
         em.remove(consumer);
-    }
-
-    // hash password
-    private String hashPassword(String password) {
-        // Implement password hashing here
-        return password; // Replace this with actual hashed password
     }
 }

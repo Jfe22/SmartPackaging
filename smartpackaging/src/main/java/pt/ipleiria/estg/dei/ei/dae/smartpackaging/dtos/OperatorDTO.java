@@ -3,7 +3,6 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos;
 import java.io.Serializable;
 
 public class OperatorDTO implements Serializable {
-    private int id;
     private String username;
     private String email;
     private String password;
@@ -13,8 +12,7 @@ public class OperatorDTO implements Serializable {
 
     public OperatorDTO() {}
 
-    public OperatorDTO(int id, String username, String email, String password, String locationAndTracking, String environmentalConditions, String securityAlerts) {
-        this.id = id;
+    public OperatorDTO(String username, String email, String password, String locationAndTracking, String environmentalConditions, String securityAlerts) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -24,15 +22,6 @@ public class OperatorDTO implements Serializable {
     }
 
     // Getters and Setters
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }

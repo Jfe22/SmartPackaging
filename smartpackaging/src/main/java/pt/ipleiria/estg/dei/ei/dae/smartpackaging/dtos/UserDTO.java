@@ -7,7 +7,6 @@ import javax.management.relation.Role;
 import java.util.Objects;
 
 public class UserDTO {
-    private int id;
     private String username;
     private String email;
     private String password;
@@ -17,7 +16,6 @@ public class UserDTO {
     }
 
     public UserDTO(User user) {
-        this.id = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.role = user.getRole();
@@ -25,10 +23,6 @@ public class UserDTO {
     }
 
     // Getters
-    public int getId() {
-        return id;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -46,10 +40,6 @@ public class UserDTO {
     }
 
     // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -70,7 +60,6 @@ public class UserDTO {
     @Override
     public String toString() {
         return "UserDTO{" +
-                "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
