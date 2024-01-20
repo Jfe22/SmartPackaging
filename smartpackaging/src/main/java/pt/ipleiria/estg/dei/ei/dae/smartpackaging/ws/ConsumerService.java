@@ -29,19 +29,34 @@ public class ConsumerService {
     private ConsumerBean consumerBean;
 
     private ConsumerDTO toDTO(Consumer consumer) {
-        return new ConsumerDTO(
-                consumer.getId(),
-                consumer.getUsername(),
-                consumer.getEmail(),
-                consumer.getPassword(),
-                consumer.getDeliveryUpdatesData(),
-                consumer.getQualityInformationData(),
-                consumer.getSecurityAlertData()
+        ConsumerDTO consumerDTO =  new ConsumerDTO(
+            consumer.getId(),
+            consumer.getUsername(),
+            consumer.getEmail(),
+            consumer.getPassword(),
+            consumer.getDeliveryUpdatesData(),
+            consumer.getQualityInformationData(),
+            consumer.getSecurityAlertData()
         );
+        consumerDTO.setOrdersDTOs(ordersToDTOs(consumer.getOrders()));
+        return consumerDTO;
     }
 
     private List<ConsumerDTO> toDTOs(List<Consumer> consumers) {
         return consumers.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    private OrderDTO orderToDTO(Order order) {
+        return new OrderDTO(
+                order.getId(),
+                order.getOrderDate().toString(),
+                order.getEstDeleviryDate().toString(),
+                order.getConsumer().getId()
+        );
+    }
+
+    private List<OrderDTO> ordersToDTOs(List<Order> orders) {
+        return orders.stream().map(this::orderToDTO).collect(Collectors.toList());
     }
 
     @GET

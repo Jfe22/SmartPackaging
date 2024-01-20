@@ -1,6 +1,8 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ConsumerDTO implements Serializable {
     private int id;
@@ -11,6 +13,9 @@ public class ConsumerDTO implements Serializable {
     private String qualityInformation;
     private String securityAlerts;
 
+    List<OrderDTO> ordersDTOs;
+
+
     public ConsumerDTO() {}
 
     public ConsumerDTO(int id, String username, String email, String password, String deliveryUpdates, String qualityInformation, String securityAlerts) {
@@ -20,6 +25,7 @@ public class ConsumerDTO implements Serializable {
         this.deliveryUpdates = deliveryUpdates;
         this.qualityInformation = qualityInformation;
         this.securityAlerts = securityAlerts;
+        ordersDTOs = new LinkedList<>();
     }
 
     // Getters and Setters
@@ -75,5 +81,21 @@ public class ConsumerDTO implements Serializable {
 
     public void setSecurityAlerts(String securityAlerts) {
         this.securityAlerts = securityAlerts;
+    }
+
+    public List<OrderDTO> getOrdersDTOs() {
+        return ordersDTOs;
+    }
+
+    public void setOrdersDTOs(List<OrderDTO> ordersDTOs) {
+        this.ordersDTOs = ordersDTOs;
+    }
+
+    public void addOrderDTO(OrderDTO orderDTO) {
+        ordersDTOs.add(orderDTO);
+    }
+
+    public void removeOrderDTO(OrderDTO orderDTO) {
+        ordersDTOs.remove(orderDTO);
     }
 }

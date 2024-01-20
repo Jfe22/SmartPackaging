@@ -20,7 +20,7 @@ public class Consumer extends User implements Serializable {
     private String qualityInformationData; // e.g., environmental conditions during transport
     private String securityAlertData; // e.g., detection of unauthorized opening
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "consumer", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "consumer", cascade = CascadeType.REMOVE)
     List<Order> orders;
 
     public Consumer() {}

@@ -93,6 +93,15 @@ public class ConfigBean {
             logger.severe(e.getMessage());
         }
 
+        // transportPackages
+        try {
+            transportPackageBean.create(1, "ali", 1);
+            transportPackageBean.create(2, "aqui", 2);
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+
+
         // adding packages to orders
         try {
             smartPackageBean.addPackageToOrder(1, 1);
@@ -101,12 +110,12 @@ public class ConfigBean {
             logger.severe(e.getMessage());
         }
 
-        // transportPackages
+        // adding orders to consumers
         try {
-            transportPackageBean.create(1, "ali", 1);
-            transportPackageBean.create(2, "aqui", 2);
+            orderBean.addOrderToConsumer(1, 5);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
+
     }
 }
