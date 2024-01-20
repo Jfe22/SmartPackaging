@@ -45,6 +45,7 @@ public class OrderService {
                 smartPackage.getType().toString(),
                 smartPackage.getMaterial(),
                 smartPackage.getProduct().getId(),
+                smartPackage.getProducer().getId(),
                 smartPackage.getProduct().getName(),
                 smartPackage.getCurrentAtmPressure(),
                 smartPackage.getCurrentHumidity(),

@@ -27,17 +27,23 @@ public class SmartPackage extends Versionable {
     @JoinColumn(name = "order_id")
     Order order;
 
+    @ManyToOne
+    @JoinColumn(name = "producer_id")
+    @NotNull
+    Producer producer;
+
     double currentTemperature;
     double currentHumidity;
     double currentAtmPressure;
     double maxGForce;
 
     public SmartPackage() {}
-    public SmartPackage(int id, PackType type, String material, Product product) {
+    public SmartPackage(int id, PackType type, String material, Product product, Producer producer) {
         this.id = id;
         this.type = type;
         this.material = material;
         this.product = product;
+        this.producer = producer;
     }
 
     public int getId() {
@@ -110,5 +116,13 @@ public class SmartPackage extends Versionable {
 
     public void setMaxGForce(double maxGForce) {
         this.maxGForce = maxGForce;
+    }
+
+    public Producer getProducer() {
+        return producer;
+    }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
     }
 }

@@ -6,9 +6,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.ConsumerDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.ProducerDTO;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.SmartPackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.ProducerBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Producer;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
@@ -21,7 +23,6 @@ import java.util.stream.Collectors;
 @Path("/producers")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Authenticated
 public class ProducerService {
     @EJB
     private ProducerBean producerBean;
@@ -41,6 +42,26 @@ public class ProducerService {
         return producers.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+
+    private SmartPackageDTO smartPackageToDTO(SmartPackage smartPackage) {
+        return new SmartPackageDTO(
+                smartPackage.getId(),
+                smartPackage.getType().toString(),
+                smartPackage.getMaterial(),
+                smartPackage.getProduct().getId(),
+                smartPackage.getProducer().getId(),
+                smartPackage.getProduct().getName(),
+                smartPackage.getCurrentAtmPressure(),
+                smartPackage.getCurrentHumidity(),
+                smartPackage.getCurrentTemperature(),
+                smartPackage.getMaxGForce()
+        );
+    }
+
+    private List<SmartPackageDTO> smartPackageToDTOs(List<SmartPackage> smartPackages) {
+        return smartPackages.stream().map(this::smartPackageToDTO).collect(Collectors.toList());
+    }
+
     @GET
     @Path("/")
     public List<ProducerDTO> getAllProducers() {
@@ -53,6 +74,15 @@ public class ProducerService {
             throws MyEntityNotFoundException {
         Producer producer = producerBean.find(id);
         return Response.status(Response.Status.OK).entity(toDTO(producer)).build();
+    }
+
+    @GET
+    @Path("{id}/smartpackages")
+    public Response getProducerPackages(@PathParam("id") int id)
+    throws MyEntityNotFoundException {
+        Producer producer =  producerBean.getProducerSmartPackages(id);
+        List<SmartPackageDTO> smartPackageDTOs = smartPackageToDTOs(producer.getSmartPackages());
+        return Response.ok(smartPackageDTOs).build();
     }
 
     @POST

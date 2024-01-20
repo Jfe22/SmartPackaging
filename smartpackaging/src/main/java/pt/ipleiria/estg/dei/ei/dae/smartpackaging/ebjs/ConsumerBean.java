@@ -4,6 +4,7 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.persistence.*;
 import jakarta.validation.ConstraintViolationException;
+import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
@@ -89,5 +90,12 @@ public class ConsumerBean {
     private String hashPassword(String password) {
         // Implement password hashing here
         return password; // Replace this with actual hashed password
+    }
+
+    private Consumer getConsumerOrders(int id)
+    throws MyEntityNotFoundException {
+        Consumer consumer = find(id);
+        Hibernate.initialize(consumer.getOrders());
+        return consumer;
     }
 }

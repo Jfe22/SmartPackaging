@@ -41,6 +41,7 @@ public class ConfigBean {
         System.out.println("### Smart Packaging ###");
 
         // consumers
+        /*
         try {
             consumerBean.create(5, "consumer1", "consumer1@example.com", "123", UserRole.CONSUMER, null, null, null);
             consumerBean.create(6, "consumer2", "consumer2@example.com", "123", UserRole.CONSUMER, null, null, null);
@@ -57,6 +58,7 @@ public class ConfigBean {
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
+        */
 
         // producers
         try {
@@ -78,8 +80,8 @@ public class ConfigBean {
 
         // smartPackages
         try {
-            smartPackageBean.create(1, PackType.PRIMARY, "plastic", 1);
-            smartPackageBean.create(2, PackType.PRIMARY, "plastic", 2);
+            smartPackageBean.create(1, PackType.PRIMARY, "plastic", 1, 15);
+            smartPackageBean.create(2, PackType.PRIMARY, "plastic", 2, 15);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }

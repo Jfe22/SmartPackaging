@@ -8,6 +8,7 @@ import jakarta.persistence.Query;
 import jakarta.validation.ConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.SmartPackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Producer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Product;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.PackType;
@@ -41,7 +42,7 @@ public class SmartPackageBean {
         return entityManager.createNamedQuery("getAllSmartPackages", SmartPackage.class).getResultList();
     }
 
-    public void create(int id, PackType type, String material, int product_id)
+    public void create(int id, PackType type, String material, int product_id, int producer_id)
     throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
         if (exists(id))
             throw new MyEntityExistsException("SmartPackage with id " + id + " already exists");
@@ -50,9 +51,14 @@ public class SmartPackageBean {
         if (product == null)
             throw new MyEntityNotFoundException("Prodcut with id " + id + " doesn't exist");
 
+        Producer producer = entityManager.find(Producer.class, producer_id);
+        if (producer == null)
+            throw new MyEntityNotFoundException("Producer with id " + producer_id + " doesn't exist");
+
         try {
-            SmartPackage smartPackage = new SmartPackage(id, type, material, product);
+            SmartPackage smartPackage = new SmartPackage(id, type, material, product, producer);
             product.setSmartPackage(smartPackage);
+            producer.addSmartPackage(smartPackage);
             entityManager.persist(smartPackage);
             //entityManager.flush();
         } catch (ConstraintViolationException e) {

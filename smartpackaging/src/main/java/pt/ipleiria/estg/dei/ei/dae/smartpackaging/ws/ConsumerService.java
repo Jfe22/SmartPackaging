@@ -81,6 +81,15 @@ public class ConsumerService {
         return Response.status(Response.Status.OK).entity(toDTO(consumer)).build();
     }
 
+    @GET
+    @Path("{id}/orders")
+    public Response getConsumerOrders(@PathParam("id") int id)
+    throws MyEntityNotFoundException {
+        Consumer consumer = consumerBean.find(id);
+        List<OrderDTO> consOrders = ordersToDTOs(consumer.getOrders());
+        return Response.ok(consOrders).build();
+    }
+
     @POST
     @Path("/")
     public Response createConsumer(ConsumerDTO consumerDTO)

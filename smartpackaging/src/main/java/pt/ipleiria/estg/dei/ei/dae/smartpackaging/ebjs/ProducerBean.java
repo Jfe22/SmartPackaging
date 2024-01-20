@@ -4,6 +4,7 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.persistence.*;
 import jakarta.validation.ConstraintViolationException;
+import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Producer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
@@ -87,5 +88,12 @@ public class ProducerBean {
     private String hashPassword(String password) {
         // Implement password hashing here
         return password; // Replace this with actual hashed password
+    }
+
+    public Producer getProducerSmartPackages(int id)
+    throws MyEntityNotFoundException {
+        Producer producer = find(id);
+        Hibernate.initialize(producer.getSmartPackages());
+        return producer;
     }
 }
