@@ -15,18 +15,18 @@ public class UserBean {
     private EntityManager em;
 
     // find user
-    public User find(Long id) {
+    public User find(int id) {
         return em.find(User.class, id);
     }
 
     // create user
-    public void create(Long user_id, String username, String email, String password, UserRole role) {
+    public void create(int user_id, String username, String email, String password, UserRole role) {
         User user = new User(user_id, username, email, hashPassword(password), role);
         em.persist(user);
     }
 
     // update user
-    public void updateUser(Long id, User updatedUser) {
+    public void updateUser(int id, User updatedUser) {
         User user = find(id);
         if (user == null) return;
 
@@ -39,7 +39,7 @@ public class UserBean {
     }
 
     // delete user
-    public void deleteUser(Long id) {
+    public void deleteUser(int id) {
         User user = find(id);
         if (user == null) return;
 

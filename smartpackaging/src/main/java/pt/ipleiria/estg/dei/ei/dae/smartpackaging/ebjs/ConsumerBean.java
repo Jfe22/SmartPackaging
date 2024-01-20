@@ -18,14 +18,14 @@ public class ConsumerBean {
     private EntityManager em;
 
     // check if consumer exists
-    public boolean exists(Long id) {
+    public boolean exists(int id) {
         Query query = em.createQuery("SELECT COUNT(c.id) FROM Consumer c WHERE c.id = :id", Long.class);
         query.setParameter("id", id);
         return (long) query.getSingleResult() > 0L;
     }
 
     // find consumer
-    public Consumer find(Long id)
+    public Consumer find(int id)
             throws MyEntityNotFoundException {
         Consumer consumer = em.find(Consumer.class, id);
         if (consumer == null)
@@ -40,7 +40,7 @@ public class ConsumerBean {
     }
 
     // create consumer
-    public void create(Long consumer_id, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData)
+    public void create(int consumer_id, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData)
             throws MyEntityExistsException, MyConstraintViolationException {
         if (exists(consumer_id))
             throw new MyEntityExistsException("Consumer with id: " + consumer_id + " alredy exists");
@@ -54,7 +54,7 @@ public class ConsumerBean {
     }
 
     // update consumer
-    public void update(Long consumerId, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData)
+    public void update(int consumerId, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         Consumer consumer = find(consumerId);
         em.lock(consumer, LockModeType.OPTIMISTIC);
@@ -74,7 +74,7 @@ public class ConsumerBean {
     }
 
     // delete consumer
-    public void delete(Long id)
+    public void delete(int id)
             throws MyEntityNotFoundException {
         Consumer consumer = find(id);
         em.remove(consumer);

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 // @DiscriminatorValue("CONSUMER")
@@ -18,13 +20,17 @@ public class Consumer extends User implements Serializable {
     private String qualityInformationData; // e.g., environmental conditions during transport
     private String securityAlertData; // e.g., detection of unauthorized opening
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "consumer", cascade = CascadeType.REMOVE)
+    List<Order> orders;
+
     public Consumer() {}
 
-    public Consumer(Long id, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData) {
+    public Consumer(int id, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData) {
         super(id, username, email, password, role);
         this.deliveryUpdatesData = deliveryUpdatesData;
         this.qualityInformationData = qualityInformationData;
         this.securityAlertData = securityAlertData;
+        orders = new LinkedList<>();
     }
 
     // Getters and setters for Consumer-specific attributes
@@ -50,5 +56,21 @@ public class Consumer extends User implements Serializable {
 
     public void setSecurityAlertData(String securityAlertData) {
         this.securityAlertData = securityAlertData;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
+    }
+
+    public void removeOrder(Order order) {
+        orders.remove(order);
     }
 }

@@ -19,7 +19,7 @@ import java.util.Set;
 // @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User extends Versionable {
     @Id
-    private Long id;
+    private int id;
     @NotNull
     private String username;
     @NotNull
@@ -31,7 +31,7 @@ public class User extends Versionable {
 
     public User() {}
 
-    public User(Long id, String username, String email, String password, UserRole role) {
+    public User(int id, String username, String email, String password, UserRole role) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -40,7 +40,7 @@ public class User extends Versionable {
     }
 
     // Getters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -61,7 +61,7 @@ public class User extends Versionable {
     }
 
     // Setters
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

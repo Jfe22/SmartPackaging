@@ -28,7 +28,8 @@ public class OrderService {
         OrderDTO orderDTO = new OrderDTO(
             order.getId(),
             order.getOrderDate().toString(),
-            order.getEstDeleviryDate().toString()
+            order.getEstDeleviryDate().toString(),
+            order.getConsumer().getId()
         );
        orderDTO.setSmartPackagesDTOs(smartPackageToDTOs(order.getSmartPackages()));
        return orderDTO;
@@ -77,7 +78,8 @@ public class OrderService {
         orderBean.create(
                 orderDTO.getId(),
                 LocalDate.parse(orderDTO.getOrderDate()),
-                LocalDate.parse(orderDTO.getExtDeliveryDate())
+                LocalDate.parse(orderDTO.getExtDeliveryDate()),
+                orderDTO.getConsumerId()
         );
         Order order = orderBean.find(orderDTO.getId());
         return  Response.status(Response.Status.CREATED).entity(toDTO(order)).build();

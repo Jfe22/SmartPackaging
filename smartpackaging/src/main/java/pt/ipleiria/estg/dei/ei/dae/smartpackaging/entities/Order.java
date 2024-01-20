@@ -30,11 +30,17 @@ public class Order extends Versionable {
     @OneToOne(mappedBy = "order")
     TransportPackage transportPackage;
 
+    @ManyToOne
+    @JoinColumn(name = "consumer_id")
+    @NotNull
+    Consumer consumer;
+
     public Order() { smartPackages = new LinkedList<>(); }
-    public Order(int id, LocalDate orderDate, LocalDate estDeleviryDate) {
+    public Order(int id, LocalDate orderDate, LocalDate estDeleviryDate, Consumer consumer) {
         this.id = id;
         this.orderDate = orderDate;
         this.estDeleviryDate = estDeleviryDate;
+        this.consumer = consumer;
         smartPackages = new LinkedList<>();
     }
 
@@ -84,5 +90,13 @@ public class Order extends Versionable {
 
     public void setTransportPackage(TransportPackage transportPackage) {
         this.transportPackage = transportPackage;
+    }
+
+    public Consumer getConsumer() {
+        return consumer;
+    }
+
+    public void setConsumer(Consumer consumer) {
+        this.consumer = consumer;
     }
 }

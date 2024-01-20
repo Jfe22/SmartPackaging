@@ -19,7 +19,7 @@ public class Producer extends User implements Serializable {
 
     public Producer() {}
 
-    public Producer(Long id, String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost) {
+    public Producer(int id, String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost) {
         super(id, username, email, password, role);
         this.qualityControlData = qualityControlData;
         this.productResponsibilityCost = productResponsibilityCost;

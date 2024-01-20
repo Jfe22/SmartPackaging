@@ -8,7 +8,6 @@ public class ProductDTO implements Serializable {
     String date;
     double weight;
     String ingredients;
-    //int smartPackageId;
 
     public ProductDTO() {}
     public ProductDTO(int id, String name, String date, double weight, String ingredients) {

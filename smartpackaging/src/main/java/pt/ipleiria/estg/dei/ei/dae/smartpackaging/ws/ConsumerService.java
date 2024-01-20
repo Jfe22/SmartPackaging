@@ -51,8 +51,9 @@ public class ConsumerService {
     }
 
     @GET
+    //esta rota funciona??
     @Path("/{id}")
-    public Response getConsumer(@PathParam("id") Long id)
+    public Response getConsumer(@PathParam("id") int id)
             throws MyEntityNotFoundException {
         Consumer consumer = consumerBean.find(id);
         return Response.status(Response.Status.OK).entity(toDTO(consumer)).build();
@@ -78,7 +79,7 @@ public class ConsumerService {
 
     @PUT
     @Path("/{id}")
-    public Response updateConsumer(@PathParam("id") Long id, ConsumerDTO consumerDTO)
+    public Response updateConsumer(@PathParam("id") int id, ConsumerDTO consumerDTO)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         consumerBean.update(
                 id,
@@ -96,7 +97,7 @@ public class ConsumerService {
 
     @DELETE
     @Path("{id}")
-    public Response deleteConsumer(@PathParam("id") Long id)
+    public Response deleteConsumer(@PathParam("id") int id)
             throws MyEntityNotFoundException {
         consumerBean.delete(id);
         return Response.status(Response.Status.OK).build();
