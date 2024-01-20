@@ -46,6 +46,10 @@ public class OrderBean {
         return order;
     }
 
+    public List<Order> getAllOrders() {
+        return entityManager.createNamedQuery("getAllOrders", Order.class).getResultList();
+    }
+
     public void create(int id, LocalDate orderDate, LocalDate estDeliveryDate)
     throws MyEntityExistsException, MyConstraintViolationException {
         if (exits(id))
@@ -57,10 +61,6 @@ public class OrderBean {
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
         }
-    }
-
-    public List<Order> getAllOrders() {
-        return entityManager.createNamedQuery("getAllOrders", Order.class).getResultList();
     }
 
     public void update(int orderId, LocalDate orderDate, LocalDate extDeliveryDate)
@@ -82,5 +82,4 @@ public class OrderBean {
         Order order = find(id);
         entityManager.remove(order);
     }
-
 }

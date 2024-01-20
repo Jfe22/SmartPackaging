@@ -8,6 +8,9 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.TransportPackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.TransportPackageBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.TransportPackage;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,64 +42,43 @@ public class TransportPackageService {
 
     @GET
     @Path("{id}")
-    public Response getTransportPackage(@PathParam("id") int id) {
+    public Response getTransportPackage(@PathParam("id") int id)
+    throws MyEntityNotFoundException {
         TransportPackage transportPackage = transportPackageBean.find(id);
-        if (transportPackage == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
         return Response.status(Response.Status.OK).entity(toDTO(transportPackage)).build();
     }
 
     @POST
     @Path("/")
-    public Response createTransportPackage(TransportPackageDTO transportPackageDTO) {
-        if (transportPackageBean.find(transportPackageDTO.getId()) != null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
+    public Response createTransportPackage(TransportPackageDTO transportPackageDTO)
+    throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
         transportPackageBean.create(
                 transportPackageDTO.getId(),
                 transportPackageDTO.getCurrentLocation(),
                 transportPackageDTO.getOrderId()
         );
-
         TransportPackage transportPackage = transportPackageBean.find(transportPackageDTO.getId());
-
         return Response.status(Response.Status.CREATED).entity(toDTO(transportPackage)).build();
     }
 
-
     @PUT
     @Path("{id}")
-    public Response updateTransportPackage(@PathParam("id") int id, TransportPackageDTO transportPackageDTO) {
-        if (id != transportPackageDTO.getId())
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-        TransportPackage transportPackage = transportPackageBean.find(id);
-        if (transportPackage == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
+    public Response updateTransportPackage(@PathParam("id") int id, TransportPackageDTO transportPackageDTO)
+    throws MyEntityNotFoundException, MyConstraintViolationException {
         transportPackageBean.update(
                 id,
                 transportPackageDTO.getCurrentLocation(),
                 transportPackageDTO.getOrderId()
         );
-
-        TransportPackage updatedTransportPackage = transportPackageBean.find(id);
-        return Response.status(Response.Status.OK).entity(toDTO(updatedTransportPackage)).build();
+        TransportPackage transportPackage = transportPackageBean.find(id);
+        return Response.status(Response.Status.OK).entity(toDTO(transportPackage)).build();
     }
 
     @DELETE
     @Path("{id}")
-    public Response deleteTransportPackage(@PathParam("id") int id) {
-        if (transportPackageBean.find(id) == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
-
+    public Response deleteTransportPackage(@PathParam("id") int id)
+    throws MyEntityNotFoundException {
         transportPackageBean.delete(id);
-        if (transportPackageBean.find(id) != null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
         return Response.status(Response.Status.OK).build();
     }
-
-
 }

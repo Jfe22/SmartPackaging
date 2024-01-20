@@ -66,8 +66,12 @@ public class ConfigBean {
             logger.severe(e.getMessage());
         }
 
-        transportPackageBean.create(1, "ali", 1);
-        transportPackageBean.create(2, "aqui", 2);
+        try {
+            transportPackageBean.create(1, "ali", 1);
+            transportPackageBean.create(2, "aqui", 2);
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
 
         // userss
         // userBean.create(1, "admin", "admin@example.com", "adminpass", UserRole.PRODUCER);

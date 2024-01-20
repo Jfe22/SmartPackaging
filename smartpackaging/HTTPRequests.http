@@ -159,7 +159,7 @@ GET http://localhost:8080/smartpackaging/api/transportpackages
 Accept: application/json
 
 ###
-GET http://localhost:8080/smartpackaging/api/transportpackages/1
+GET http://localhost:8080/smartpackaging/api/transportpackages/133
 Accept: application/json
 
 ###
@@ -167,20 +167,17 @@ POST http://localhost:8080/smartpackaging/api/transportpackages
 Content-Type: application/json
 
 {
-  "id": 4,
+  "id": 3,
   "currentLocation": "a chegar",
   "orderId": "2"
 
 }
 
 ###
-PUT http://localhost:8080/smartpackaging/api/transportpackages/2
+PUT http://localhost:8080/smartpackaging/api/transportpackages/3
 Content-Type: application/json
 
 {
-  "id": 2,
-  "name": "updated Name",
-  "email": "admin@example.com",
-  "password": "admin123",
-  "role": "ADMIN"
+  "currentLocation": "a chegar",
+  "orderId": 3
 }
