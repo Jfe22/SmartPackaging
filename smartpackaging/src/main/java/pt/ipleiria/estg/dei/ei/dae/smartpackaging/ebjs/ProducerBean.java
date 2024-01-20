@@ -2,29 +2,85 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
+import jakarta.validation.ConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Producer;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
+
+import java.util.List;
 
 @Stateless
 public class ProducerBean {
-
     @PersistenceContext
     private EntityManager em;
 
-    public void updateProducerQualityReports(Long producerId, String newQualityControlData, String newProductResponsibilityCost) {
-        Producer producer = em.find(Producer.class, producerId);
-        if (producer != null) {
-            producer.setQualityControlData(newQualityControlData);
-            producer.setProductResponsibilityCost(newProductResponsibilityCost);
-            em.merge(producer);
-        } else {
-            // Handle the case where the producer is not found
-            throw new EntityNotFoundException("Producer with ID " + producerId + " not found.");
+    // check if producer exists
+    public boolean exists(Long id) {
+        Query query = em.createQuery("SELECT COUNT(p.id) FROM Producer p WHERE p.id = :id", Long.class);
+        query.setParameter("id", id);
+        return (long) query.getSingleResult() > 0L;
+    }
+
+    // find producer
+    public Producer find(Long id)
+            throws MyEntityNotFoundException {
+        Producer producer = em.find(Producer.class, id);
+        if (producer == null)
+            throw new MyEntityNotFoundException("Producer with id: " + id + " doesn't exist");
+
+        return em.find(Producer.class, id);
+    }
+
+    // get all producers
+    public List<Producer> getAllProducers() {
+        return em.createNamedQuery("getAllProducers", Producer.class).getResultList();
+    }
+
+    // create producer
+    public void create(Long producer_id, String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost)
+            throws MyEntityNotFoundException, MyConstraintViolationException {
+        if (exists(producer_id))
+            throw new MyEntityNotFoundException("Producer with id: " + producer_id + " alredy exists");
+
+        try {
+            Producer newProducer = new Producer(producer_id, username, email, hashPassword(password), role, qualityControlData, productResponsibilityCost);
+            em.persist(newProducer);
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(e);
         }
     }
 
-    public Producer getProducerDetails(Long producerId) {
-        return em.find(Producer.class, producerId);
+    // update producer
+    public void update(Long producerId, String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost)
+            throws MyEntityNotFoundException, MyConstraintViolationException {
+        Producer producer = find(producerId);
+        em.lock(producer, LockModeType.OPTIMISTIC);
+
+        try {
+            producer.setUsername(username);
+            producer.setEmail(email);
+            producer.setPassword(hashPassword(password));
+            producer.setRole(role);
+            producer.setQualityControlData(qualityControlData);
+            producer.setProductResponsibilityCost(productResponsibilityCost);
+            em.merge(producer);
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(e);
+        }
     }
 
-    // Additional methods as required by your business logic
+    // delete producer
+    public void delete(Long id)
+            throws MyEntityNotFoundException {
+        Producer producer = find(id);
+        em.remove(producer);
+    }
+
+    // hash password
+    private String hashPassword(String password) {
+        // Implement password hashing here
+        return password; // Replace this with actual hashed password
+    }
 }

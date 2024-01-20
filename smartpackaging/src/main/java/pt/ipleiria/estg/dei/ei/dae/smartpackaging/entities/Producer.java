@@ -1,10 +1,12 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities;
 
 import jakarta.persistence.*;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
+
 import java.io.Serializable;
 
 @Entity
-@DiscriminatorValue("PRODUCER")
+// @DiscriminatorValue("PRODUCER")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllProducers",
@@ -15,7 +17,16 @@ public class Producer extends User implements Serializable {
     private String qualityControlData; // e.g., environmental conditions
     private String productResponsibilityCost; // e.g., cost of re-entry of a product
 
+    public Producer() {}
+
+    public Producer(Long id, String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost) {
+        super(id, username, email, password, role);
+        this.qualityControlData = qualityControlData;
+        this.productResponsibilityCost = productResponsibilityCost;
+    }
+
     // Getters and setters for Producer-specific attributes
+
     public String getQualityControlData() {
         return qualityControlData;
     }

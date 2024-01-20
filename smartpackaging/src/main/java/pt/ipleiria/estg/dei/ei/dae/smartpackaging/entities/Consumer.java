@@ -20,7 +20,7 @@ public class Consumer extends User implements Serializable {
 
     public Consumer() {}
 
-    public Consumer(int id, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData) {
+    public Consumer(Long id, String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData) {
         super(id, username, email, password, role);
         this.deliveryUpdatesData = deliveryUpdatesData;
         this.qualityInformationData = qualityInformationData;

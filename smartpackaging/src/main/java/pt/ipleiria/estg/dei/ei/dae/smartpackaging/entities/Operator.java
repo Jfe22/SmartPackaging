@@ -1,10 +1,12 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities;
 
 import jakarta.persistence.*;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
+
 import java.io.Serializable;
 
 @Entity
-@DiscriminatorValue("OPERATOR")
+// @DiscriminatorValue("OPERATOR")
 @NamedQueries({
         @NamedQuery(
                 name = "getAllOperators",
@@ -15,6 +17,15 @@ public class Operator extends User implements Serializable {
     private String locationAndTrackingData; // e.g., real-time location and tracking
     private String environmentalConditionsData; // e.g., temperature, humidity
     private String securityAlertData; // e.g., detection of opening and access alerts
+
+    public Operator() {}
+
+    public Operator(Long id, String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData) {
+        super(id, username, email, password, role);
+        this.locationAndTrackingData = locationAndTrackingData;
+        this.environmentalConditionsData = environmentalConditionsData;
+        this.securityAlertData = securityAlertData;
+    }
 
     // Getters and setters for Operator-specific attributes
 

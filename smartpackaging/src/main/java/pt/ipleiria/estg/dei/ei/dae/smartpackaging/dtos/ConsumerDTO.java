@@ -1,12 +1,9 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos;
 
-import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
+import java.io.Serializable;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class ConsumerDTO {
-    private int id;
+public class ConsumerDTO implements Serializable {
+    private Long id;
     private String username;
     private String email;
     private String password;
@@ -16,7 +13,7 @@ public class ConsumerDTO {
 
     public ConsumerDTO() {}
 
-    public ConsumerDTO(int id, String username, String email, String password, String deliveryUpdates, String qualityInformation, String securityAlerts) {
+    public ConsumerDTO(Long id, String username, String email, String password, String deliveryUpdates, String qualityInformation, String securityAlerts) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -26,11 +23,11 @@ public class ConsumerDTO {
     }
 
     // Getters and Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,9 +55,7 @@ public class ConsumerDTO {
         this.password = password;
     }
 
-    public String getDeliveryUpdates() {
-        return deliveryUpdates;
-    }
+    public String getDeliveryUpdates() { return deliveryUpdates; }
 
     public void setDeliveryUpdates(String deliveryUpdates) {
         this.deliveryUpdates = deliveryUpdates;

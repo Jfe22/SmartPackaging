@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" external-system-id="Maven" name="smartpackaging:war">
+    <output-path>$PROJECT_DIR$/smartpackaging/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>smartpackaging</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="smartpackaging.war">
+      <element id="artifact" artifact-name="smartpackaging:war exploded" />
+    </root>
+  </artifact>
+</component>

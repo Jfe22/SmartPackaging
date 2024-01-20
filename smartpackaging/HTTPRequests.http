@@ -67,7 +67,7 @@ Content-Type: application/json
 
 
 
-#### OREDERS ---------------------------------------------------
+#### ORDERS ---------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/orders
 Accept: application/json
 
@@ -125,6 +125,15 @@ Content-Type: application/json
 
 ###
 PUT http://localhost:8080/smartpackaging/api/users/3
+Content-Type: application/json
+
+{
+  "id": 3,
+  "username": "userUpdated",
+  "email": "userUpdated@example.com",
+  "password": "user123",
+  "role": "CONSUMER"
+}
 
 ###
 DELETE http://localhost:8080/smartpackaging/api/users/3
@@ -137,7 +146,7 @@ GET http://localhost:8080/smartpackaging/api/consumers
 Accept: application/json
 
 ###
-GET http://localhost:8080/smartpackaging/api/consumers/1
+GET http://localhost:8080/smartpackaging/api/consumers/5
 Accept: application/json
 
 ###
@@ -145,12 +154,95 @@ POST http://localhost:8080/smartpackaging/api/consumers
 Content-Type: application/json
 
 {
-  "id": 4,
-  "name": "consumer4",
+  "id": 8,
+  "username": "consumer4",
   "email": "consumer4@example.com",
-  "password": "123",
-  "role": "CONSUMER"
+  "password": "123"
 }
+
+###
+PUT http://localhost:8080/smartpackaging/api/consumers/8
+Content-Type: application/json
+
+{
+  "username": "consumer4Updated",
+  "email": "consumer4@example.com",
+  "password": "123"
+}
+
+###
+DELETE http://localhost:8080/smartpackaging/api/consumers/8
+Content-Type: application/json
+
+
+
+#### OPERATORS ---------------------------------------------------
+GET http://localhost:8080/smartpackaging/api/operators
+Accept: application/json
+
+###
+GET http://localhost:8080/smartpackaging/api/operators/10
+Accept: application/json
+
+###
+POST http://localhost:8080/smartpackaging/api/operators
+Content-Type: application/json
+
+{
+  "id": 13,
+  "username": "operator4",
+  "email": "operator4@example.com",
+  "password": "123"
+}
+
+###
+PUT http://localhost:8080/smartpackaging/api/operators/13
+Content-Type: application/json
+
+{
+  "username": "consumer4Updated",
+  "email": "consumer4@example.com",
+  "password": "123"
+}
+
+###
+DELETE http://localhost:8080/smartpackaging/api/operators/13
+Content-Type: application/json
+
+
+
+#### PRODUCERS ---------------------------------------------------
+GET http://localhost:8080/smartpackaging/api/producers
+Accept: application/json
+
+###
+GET http://localhost:8080/smartpackaging/api/producers/15
+Accept: application/json
+
+###
+POST http://localhost:8080/smartpackaging/api/producers
+Content-Type: application/json
+
+{
+  "id": 18,
+  "username": "producer4",
+  "email": "producer4@example.com",
+  "password": "123"
+}
+
+###
+PUT http://localhost:8080/smartpackaging/api/producers/18
+Content-Type: application/json
+
+{
+  "username": "producer4Updated",
+  "email": "producer4@example.com",
+  "password": "123"
+}
+
+###
+DELETE http://localhost:8080/smartpackaging/api/producers/18
+Content-Type: application/json
 
 
 

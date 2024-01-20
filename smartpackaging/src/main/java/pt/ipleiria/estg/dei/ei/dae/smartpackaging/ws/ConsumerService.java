@@ -4,11 +4,20 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.core.Response;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.OrderDTO;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.ProductDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.UserDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.ConsumerBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.ConsumerDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Product;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,21 +29,18 @@ public class ConsumerService {
     private ConsumerBean consumerBean;
 
     private ConsumerDTO toDTO(Consumer consumer) {
-        ConsumerDTO dto = new ConsumerDTO();
-
-        dto.setId(consumer.getId());
-        dto.setUsername(consumer.getUsername());
-        dto.setEmail(consumer.getEmail());
-        dto.setPassword(consumer.getPassword());
-        dto.setDeliveryUpdates(consumer.getDeliveryUpdatesData());
-        dto.setQualityInformation(consumer.getQualityInformationData());
-        dto.setSecurityAlerts(consumer.getSecurityAlertData());
-        return dto;
+        return new ConsumerDTO(
+                consumer.getId(),
+                consumer.getUsername(),
+                consumer.getEmail(),
+                consumer.getPassword(),
+                consumer.getDeliveryUpdatesData(),
+                consumer.getQualityInformationData(),
+                consumer.getSecurityAlertData()
+        );
     }
 
-    // Converts a list of entities to a list of DTOs
     private List<ConsumerDTO> toDTOs(List<Consumer> consumers) {
-        // Conversion logic, possibly using streams
         return consumers.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
@@ -46,18 +52,53 @@ public class ConsumerService {
 
     @GET
     @Path("/{id}")
-    public Response getConsumer(@PathParam("id") Long id) {
+    public Response getConsumer(@PathParam("id") Long id)
+            throws MyEntityNotFoundException {
         Consumer consumer = consumerBean.find(id);
-        if (consumer == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        return Response.ok(toDTO(consumer)).build();
+        return Response.status(Response.Status.OK).entity(toDTO(consumer)).build();
+    }
+
+    @POST
+    @Path("/")
+    public Response createConsumer(ConsumerDTO consumerDTO)
+            throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
+        consumerBean.create(
+                consumerDTO.getId(),
+                consumerDTO.getUsername(),
+                consumerDTO.getEmail(),
+                consumerDTO.getPassword(),
+                UserRole.CONSUMER,
+                consumerDTO.getDeliveryUpdates(),
+                consumerDTO.getQualityInformation(),
+                consumerDTO.getSecurityAlerts()
+        );
+        Consumer newConsumer = consumerBean.find(consumerDTO.getId());
+        return Response.status(Response.Status.CREATED).entity(toDTO(newConsumer)).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response updateConsumer(@PathParam("id") Long id, ConsumerDTO consumerDTO)
+            throws MyEntityNotFoundException, MyConstraintViolationException {
+        consumerBean.update(
+                id,
+                consumerDTO.getUsername(),
+                consumerDTO.getEmail(),
+                consumerDTO.getPassword(),
+                UserRole.CONSUMER,
+                consumerDTO.getDeliveryUpdates(),
+                consumerDTO.getQualityInformation(),
+                consumerDTO.getSecurityAlerts()
+        );
+        Consumer updatedConsumer = consumerBean.find(id);
+        return Response.status(Response.Status.OK).entity(toDTO(updatedConsumer)).build();
     }
 
     @DELETE
-    @Path("/{id}")
-    public Response deleteConsumer(@PathParam("id") Long id) {
+    @Path("{id}")
+    public Response deleteConsumer(@PathParam("id") Long id)
+            throws MyEntityNotFoundException {
         consumerBean.delete(id);
-        return Response.noContent().build();
+        return Response.status(Response.Status.OK).build();
     }
 }
