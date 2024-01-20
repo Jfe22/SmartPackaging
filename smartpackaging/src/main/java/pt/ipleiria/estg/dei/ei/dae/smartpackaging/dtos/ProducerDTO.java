@@ -3,7 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos;
 import java.io.Serializable;
 
 public class ProducerDTO implements Serializable {
-    private Long id;
+    private int id;
     private String username;
     private String email;
     private String password;
@@ -12,7 +12,7 @@ public class ProducerDTO implements Serializable {
 
     public ProducerDTO() {}
 
-    public ProducerDTO(Long id, String username, String email, String password, String qualityControlData, String productResponsibilityCost) {
+    public ProducerDTO(int id, String username, String email, String password, String qualityControlData, String productResponsibilityCost) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -23,11 +23,11 @@ public class ProducerDTO implements Serializable {
 
     // Getters and Setters
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

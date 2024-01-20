@@ -7,6 +7,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.validation.ConstraintViolationException;
 import org.hibernate.Hibernate;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.TransportPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
@@ -50,13 +51,17 @@ public class OrderBean {
         return entityManager.createNamedQuery("getAllOrders", Order.class).getResultList();
     }
 
-    public void create(int id, LocalDate orderDate, LocalDate estDeliveryDate)
-    throws MyEntityExistsException, MyConstraintViolationException {
+    public void create(int id, LocalDate orderDate, LocalDate estDeliveryDate, int consumerId)
+    throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         if (exits(id))
             throw new MyEntityExistsException("Order with id " + id + " already exists");
 
+        Consumer consumer = entityManager.find(Consumer.class, consumerId);
+        if (consumer == null)
+            throw new MyEntityNotFoundException("Consumer with id " + consumerId + " doesn't exists");
+
         try {
-            Order order = new Order(id, orderDate, estDeliveryDate);
+            Order order = new Order(id, orderDate, estDeliveryDate, consumer);
             entityManager.persist(order);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -81,5 +86,29 @@ public class OrderBean {
     throws MyEntityNotFoundException {
         Order order = find(id);
         entityManager.remove(order);
+    }
+
+    public void addOrderToConsumer(int orderId, int consumerId)
+    throws MyEntityNotFoundException {
+        Order order = find(orderId);
+
+        Consumer consumer = entityManager.find(Consumer.class, consumerId);
+        if (consumer == null)
+            throw new MyEntityNotFoundException("Consumer with id " + consumerId + " doesn't exist");
+
+        consumer.addOrder(order);
+        order.setConsumer(consumer);
+    }
+
+    public void removeOrderFromConsumer(int orderId, int consumerId)
+    throws MyEntityNotFoundException {
+        Order order = find(orderId);
+
+        Consumer consumer = entityManager.find(Consumer.class, consumerId);
+        if (consumer == null)
+            throw new MyEntityNotFoundException("Consumer with id " + consumerId + " doesn't exist");
+
+        consumer.removeOrder(order);
+        order.setConsumer(null);
     }
 }

@@ -26,7 +26,7 @@ public class ProductBean {
     public boolean exists(int id) {
         Query query = entityManager.createQuery("SELECT COUNT(p.id) FROM Product p WHERE p.id = :id", Long.class);
         query.setParameter("id", id);
-        return (long) query.getSingleResult() > 0L;
+        return (Long) query.getSingleResult() > 0L;
     }
 
     public Product find(int id)

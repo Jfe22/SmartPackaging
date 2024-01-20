@@ -49,7 +49,7 @@ public class OperatorService {
 
     @GET
     @Path("/{id}")
-    public Response getOperator(@PathParam("id") Long id)
+    public Response getOperator(@PathParam("id") int id)
             throws MyEntityNotFoundException {
         Operator operator = operatorBean.find(id);
         return Response.status(Response.Status.OK).entity(toDTO(operator)).build();
@@ -58,7 +58,7 @@ public class OperatorService {
     @POST
     @Path("/")
     public Response createNewOperator(OperatorDTO operatorDTO)
-            throws MyEntityExistsException, MyConstraintViolationException {
+            throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         operatorBean.create(
                 operatorDTO.getId(),
                 operatorDTO.getUsername(),
@@ -69,12 +69,13 @@ public class OperatorService {
                 operatorDTO.getEnvironmentalConditions(),
                 operatorDTO.getSecurityAlerts()
         );
-        return Response.status(Response.Status.CREATED).build();
+        Operator operator = operatorBean.find(operatorDTO.getId());
+        return Response.status(Response.Status.CREATED).entity(toDTO(operator)).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response updateOperator(@PathParam("id") Long id, OperatorDTO operatorDTO)
+    public Response updateOperator(@PathParam("id") int id, OperatorDTO operatorDTO)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         operatorBean.update(
                 id,
@@ -86,13 +87,13 @@ public class OperatorService {
                 operatorDTO.getEnvironmentalConditions(),
                 operatorDTO.getSecurityAlerts()
         );
-        Operator updatedOperator = operatorBean.find(id);
-        return Response.status(Response.Status.OK).build();
+        Operator operator = operatorBean.find(id);
+        return Response.status(Response.Status.OK).entity(toDTO(operator)).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public Response deleteOperator(@PathParam("id") Long id)
+    public Response deleteOperator(@PathParam("id") int id)
             throws MyEntityNotFoundException {
         operatorBean.delete(id);
         return Response.status(Response.Status.OK).build();

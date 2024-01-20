@@ -20,7 +20,7 @@ public class Operator extends User implements Serializable {
 
     public Operator() {}
 
-    public Operator(Long id, String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData) {
+    public Operator(int id, String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData) {
         super(id, username, email, password, role);
         this.locationAndTrackingData = locationAndTrackingData;
         this.environmentalConditionsData = environmentalConditionsData;

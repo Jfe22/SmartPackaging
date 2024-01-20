@@ -17,14 +17,14 @@ public class OperatorBean {
     private EntityManager em;
 
     // check if operator exists
-    public boolean exists(Long id) {
+    public boolean exists(int id) {
         Query query = em.createQuery("SELECT COUNT(o.id) FROM Operator o WHERE o.id = :id", Long.class);
         query.setParameter("id", id);
         return (long) query.getSingleResult() > 0L;
     }
 
     // find operator
-    public Operator find(Long id)
+    public Operator find(int id)
             throws MyEntityNotFoundException {
         Operator operator = em.find(Operator.class, id);
         if (operator == null)
@@ -39,7 +39,7 @@ public class OperatorBean {
     }
 
     // create operator
-    public void create(Long operator_id, String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData)
+    public void create(int operator_id, String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData)
             throws MyEntityExistsException, MyConstraintViolationException {
         if (exists(operator_id))
             throw new MyEntityExistsException("Operator with id: " + operator_id + " alredy exists");
@@ -53,7 +53,7 @@ public class OperatorBean {
     }
 
     // update operator
-    public void update(Long operatorId, String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData)
+    public void update(int operatorId, String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         Operator operator = find(operatorId);
         em.lock(operator, LockModeType.OPTIMISTIC);
@@ -72,7 +72,7 @@ public class OperatorBean {
     }
 
     // delete operator
-    public void delete(Long operatorId)
+    public void delete(int operatorId)
             throws MyEntityNotFoundException {
         Operator operator = find(operatorId);
         em.remove(operator);

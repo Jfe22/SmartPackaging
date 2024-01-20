@@ -17,14 +17,14 @@ public class ProducerBean {
     private EntityManager em;
 
     // check if producer exists
-    public boolean exists(Long id) {
+    public boolean exists(int id) {
         Query query = em.createQuery("SELECT COUNT(p.id) FROM Producer p WHERE p.id = :id", Long.class);
         query.setParameter("id", id);
         return (long) query.getSingleResult() > 0L;
     }
 
     // find producer
-    public Producer find(Long id)
+    public Producer find(int id)
             throws MyEntityNotFoundException {
         Producer producer = em.find(Producer.class, id);
         if (producer == null)
@@ -39,7 +39,7 @@ public class ProducerBean {
     }
 
     // create producer
-    public void create(Long producer_id, String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost)
+    public void create(int producer_id, String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         if (exists(producer_id))
             throw new MyEntityNotFoundException("Producer with id: " + producer_id + " alredy exists");
@@ -53,7 +53,7 @@ public class ProducerBean {
     }
 
     // update producer
-    public void update(Long producerId, String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost)
+    public void update(int producerId, String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         Producer producer = find(producerId);
         em.lock(producer, LockModeType.OPTIMISTIC);
@@ -72,7 +72,7 @@ public class ProducerBean {
     }
 
     // delete producer
-    public void delete(Long id)
+    public void delete(int id)
             throws MyEntityNotFoundException {
         Producer producer = find(id);
         em.remove(producer);

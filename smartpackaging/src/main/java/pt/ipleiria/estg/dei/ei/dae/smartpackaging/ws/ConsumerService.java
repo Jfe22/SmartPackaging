@@ -29,19 +29,34 @@ public class ConsumerService {
     private ConsumerBean consumerBean;
 
     private ConsumerDTO toDTO(Consumer consumer) {
-        return new ConsumerDTO(
-                consumer.getId(),
-                consumer.getUsername(),
-                consumer.getEmail(),
-                consumer.getPassword(),
-                consumer.getDeliveryUpdatesData(),
-                consumer.getQualityInformationData(),
-                consumer.getSecurityAlertData()
+        ConsumerDTO consumerDTO =  new ConsumerDTO(
+            consumer.getId(),
+            consumer.getUsername(),
+            consumer.getEmail(),
+            consumer.getPassword(),
+            consumer.getDeliveryUpdatesData(),
+            consumer.getQualityInformationData(),
+            consumer.getSecurityAlertData()
         );
+        consumerDTO.setOrdersDTOs(ordersToDTOs(consumer.getOrders()));
+        return consumerDTO;
     }
 
     private List<ConsumerDTO> toDTOs(List<Consumer> consumers) {
         return consumers.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    private OrderDTO orderToDTO(Order order) {
+        return new OrderDTO(
+                order.getId(),
+                order.getOrderDate().toString(),
+                order.getEstDeleviryDate().toString(),
+                order.getConsumer().getId()
+        );
+    }
+
+    private List<OrderDTO> ordersToDTOs(List<Order> orders) {
+        return orders.stream().map(this::orderToDTO).collect(Collectors.toList());
     }
 
     @GET
@@ -51,8 +66,9 @@ public class ConsumerService {
     }
 
     @GET
+    //esta rota funciona??
     @Path("/{id}")
-    public Response getConsumer(@PathParam("id") Long id)
+    public Response getConsumer(@PathParam("id") int id)
             throws MyEntityNotFoundException {
         Consumer consumer = consumerBean.find(id);
         return Response.status(Response.Status.OK).entity(toDTO(consumer)).build();
@@ -78,7 +94,7 @@ public class ConsumerService {
 
     @PUT
     @Path("/{id}")
-    public Response updateConsumer(@PathParam("id") Long id, ConsumerDTO consumerDTO)
+    public Response updateConsumer(@PathParam("id") int id, ConsumerDTO consumerDTO)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         consumerBean.update(
                 id,
@@ -96,7 +112,7 @@ public class ConsumerService {
 
     @DELETE
     @Path("{id}")
-    public Response deleteConsumer(@PathParam("id") Long id)
+    public Response deleteConsumer(@PathParam("id") int id)
             throws MyEntityNotFoundException {
         consumerBean.delete(id);
         return Response.status(Response.Status.OK).build();

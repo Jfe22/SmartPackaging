@@ -200,7 +200,7 @@ PUT http://localhost:8080/smartpackaging/api/operators/13
 Content-Type: application/json
 
 {
-  "username": "consumer4Updated",
+  "username": "operator4Updated",
   "email": "consumer4@example.com",
   "password": "123"
 }

@@ -47,7 +47,7 @@ public class ProducerService {
 
     @GET
     @Path("/{id}")
-    public Response getProducer(@PathParam("id") Long id)
+    public Response getProducer(@PathParam("id") int id)
             throws MyEntityNotFoundException {
         Producer producer = producerBean.find(id);
         return Response.status(Response.Status.OK).entity(toDTO(producer)).build();
@@ -72,7 +72,7 @@ public class ProducerService {
 
     @PUT
     @Path("/{id}")
-    public Response updateProducer(@PathParam("id") Long id, ProducerDTO producerDTO)
+    public Response updateProducer(@PathParam("id") int id, ProducerDTO producerDTO)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         producerBean.update(
                 id,
@@ -89,7 +89,7 @@ public class ProducerService {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteProducer(@PathParam("id") Long id)
+    public Response deleteProducer(@PathParam("id") int id)
             throws MyEntityNotFoundException {
         producerBean.delete(id);
         return Response.status(Response.Status.OK).build();

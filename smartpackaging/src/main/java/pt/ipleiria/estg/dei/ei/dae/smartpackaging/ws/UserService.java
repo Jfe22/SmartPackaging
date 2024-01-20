@@ -48,7 +48,7 @@ public class UserService {
 
     @PUT
     @Path("/{id}")
-    public Response updateUser(@PathParam("id") Long id, UserDTO userDTO) {
+    public Response updateUser(@PathParam("id") int id, UserDTO userDTO) {
         if (id != userDTO.getId()) return Response.status(Response.Status.BAD_REQUEST).build();
         if (userBean.find(id) == null) return Response.status(Response.Status.NOT_FOUND).build();
 
@@ -77,7 +77,7 @@ public class UserService {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteUser(@PathParam("id") Long id) {
+    public Response deleteUser(@PathParam("id") int id) {
         userBean.deleteUser(id);
         return Response.noContent().build(); // or appropriate status code
     }
