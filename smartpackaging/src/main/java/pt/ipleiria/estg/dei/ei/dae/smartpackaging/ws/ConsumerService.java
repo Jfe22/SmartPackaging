@@ -55,6 +55,7 @@ public class ConsumerService {
 
     private OrderDTO orderToDTO(Order order) {
         return new OrderDTO(
+                order.getId(),
                 order.getOrderDate().toString(),
                 order.getEstDeleviryDate().toString(),
                 order.getConsumer().getUsername()
@@ -93,6 +94,15 @@ public class ConsumerService {
 
         var dto = toDTO(entity);
         return Response.ok(dto).build();
+    }
+
+    @GET
+    @Path("{username}/orders")
+    public Response getConsumerOrders(@PathParam("username") String username)
+    throws MyEntityNotFoundException {
+        Consumer consumer = consumerBean.find(username);
+        List<OrderDTO> consOrders = ordersToDTOs(consumer.getOrders());
+        return Response.ok(consOrders).build();
     }
 
     @POST

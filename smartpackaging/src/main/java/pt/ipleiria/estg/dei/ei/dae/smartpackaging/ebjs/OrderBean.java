@@ -51,14 +51,14 @@ public class OrderBean {
         return entityManager.createNamedQuery("getAllOrders", Order.class).getResultList();
     }
 
-    public void create(int id, LocalDate orderDate, LocalDate estDeliveryDate, int consumerId)
+    public void create(int id, LocalDate orderDate, LocalDate estDeliveryDate, String consumerName)
     throws MyEntityExistsException, MyConstraintViolationException, MyEntityNotFoundException {
         if (exits(id))
             throw new MyEntityExistsException("Order with id " + id + " already exists");
 
-        Consumer consumer = entityManager.find(Consumer.class, consumerId);
+        Consumer consumer = entityManager.find(Consumer.class, consumerName);
         if (consumer == null)
-            throw new MyEntityNotFoundException("Consumer with id " + consumerId + " doesn't exists");
+            throw new MyEntityNotFoundException("Consumer with name " + consumerName + " doesn't exists");
 
         try {
             Order order = new Order(id, orderDate, estDeliveryDate, consumer);

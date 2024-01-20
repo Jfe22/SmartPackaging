@@ -29,7 +29,7 @@ public class OrderService {
             order.getId(),
             order.getOrderDate().toString(),
             order.getEstDeleviryDate().toString(),
-            order.getConsumer().getId()
+            order.getConsumer().getUsername()
         );
        orderDTO.setSmartPackagesDTOs(smartPackageToDTOs(order.getSmartPackages()));
        return orderDTO;
@@ -46,6 +46,7 @@ public class OrderService {
                 smartPackage.getMaterial(),
                 smartPackage.getProduct().getId(),
                 smartPackage.getProduct().getName(),
+                smartPackage.getProducer().getUsername(),
                 smartPackage.getCurrentAtmPressure(),
                 smartPackage.getCurrentHumidity(),
                 smartPackage.getCurrentTemperature(),
@@ -79,7 +80,7 @@ public class OrderService {
                 orderDTO.getId(),
                 LocalDate.parse(orderDTO.getOrderDate()),
                 LocalDate.parse(orderDTO.getExtDeliveryDate()),
-                orderDTO.getConsumerId()
+                orderDTO.getConsumerName()
         );
         Order order = orderBean.find(orderDTO.getId());
         return  Response.status(Response.Status.CREATED).entity(toDTO(order)).build();
