@@ -41,7 +41,7 @@ public class ConfigBean {
         System.out.println("### Smart Packaging ###");
 
         // consumers
-        /*
+
         try {
             consumerBean.create("consumer1", "consumer1@example.com", "123", UserRole.CONSUMER, null, null, null);
             consumerBean.create("consumer2", "consumer2@example.com", "123", UserRole.CONSUMER, null, null, null);
@@ -49,7 +49,7 @@ public class ConfigBean {
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
-        */
+
 
         // operators
         try {
@@ -114,7 +114,7 @@ public class ConfigBean {
 
         // adding orders to consumers
         try {
-            orderBean.addOrderToConsumer(1, 5);
+            orderBean.addOrderToConsumer(1, "consumer1");
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }

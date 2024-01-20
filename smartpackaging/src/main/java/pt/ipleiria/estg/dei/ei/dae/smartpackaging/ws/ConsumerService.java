@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
 @Path("/consumers")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Authenticated
-@RolesAllowed({"CONSUMER"})
 public class ConsumerService {
     @EJB
     private ConsumerBean consumerBean;
@@ -87,7 +85,7 @@ public class ConsumerService {
 
         var entity = consumerBean.find(username);
         if (entity == null) {
-            var errorMsg = "Username '%s' not found.".formatted(username);
+            var errorMsg = "Username " + username +  "  not found.";
             var status = Response.Status.NOT_FOUND;
             return Response.status(status).entity(errorMsg).build();
         }
