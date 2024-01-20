@@ -26,8 +26,10 @@ public class TransportPackageService {
         return new TransportPackageDTO(
                 transportPackage.getId(),
                 transportPackage.getCurrentLocation(),
-                transportPackage.getOrder().getId()
+                transportPackage.getOrder().getId(),
+                transportPackage.getOperator().getUsername()
         );
+
     }
 
     private List<TransportPackageDTO> toDTOs(List<TransportPackage> transportPackages) {
@@ -55,7 +57,8 @@ public class TransportPackageService {
         transportPackageBean.create(
                 transportPackageDTO.getId(),
                 transportPackageDTO.getCurrentLocation(),
-                transportPackageDTO.getOrderId()
+                transportPackageDTO.getOrderId(),
+                transportPackageDTO.getOperatorName()
         );
         TransportPackage transportPackage = transportPackageBean.find(transportPackageDTO.getId());
         return Response.status(Response.Status.CREATED).entity(toDTO(transportPackage)).build();

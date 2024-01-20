@@ -49,6 +49,7 @@ public class ConfigBean {
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
+        */
 
         // operators
         try {
@@ -58,7 +59,6 @@ public class ConfigBean {
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
-        */
 
         // producers
         try {
@@ -97,8 +97,8 @@ public class ConfigBean {
 
         // transportPackages
         try {
-            transportPackageBean.create(1, "ali", 1);
-            transportPackageBean.create(2, "aqui", 2);
+            transportPackageBean.create(1, "ali", 1, "operator1");
+            transportPackageBean.create(2, "aqui", 2, "operator2");
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }

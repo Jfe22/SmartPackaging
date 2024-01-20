@@ -54,7 +54,7 @@ public class UserDTO {
         return password;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
@@ -71,7 +71,7 @@ public class UserDTO {
         this.password = password;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

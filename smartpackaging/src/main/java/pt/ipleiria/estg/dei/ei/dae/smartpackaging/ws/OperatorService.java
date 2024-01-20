@@ -5,10 +5,12 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.ConsumerDTO;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.TransportPackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.OperatorBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.OperatorDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Operator;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.TransportPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
@@ -22,7 +24,6 @@ import java.util.stream.Collectors;
 @Path("/operators")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Authenticated
 public class OperatorService {
     @EJB
     private OperatorBean operatorBean;
@@ -42,6 +43,20 @@ public class OperatorService {
         return operators.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    private TransportPackageDTO transportPackageToDTO(TransportPackage transportPackage) {
+        return new TransportPackageDTO(
+                transportPackage.getId(),
+                transportPackage.getCurrentLocation(),
+                transportPackage.getOrder().getId(),
+                transportPackage.getOperator().getUsername()
+        );
+    }
+
+    private List<TransportPackageDTO> transportPackageToDTOs(List<TransportPackage> transportPackages) {
+        return transportPackages.stream().map(this::transportPackageToDTO).collect(Collectors.toList());
+    }
+
+
     @GET
     @Path("/")
     public List<OperatorDTO> getAllOperators() {
@@ -54,6 +69,15 @@ public class OperatorService {
             throws MyEntityNotFoundException {
         Operator operator = operatorBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(operator)).build();
+    }
+
+    @GET
+    @Path("{username}/transportpackages")
+    public Response getOperatorTransportPackages(@PathParam("username") String username)
+    throws MyEntityNotFoundException {
+        Operator operator = operatorBean.getOperatorTransportPackages(username);
+        List<TransportPackageDTO> transportPackageDTOs = transportPackageToDTOs(operator.getTransportPackages());
+        return Response.ok(transportPackageDTOs).build();
     }
 
     @POST

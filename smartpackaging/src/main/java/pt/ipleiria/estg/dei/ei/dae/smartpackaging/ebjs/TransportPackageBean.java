@@ -6,6 +6,7 @@ import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.validation.ConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Operator;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.TransportPackage;
@@ -39,7 +40,7 @@ public class TransportPackageBean {
         return entityManager.createNamedQuery("getAllTransportPackages", TransportPackage.class).getResultList();
     }
 
-    public void create(int id, String currentLocation, int orderId)
+    public void create(int id, String currentLocation, int orderId, String operatorName)
     throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
         if (exists(id))
             throw new MyEntityExistsException("TransportPackage with id " + id + " already exists");
@@ -48,9 +49,14 @@ public class TransportPackageBean {
         if (order == null)
             throw new MyEntityNotFoundException("Order with id " + orderId + " doesn't exist");
 
+        Operator operator = entityManager.find(Operator.class, operatorName);
+        if (operator == null)
+            throw new MyEntityNotFoundException("Operator with name " + operatorName + " doesn't exist");
+
         try {
-            TransportPackage transportPackage = new TransportPackage(id, currentLocation, order);
+            TransportPackage transportPackage = new TransportPackage(id, currentLocation, order, operator);
             order.setTransportPackage(transportPackage);
+            operator.addTransportPackage(transportPackage);
             entityManager.persist(transportPackage);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);

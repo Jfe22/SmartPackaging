@@ -4,12 +4,14 @@ public class TransportPackageDTO {
     int id;
     String currentLocation;
     int orderId;
+    String operatorName;
 
     public TransportPackageDTO() {}
-    public TransportPackageDTO(int id, String currentLocation, int orderId) {
+    public TransportPackageDTO(int id, String currentLocation, int orderId, String operatorName) {
         this.id = id;
         this.currentLocation = currentLocation;
         this.orderId = orderId;
+        this.operatorName = operatorName;
     }
 
     public int getId() {
@@ -34,5 +36,13 @@ public class TransportPackageDTO {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
     }
 }
