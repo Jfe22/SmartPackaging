@@ -95,5 +95,4 @@ public class SmartPackageService {
         smartPackageBean.delete(id);
         return Response.status(Response.Status.OK).build();
     }
-
 }

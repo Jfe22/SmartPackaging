@@ -72,7 +72,7 @@ GET http://localhost:8080/smartpackaging/api/orders
 Accept: application/json
 
 ###
-GET http://localhost:8080/smartpackaging/api/orders
+GET http://localhost:8080/smartpackaging/api/orders/2323
 Accept: application/json
 
 ###
@@ -80,25 +80,25 @@ POST http://localhost:8080/smartpackaging/api/orders
 Content-Type: application/json
 
 {
-  "id": 4,
+  "id": 2,
   "orderDate": "2024-02-22",
   "extDeliveryDate": "2024-02-23"
 
 }
 
 ###
-PUT http://localhost:8080/smartpackaging/api/orders/3
+PUT http://localhost:8080/smartpackaging/api/orders/32
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 32,
   "orderDate": "2044-02-22",
   "extDeliveryDate": "2044-02-23"
 
 }
 
 ###
-DELETE http://localhost:8080/smartpackaging/api/orders/3
+DELETE http://localhost:8080/smartpackaging/api/orders/323
 Content-Type: application/json
 
 
@@ -251,7 +251,7 @@ GET http://localhost:8080/smartpackaging/api/transportpackages
 Accept: application/json
 
 ###
-GET http://localhost:8080/smartpackaging/api/transportpackages/1
+GET http://localhost:8080/smartpackaging/api/transportpackages/133
 Accept: application/json
 
 ###
@@ -259,20 +259,17 @@ POST http://localhost:8080/smartpackaging/api/transportpackages
 Content-Type: application/json
 
 {
-  "id": 4,
+  "id": 3,
   "currentLocation": "a chegar",
   "orderId": "2"
 
 }
 
 ###
-PUT http://localhost:8080/smartpackaging/api/transportpackages/2
+PUT http://localhost:8080/smartpackaging/api/transportpackages/3
 Content-Type: application/json
 
 {
-  "id": 2,
-  "name": "updated Name",
-  "email": "admin@example.com",
-  "password": "admin123",
-  "role": "ADMIN"
+  "currentLocation": "a chegar",
+  "orderId": 3
 }

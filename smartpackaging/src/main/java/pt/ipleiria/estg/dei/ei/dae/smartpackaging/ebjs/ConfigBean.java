@@ -55,9 +55,13 @@ public class ConfigBean {
             logger.severe(e.getMessage());
         }
 
-        orderBean.create(1, LocalDate.of(2024, 1, 20), LocalDate.of(2024, 1, 26));
-        orderBean.create(2, LocalDate.now(), LocalDate.now().plusDays(7));
-        orderBean.create(3, LocalDate.now(), LocalDate.now().plusDays(2));
+        try {
+            orderBean.create(1, LocalDate.of(2024, 1, 20), LocalDate.of(2024, 1, 26));
+            orderBean.create(2, LocalDate.now(), LocalDate.now().plusDays(7));
+            orderBean.create(3, LocalDate.now(), LocalDate.now().plusDays(2));
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
 
         try {
             smartPackageBean.addPackageToOrder(1, 1);
@@ -66,8 +70,12 @@ public class ConfigBean {
             logger.severe(e.getMessage());
         }
 
-        transportPackageBean.create(1, "ali", 1);
-        transportPackageBean.create(2, "aqui", 2);
+        try {
+            transportPackageBean.create(1, "ali", 1);
+            transportPackageBean.create(2, "aqui", 2);
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
 
         // users
         // userBean.create(1, "admin", "admin@example.com", "adminpass", UserRole.PRODUCER);

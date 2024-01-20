@@ -28,6 +28,18 @@ public class SmartPackageBean {
         return (Long)query.getSingleResult() > 0L;
     }
 
+    public SmartPackage find(int id)
+            throws MyEntityNotFoundException {
+        SmartPackage smartPackage = entityManager.find(SmartPackage.class, id);
+        if (smartPackage == null)
+            throw new MyEntityNotFoundException("Smartpackage with id " + id + " doesn't exist");
+
+        return  smartPackage;
+    }
+
+    public List<SmartPackage> getAllSmartPackages() {
+        return entityManager.createNamedQuery("getAllSmartPackages", SmartPackage.class).getResultList();
+    }
 
     public void create(int id, PackType type, String material, int product_id)
     throws MyEntityNotFoundException, MyEntityExistsException, MyConstraintViolationException {
@@ -49,19 +61,6 @@ public class SmartPackageBean {
 
     }
 
-    public List<SmartPackage> getAllSmartPackages() {
-        return entityManager.createNamedQuery("getAllSmartPackages", SmartPackage.class).getResultList();
-    }
-
-    public SmartPackage find(int id)
-    throws MyEntityNotFoundException {
-        SmartPackage smartPackage = entityManager.find(SmartPackage.class, id);
-        if (smartPackage == null)
-            throw new MyEntityNotFoundException("Smartpackage with id " + id + " doesn't exist");
-
-        return  smartPackage;
-    }
-
     public void update(int id, String packType, String material, int productId, double currentAtmPressure, double currentHumidity, double currentTemperature,  double maxGForce)
     throws MyEntityNotFoundException, MyConstraintViolationException {
         SmartPackage smartPackage = find(id);
@@ -76,12 +75,11 @@ public class SmartPackageBean {
             smartPackage.setType(PackType.valueOf(packType));
             smartPackage.setMaterial(material);
             smartPackage.setProduct(product);
-
             smartPackage.setCurrentAtmPressure(currentAtmPressure);
             smartPackage.setCurrentHumidity(currentHumidity);
             smartPackage.setCurrentTemperature(currentTemperature);
             smartPackage.setMaxGForce(maxGForce);
-
+            product.setSmartPackage(smartPackage);
             entityManager.merge(smartPackage);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);

@@ -29,6 +29,19 @@ public class ProductBean {
         return (long) query.getSingleResult() > 0L;
     }
 
+    public Product find(int id)
+    throws MyEntityNotFoundException {
+        Product product = entityManager.find(Product.class, id);
+        if (product == null)
+            throw new MyEntityNotFoundException("Product with id: " + id + " doesn't exist");
+
+        return entityManager.find(Product.class, id);
+    }
+
+    public List<Product> getAllProducts() {
+        return entityManager.createNamedQuery("getAllProducts", Product.class).getResultList();
+    }
+
     public void create(int id, String name, LocalDate expireDate, double weight, String ingredients)
     throws MyEntityExistsException, MyConstraintViolationException {
         if (exists(id))
@@ -37,23 +50,10 @@ public class ProductBean {
         try {
             Product newProduct = new Product(id, name, expireDate, weight, ingredients);
             entityManager.persist(newProduct);
-            //entityManager.flush(); --> NOT USING HIBERNATE
+            //entityManager.flush(); //--> NOT USING HIBERNATE
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
         }
-    }
-
-    public List<Product> getAllProducts() {
-        return entityManager.createNamedQuery("getAllProducts", Product.class).getResultList();
-    }
-
-    public Product find(int id)
-    throws MyEntityNotFoundException {
-        Product product = entityManager.find(Product.class, id);
-        if (product == null)
-            throw new MyEntityNotFoundException("Product with id: " + id + " doesn't exist");
-
-        return entityManager.find(Product.class, id);
     }
 
     public void update(int id, String name, LocalDate expireDate, double weight, String ingredients)
