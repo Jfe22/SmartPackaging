@@ -4,6 +4,7 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.persistence.*;
 import jakarta.validation.ConstraintViolationException;
+import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Operator;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
@@ -81,5 +82,12 @@ public class OperatorBean {
             throws MyEntityNotFoundException {
         Operator operator = find(username);
         em.remove(operator);
+    }
+
+    public Operator getOperatorTransportPackages(String username)
+    throws MyEntityNotFoundException {
+        Operator operator = find(username);
+        Hibernate.initialize(operator.getTransportPackages());
+        return operator;
     }
 }

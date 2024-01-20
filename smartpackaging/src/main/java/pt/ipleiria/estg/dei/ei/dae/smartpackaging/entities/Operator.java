@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 // @DiscriminatorValue("OPERATOR")
@@ -18,6 +20,9 @@ public class Operator extends User implements Serializable {
     private String environmentalConditionsData; // e.g., temperature, humidity
     private String securityAlertData; // e.g., detection of opening and access alerts
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "operator", cascade = CascadeType.REMOVE)
+    List<TransportPackage> transportPackages;
+
     public Operator() {}
 
     public Operator(String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData) {
@@ -25,6 +30,7 @@ public class Operator extends User implements Serializable {
         this.locationAndTrackingData = locationAndTrackingData;
         this.environmentalConditionsData = environmentalConditionsData;
         this.securityAlertData = securityAlertData;
+        transportPackages = new LinkedList<>();
     }
 
     // Getters and setters for Operator-specific attributes
@@ -50,5 +56,21 @@ public class Operator extends User implements Serializable {
 
     public void setSecurityAlertData(String securityAlertData) {
         this.securityAlertData = securityAlertData;
+    }
+
+    public List<TransportPackage> getTransportPackages() {
+        return transportPackages;
+    }
+
+    public void setTransportPackages(List<TransportPackage> transportPackages) {
+        this.transportPackages = transportPackages;
+    }
+
+    public void addTransportPackage(TransportPackage transportPackage) {
+        transportPackages.add(transportPackage);
+    }
+
+    public void removeTransportPackage(TransportPackage transportPackage) {
+        transportPackages.remove(transportPackage);
     }
 }

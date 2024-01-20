@@ -21,11 +21,19 @@ public class TransportPackage extends Versionable {
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     Order order;
 
+    @ManyToOne
+    @JoinColumn(name = "operator_name")
+    @NotNull
+    Operator operator;
+
+
+
     public TransportPackage() {}
-    public TransportPackage(int id, String currentLocation, Order order) {
+    public TransportPackage(int id, String currentLocation, Order order, Operator operator) {
         this.id = id;
         this.currentLocation = currentLocation;
         this.order = order;
+        this.operator = operator;
     }
 
     public int getId() {
@@ -50,5 +58,13 @@ public class TransportPackage extends Versionable {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public Operator getOperator() {
+        return operator;
+    }
+
+    public void setOperator(Operator operator) {
+        this.operator = operator;
     }
 }
