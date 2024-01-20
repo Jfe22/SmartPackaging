@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs;
 
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.persistence.*;
 import jakarta.validation.ConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
@@ -8,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.security.Hasher;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +18,9 @@ import java.util.List;
 public class ConsumerBean {
     @PersistenceContext
     private EntityManager em;
+
+    @Inject
+    private Hasher hasher;
 
     // check if consumer exists
     public boolean exists(int id) {
@@ -46,7 +51,7 @@ public class ConsumerBean {
             throw new MyEntityExistsException("Consumer with id: " + consumer_id + " alredy exists");
 
         try {
-            Consumer newConsumer = new Consumer(consumer_id, username, email, hashPassword(password), role, deliveryUpdatesData, qualityInformationData, securityAlertData);
+            Consumer newConsumer = new Consumer(consumer_id, username, email, hasher.hash(password), role, deliveryUpdatesData, qualityInformationData, securityAlertData);
             em.persist(newConsumer);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -62,7 +67,7 @@ public class ConsumerBean {
         try {
             consumer.setUsername(username);
             consumer.setEmail(email);
-            consumer.setPassword(hashPassword(password));
+            consumer.setPassword(hasher.hash(password));
             consumer.setRole(role);
             consumer.setDeliveryUpdatesData(deliveryUpdatesData);
             consumer.setQualityInformationData(qualityInformationData);

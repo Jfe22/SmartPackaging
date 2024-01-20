@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs;
 
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.persistence.*;
 import jakarta.validation.ConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
@@ -8,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Producer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.security.Hasher;
 
 import java.util.List;
 
@@ -15,6 +17,9 @@ import java.util.List;
 public class ProducerBean {
     @PersistenceContext
     private EntityManager em;
+
+    @Inject
+    private Hasher hasher;
 
     // check if producer exists
     public boolean exists(int id) {
@@ -45,7 +50,7 @@ public class ProducerBean {
             throw new MyEntityNotFoundException("Producer with id: " + producer_id + " alredy exists");
 
         try {
-            Producer newProducer = new Producer(producer_id, username, email, hashPassword(password), role, qualityControlData, productResponsibilityCost);
+            Producer newProducer = new Producer(producer_id, username, email, hasher.hash(password), role, qualityControlData, productResponsibilityCost);
             em.persist(newProducer);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -61,7 +66,7 @@ public class ProducerBean {
         try {
             producer.setUsername(username);
             producer.setEmail(email);
-            producer.setPassword(hashPassword(password));
+            producer.setPassword(hasher.hash(password));
             producer.setRole(role);
             producer.setQualityControlData(qualityControlData);
             producer.setProductResponsibilityCost(productResponsibilityCost);

@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs;
 
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.persistence.*;
 import jakarta.validation.ConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Operator;
@@ -8,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.security.Hasher;
 
 import java.util.List;
 
@@ -15,6 +17,9 @@ import java.util.List;
 public class OperatorBean {
     @PersistenceContext
     private EntityManager em;
+
+    @Inject
+    private Hasher hasher;
 
     // check if operator exists
     public boolean exists(int id) {
@@ -45,7 +50,7 @@ public class OperatorBean {
             throw new MyEntityExistsException("Operator with id: " + operator_id + " alredy exists");
 
         try {
-            Operator newOperator = new Operator(operator_id, username, email, hashPassword(password), role, locationAndTrackingData, environmentalConditionsData, securityAlertData);
+            Operator newOperator = new Operator(operator_id, username, email, hasher.hash(password), role, locationAndTrackingData, environmentalConditionsData, securityAlertData);
             em.persist(newOperator);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -61,7 +66,7 @@ public class OperatorBean {
         try {
             operator.setUsername(username);
             operator.setEmail(email);
-            operator.setPassword(hashPassword(password));
+            operator.setPassword(hasher.hash(password));
             operator.setRole(role);
             operator.setLocationAndTrackingData(locationAndTrackingData);
             operator.setEnvironmentalConditionsData(environmentalConditionsData);

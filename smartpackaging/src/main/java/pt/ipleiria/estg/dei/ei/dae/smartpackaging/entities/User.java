@@ -81,7 +81,7 @@ public class User extends Versionable {
         this.role = role;
     }
 
-    // Additional methods for user authentication, updating user info, etc.
+    // Additional methods
     // equals() method
     @Override
     public boolean equals(Object o) {

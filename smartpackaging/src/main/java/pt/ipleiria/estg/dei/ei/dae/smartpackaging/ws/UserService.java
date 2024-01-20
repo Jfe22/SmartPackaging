@@ -11,6 +11,8 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.UserDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.UserBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.User;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +21,6 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserService {
-
     @EJB
     private UserBean userBean;
 
@@ -34,9 +35,7 @@ public class UserService {
         return dto;
     }
 
-    // Converts a list of entities to a list of DTOs
     private List<UserDTO> toDTOs(List<User> users) {
-        // Conversion logic, possibly using streams
         return users.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
@@ -48,21 +47,25 @@ public class UserService {
 
     @PUT
     @Path("/{id}")
-    public Response updateUser(@PathParam("id") int id, UserDTO userDTO) {
-        if (id != userDTO.getId()) return Response.status(Response.Status.BAD_REQUEST).build();
-        if (userBean.find(id) == null) return Response.status(Response.Status.NOT_FOUND).build();
-
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword()); // Hash the password before setting
-        user.setEmail(userDTO.getEmail());
-        user.setRole(userDTO.getRole());
-
+    public Response updateUser(@PathParam("id") int id, UserDTO userDTO)
+            throws MyEntityNotFoundException, MyConstraintViolationException {
+        userBean.update(
+                id,
+                userDTO.getUsername(),
+                userDTO.getPassword(),
+                userDTO.getEmail(),
+                userDTO.getRole()
+        );
         User updatedUser = userBean.find(id);
-        if (updatedUser == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        return Response.ok(new UserDTO(updatedUser)).build();
+        return Response.status(Response.Status.OK).entity(toDTO(updatedUser)).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteUser(@PathParam("id") int id)
+            throws MyEntityNotFoundException {
+        userBean.delete(id);
+        return Response.status(Response.Status.OK).build();
     }
 
     @POST
@@ -73,12 +76,5 @@ public class UserService {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
         return Response.ok(new UserDTO(authenticatedUser)).build();
-    }
-
-    @DELETE
-    @Path("/{id}")
-    public Response deleteUser(@PathParam("id") int id) {
-        userBean.deleteUser(id);
-        return Response.noContent().build(); // or appropriate status code
     }
 }

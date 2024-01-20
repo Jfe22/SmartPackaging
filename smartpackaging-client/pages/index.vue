@@ -32,7 +32,7 @@
                 <div class="data-card" v-for="(data, name) in dataObjects" :key="name">
                     <h3 class="text-warning">{{ name }}</h3>
 
-                    <table class="table table-dark table-striped">
+                    <table :id="`table${name}`" class="table table-dark table-striped">
                         <thead>
                         <tr>
                             <th scope="col" v-for="(value, key) in data[0]" :key="key">
@@ -76,8 +76,8 @@ const links = ref([
     {to: '/transportpackages', text: 'Transport Packages', icon: '📦'},
 ]);
 const dataObjects = ref({
-    products: products,
-    smartpackages: smartpackages,
+    Products: products,
+    Smartpackages: smartpackages,
     // orders: orders
 });
 </script>

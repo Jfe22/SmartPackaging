@@ -66,23 +66,6 @@ public class UserDTO {
         this.role = role;
     }
 
-    // equals() method
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserDTO)) return false;
-        UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(getId(), userDTO.getId()) &&
-                Objects.equals(getUsername(), userDTO.getUsername()) &&
-                Objects.equals(getEmail(), userDTO.getEmail());
-    }
-
-    // hashCode() method
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getEmail());
-    }
-
     // toString() method
     @Override
     public String toString() {

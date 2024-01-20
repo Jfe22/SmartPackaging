@@ -1,3 +1,15 @@
+### REQUEST JWT TOKEN #### PRODUCTS -----------------------------
+POST http://localhost:8080/smartpackaging/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "consumer1",
+  "password": "123"
+}
+
+
+
 #### PRODUCTS ---------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/products/
 Accept: application/json
@@ -31,7 +43,8 @@ DELETE http://localhost:8080/smartpackaging/api/products/12
 Content-Type: application/json
 
 
-#### SMARTPACKAGES ---------------------------------------------------
+
+#### SMARTPACKAGES ----------------------------------------------
 GET http://localhost:8080/smartpackaging/api/smartpackages/2323
 Accept: application/json
 
@@ -67,7 +80,7 @@ Content-Type: application/json
 
 
 
-#### ORDERS ---------------------------------------------------
+#### ORDERS -----------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/orders
 Accept: application/json
 
@@ -83,7 +96,6 @@ Content-Type: application/json
   "id": 2,
   "orderDate": "2024-02-22",
   "extDeliveryDate": "2024-02-23"
-
 }
 
 ###
@@ -94,7 +106,6 @@ Content-Type: application/json
   "id": 32,
   "orderDate": "2044-02-22",
   "extDeliveryDate": "2044-02-23"
-
 }
 
 ###
@@ -103,7 +114,7 @@ Content-Type: application/json
 
 
 
-#### USERS ---------------------------------------------------
+#### USERS ------------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/users
 Accept: application/json
 
@@ -141,9 +152,10 @@ Content-Type: application/json
 
 
 
-#### CONSUMERS ---------------------------------------------------
+#### CONSUMERS --------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/consumers
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3NzIzNjIsImV4cCI6MTcwNTc3NTk2Mn0.aoK3z_cYr-9Mmu2KLu8FZmfx5OYWCeu8Q4G10OZ4m4TUX-UjFJPngpv9iybEKbcs
 
 ###
 GET http://localhost:8080/smartpackaging/api/consumers/5
@@ -176,7 +188,7 @@ Content-Type: application/json
 
 
 
-#### OPERATORS ---------------------------------------------------
+#### OPERATORS --------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/operators
 Accept: application/json
 
@@ -211,7 +223,7 @@ Content-Type: application/json
 
 
 
-#### PRODUCERS ---------------------------------------------------
+#### PRODUCERS --------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/producers
 Accept: application/json
 
@@ -246,7 +258,7 @@ Content-Type: application/json
 
 
 
-#### TRANSPORTPACKAGES ---------------------------------------------------
+#### TRANSPORTPACKAGES ------------------------------------------
 GET http://localhost:8080/smartpackaging/api/transportpackages
 Accept: application/json
 
@@ -262,7 +274,6 @@ Content-Type: application/json
   "id": 3,
   "currentLocation": "a chegar",
   "orderId": "2"
-
 }
 
 ###

@@ -38,7 +38,7 @@ public class ConfigBean {
 
     @PostConstruct
     public void populateDB() {
-        System.out.println("Hello jave ee");
+        System.out.println("### Smart Packaging ###");
 
         // consumers
         try {
@@ -49,7 +49,7 @@ public class ConfigBean {
             logger.severe(e.getMessage());
         }
 
-        // operator
+        // operators
         try {
             operatorBean.create(10, "operator1", "operator1@example.com", "123", UserRole.OPERATOR, null, null, null);
             operatorBean.create(11, "operator2", "operator2@example.com", "123", UserRole.OPERATOR, null, null, null);
