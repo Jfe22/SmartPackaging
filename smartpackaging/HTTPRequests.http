@@ -158,9 +158,9 @@ Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3NzkwNjYsImV4cCI6MTcwNTc4MjY2Nn0.5PJnOrGVZgRoo3bpdUfTJwTvm_7OJwfF0-ERzEyK1d5Btjhovw7D_aHN3mVv7Dji
 
 ###
-GET http://localhost:8080/smartpackaging/api/consumers/5
+GET http://localhost:8080/smartpackaging/api/consumers/consumer1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3NzkwNjYsImV4cCI6MTcwNTc4MjY2Nn0.5PJnOrGVZgRoo3bpdUfTJwTvm_7OJwfF0-ERzEyK1d5Btjhovw7D_aHN3mVv7Dji
+Authorization: Bearer  eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3OTAwNDgsImV4cCI6MTcwNTc5MzY0OH0.OWeu-RqCoeRpExN18AgYuJWY8FdHU-HUER5D_qGvnADFnYRzX35xgd4bhoSKSr4h
 
 ###
 POST http://localhost:8080/smartpackaging/api/consumers

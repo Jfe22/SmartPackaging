@@ -88,25 +88,25 @@ public class OrderBean {
         entityManager.remove(order);
     }
 
-    public void addOrderToConsumer(int orderId, int consumerId)
+    public void addOrderToConsumer(int orderId, String consumerName)
     throws MyEntityNotFoundException {
         Order order = find(orderId);
 
-        Consumer consumer = entityManager.find(Consumer.class, consumerId);
+        Consumer consumer = entityManager.find(Consumer.class, consumerName);
         if (consumer == null)
-            throw new MyEntityNotFoundException("Consumer with id " + consumerId + " doesn't exist");
+            throw new MyEntityNotFoundException("Consumer with name " + consumerName + " doesn't exist");
 
         consumer.addOrder(order);
         order.setConsumer(consumer);
     }
 
-    public void removeOrderFromConsumer(int orderId, int consumerId)
+    public void removeOrderFromConsumer(int orderId, String consumerName)
     throws MyEntityNotFoundException {
         Order order = find(orderId);
 
-        Consumer consumer = entityManager.find(Consumer.class, consumerId);
+        Consumer consumer = entityManager.find(Consumer.class, consumerName);
         if (consumer == null)
-            throw new MyEntityNotFoundException("Consumer with id " + consumerId + " doesn't exist");
+            throw new MyEntityNotFoundException("Consumer with id " + consumerName + " doesn't exist");
 
         consumer.removeOrder(order);
         order.setConsumer(null);
