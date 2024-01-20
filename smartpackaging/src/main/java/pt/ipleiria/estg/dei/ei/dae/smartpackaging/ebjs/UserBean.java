@@ -61,13 +61,13 @@ public class UserBean {
     }
 
     // create user
-    public void create(String username, String email, String password, UserRole role)
+    public void create(String username, String email, String password, String role)
             throws MyEntityExistsException, MyConstraintViolationException {
         if (exists(username))
             throw new MyEntityExistsException("User " + username + " already exists");
 
         try {
-            User newUser = new User(username, email, hasher.hash(password), role);
+            User newUser = new User(username, email, hasher.hash(password), UserRole.valueOf(role));
             em.persist(newUser);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -75,7 +75,7 @@ public class UserBean {
     }
 
     // update user
-    public void update(String username, String email, String password, UserRole role)
+    public void update(String username, String email, String password, String role)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         User user = find(username);
         if (user == null)
@@ -85,7 +85,7 @@ public class UserBean {
             user.setUsername(username);
             user.setEmail(email);
             user.setPassword(hasher.hash(password));
-            user.setRole(role);
+            user.setRole(UserRole.valueOf(role));
             em.merge(user);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);

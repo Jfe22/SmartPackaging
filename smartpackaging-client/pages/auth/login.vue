@@ -20,11 +20,18 @@
 
 <script setup>
 import {ref} from 'vue';
+import {useAuthStore} from "~/store/auth-store.js"
+
+console.log(useAuthStore());
 
 const config = useRuntimeConfig()
 const api = config.public.API_URL
-const token = ref(null)
+
+// const token = ref(null)
 const messages = ref([])
+
+const authStore = useAuthStore()
+const {token, user} = storeToRefs(authStore)
 
 const loginFormData = reactive({
     username: null,
@@ -37,20 +44,31 @@ const apiFormData = reactive({
 
 async function login() {
     const {data, error} = await useFetch(`${api}/auth/login`, {
-        method: "post",
+        method: 'post',
         headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         },
-        body: JSON.stringify(loginFormData)
+        body: loginFormData.value
     })
     if (error.value) {
-        messages.value.push({error: error.value.message})
+        messages.value.push({tokenError: error.value.message})
+        return
     }
-    if (data.value) {
-        token.value = data.value
-        messages.value.push({token: token.value})
+    token.value = data.value
+
+    const {data: userData, error: userError} = await useFetch(`${api}/auth/user`, {
+        method: 'get',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token.value
+        }
+    })
+    if (userError.value) {
+        messages.value.push({userDataError: userError.value.message})
+        return
     }
+    user.value = userData.value
 }
 
 function reset() {

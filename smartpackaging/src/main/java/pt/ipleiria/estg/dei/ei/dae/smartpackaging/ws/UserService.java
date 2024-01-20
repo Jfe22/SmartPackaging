@@ -11,6 +11,7 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.UserDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.UserBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.User;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityNotFoundException;
 
@@ -30,7 +31,7 @@ public class UserService {
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
         dto.setPassword(user.getPassword()); // Hash the password before setting
-        dto.setRole(user.getRole());
+        dto.setRole(user.getRole().toString());
         return dto;
     }
 
@@ -52,7 +53,7 @@ public class UserService {
                 userDTO.getUsername(),
                 userDTO.getPassword(),
                 userDTO.getEmail(),
-                userDTO.getRole()
+                userDTO.getRole().toString()
         );
         User updatedUser = userBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(updatedUser)).build();
