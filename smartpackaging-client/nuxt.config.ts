@@ -11,8 +11,5 @@ export default defineNuxtConfig({
     },
     modules: [
         '@pinia/nuxt'
-    ],
-    router: {
-        middleware: ['auth']
-    }
+    ]
 })

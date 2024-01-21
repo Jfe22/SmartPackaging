@@ -49,6 +49,103 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Operators -->
+                <div class="data-card scroll-table">
+                    <div>
+                        <div v-for="(operator, key) in operators" :key="key">
+                            <h3 class="text-warning">{{ operator.username.toUpperCase() }}</h3>
+
+                            <div v-if="dataOperators[operator.username]">
+                                <table class="table table-dark table-striped" v-if="dataOperators[operator.username][0]">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" v-for="(value, key) in dataOperators[operator.username][0]"
+                                            :key="key">
+                                            {{ key }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="transport in dataOperators[operator.username]" :key="transport.id">
+                                        <td v-for="(value, key) in transport" :key="key">
+                                            {{ value }}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div v-else>
+                                    <p class="text-secondary">No transport available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consumers -->
+                <div class="data-card scroll-table">
+                    <div>
+                        <div v-for="(consumer, key) in consumers" :key="key">
+                            <h3 class="text-warning">{{ consumer.username.toUpperCase() }}</h3>
+
+                            <div v-if="dataConsumers[consumer.username]">
+                                <table class="table table-dark table-striped" v-if="dataConsumers[consumer.username][0]">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" v-for="(value, key) in dataConsumers[consumer.username][0]"
+                                            :key="key">
+                                            {{ key }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="order in dataConsumers[consumer.username]" :key="order.id">
+                                        <td v-for="(value, key) in order" :key="key">
+                                            {{ value }}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div v-else>
+                                    <p class="text-secondary">No orders available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producers -->
+                <div class="data-card scroll-table">
+                    <div>
+                        <div v-for="(producer, key) in producers" :key="key">
+                            <h3 class="text-warning">{{ producer.username.toUpperCase() }}</h3>
+
+                            <div v-if="dataProducers[producer.username]">
+                                <table class="table table-dark table-striped" v-if="dataProducers[producer.username][0]">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" v-for="(value, key) in dataProducers[producer.username][0]"
+                                            :key="key">
+                                            {{ key }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="pack in dataProducers[producer.username]" :key="pack.id">
+                                        <td v-for="(value, key) in pack" :key="key">
+                                            {{ value }}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div v-else>
+                                    <p class="text-secondary">No packages available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
     </div>
@@ -57,14 +154,41 @@
 
 <script setup>
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {ref} from 'vue';
+import {ref, onMounted} from 'vue';
 
 const config = useRuntimeConfig()
 const api = config.public.API_URL
 
-const products = await useFetch(`${api}/products`).data
-const smartpackages = await useFetch(`${api}/smartpackages`).data
-// const orders = await useFetch(`${api}/orders`).data
+const producers = await useFetch(`${api}/producers`).data
+const smartpackages1 = await useFetch(`${api}/producers/prod1/smartpackages`).data
+const smartpackages2 = await useFetch(`${api}/producers/prod2/smartpackages`).data
+const smartpackages3 = await useFetch(`${api}/producers/prod3/smartpackages`).data
+const dataProducers = ref({
+    prod1: smartpackages1,
+    prod2: smartpackages2,
+    prod3: smartpackages3,
+});
+
+const consumers = await useFetch(`${api}/consumers`).data
+const order1 = await useFetch(`${api}/consumers/consumer1/orders`).data
+const order2 = await useFetch(`${api}/consumers/consumer2/orders`).data
+const order3 = await useFetch(`${api}/consumers/consumer3/orders`).data
+const dataConsumers = ref({
+    consumer1: order1,
+    consumer2: order2,
+    consumer3: order3,
+});
+
+const operators = await useFetch(`${api}/operators`).data
+const transport1 = await useFetch(`${api}/operators/operator1/transportpackages`).data
+const transport2 = await useFetch(`${api}/operators/operator2/transportpackages`).data
+const transport3 = await useFetch(`${api}/operators/operator3/transportpackages`).data
+const dataOperators = ref({
+    operator1: transport1,
+    operator2: transport2,
+    operator3: transport3,
+});
+
 
 const links = ref([
     {to: '/consumers', text: 'Consumers', icon: '👥'},
@@ -76,9 +200,8 @@ const links = ref([
     {to: '/transportpackages', text: 'Transport Packages', icon: '📦'},
 ]);
 const dataObjects = ref({
-    Products: products,
-    Smartpackages: smartpackages,
-    // orders: orders
+    //Products: products,
+    //Smartpackages: smartpackages,
 });
 </script>
 
@@ -87,6 +210,18 @@ hr {
     width: 92%;
     margin: 20px auto;
     opacity: .1;
+}
+
+.scroll-table {
+    overflow-x: scroll;
+}
+
+.parameter {
+    background: #2d2d2d;
+    color: #ffffff;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: 4px;
 }
 
 .main-container {

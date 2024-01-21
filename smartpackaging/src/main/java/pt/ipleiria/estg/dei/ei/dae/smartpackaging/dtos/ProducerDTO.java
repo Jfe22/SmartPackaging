@@ -14,7 +14,7 @@ public class ProducerDTO implements Serializable {
     public ProducerDTO(String username, String email, String password, String qualityControlData, String productResponsibilityCost) {
         this.username = username;
         this.email = email;
-        this.password = password;
+        // this.password = password;
         this.qualityControlData = qualityControlData;
         this.productResponsibilityCost = productResponsibilityCost;
     }

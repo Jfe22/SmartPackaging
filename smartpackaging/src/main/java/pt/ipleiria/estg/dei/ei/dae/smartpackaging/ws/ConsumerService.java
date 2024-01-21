@@ -14,6 +14,7 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.ConsumerBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.ConsumerDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Producer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Product;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
@@ -66,32 +67,16 @@ public class ConsumerService {
 
     @GET
     @Path("/")
-    @RolesAllowed({"CONSUMER"})
     public List<ConsumerDTO> getAllConsumers() {
         return toDTOs(consumerBean.getAllConsumers());
     }
 
     @GET
     @Path("/{username}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-    @RolesAllowed({"CONSUMER"})
     public Response getConsumer(@PathParam("username") String username)
             throws MyEntityNotFoundException {
-        var principal = securityContext.getUserPrincipal();
-
-        if (!principal.getName().equals(username)) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
-
-        var entity = consumerBean.find(username);
-        if (entity == null) {
-            var errorMsg = "Username " + username +  "  not found.";
-            var status = Response.Status.NOT_FOUND;
-            return Response.status(status).entity(errorMsg).build();
-        }
-
-        var dto = toDTO(entity);
-        return Response.ok(dto).build();
+        Consumer consumer = consumerBean.find(username);
+        return Response.status(Response.Status.OK).entity(toDTO(consumer)).build();
     }
 
     @GET

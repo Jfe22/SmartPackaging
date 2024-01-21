@@ -4,7 +4,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "username": "prod1",
+  "username": "consumer1",
   "password": "123"
 }
 
@@ -155,12 +155,12 @@ Content-Type: application/json
 #### CONSUMERS --------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/consumers
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwcm9kMSIsImlhdCI6MTcwNTc4ODU1MCwiZXhwIjoxNzA1NzkyMTUwfQ.0mz6b2GTFxywrGqIx5rv4AtI4vYXPsZ3qEGrFk5sljhJif8FO13EVuR2SW3818Ye
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3OTA1NjgsImV4cCI6MTcwNTc5NDE2OH0.7cRiLOhTe3L56rHKeuUNKNx-DUL1KVY9h93mG1gWmZhcy3VP2APu-fxSzNSR_Vs0
 
 ###
 GET http://localhost:8080/smartpackaging/api/consumers/consumer1
 Accept: application/json
-Authorization: Bearer  eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3OTAwNDgsImV4cCI6MTcwNTc5MzY0OH0.OWeu-RqCoeRpExN18AgYuJWY8FdHU-HUER5D_qGvnADFnYRzX35xgd4bhoSKSr4h
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3OTA1NjgsImV4cCI6MTcwNTc5NDE2OH0.7cRiLOhTe3L56rHKeuUNKNx-DUL1KVY9h93mG1gWmZhcy3VP2APu-fxSzNSR_Vs0
 
 ###
 POST http://localhost:8080/smartpackaging/api/consumers

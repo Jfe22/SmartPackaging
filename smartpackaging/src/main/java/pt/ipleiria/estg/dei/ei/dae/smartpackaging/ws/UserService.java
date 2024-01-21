@@ -53,10 +53,7 @@ public class UserService {
                 userDTO.getUsername(),
                 userDTO.getPassword(),
                 userDTO.getEmail(),
-
-                userDTO.getRole().toString(),
-
-                UserRole.valueOf(userDTO.getRole())
+                userDTO.getRole().toString()
         );
         User updatedUser = userBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(updatedUser)).build();
