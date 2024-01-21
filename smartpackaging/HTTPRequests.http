@@ -1,4 +1,4 @@
-### REQUEST JWT TOKEN #### PRODUCTS -----------------------------
+### REQUEST JWT TOKEN -------------------------------------------
 POST http://localhost:8080/smartpackaging/api/auth/login
 Content-Type: application/json
 Accept: application/json
