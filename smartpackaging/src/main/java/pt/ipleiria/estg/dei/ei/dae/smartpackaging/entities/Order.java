@@ -24,8 +24,6 @@ public class Order extends Versionable {
     LocalDate estDeleviryDate;
     @NotNull
     @OneToMany (fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.REMOVE)
-    // fetch type EAGER para mostrar as smartpackages no GetAll, mudar para lazy e usar lazyFind (ja implementado)
-    // se so for preciso mostrar as smartpackages num get especifico (implementar toDTOsemPackages para isso)
     List<SmartPackage> smartPackages;
     @OneToOne(mappedBy = "order")
     TransportPackage transportPackage;

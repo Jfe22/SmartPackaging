@@ -45,13 +45,13 @@ public class OperatorBean {
     }
 
     // create operator
-    public void create(String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData)
+    public void create(String username, String email, String password, UserRole role)
             throws MyEntityExistsException, MyConstraintViolationException {
         if (exists(username))
             throw new MyEntityExistsException("Operator " + username + " already exists");
 
         try {
-            Operator newOperator = new Operator(username, email, hasher.hash(password), role, locationAndTrackingData, environmentalConditionsData, securityAlertData);
+            Operator newOperator = new Operator(username, email, hasher.hash(password), role);
             em.persist(newOperator);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -59,7 +59,7 @@ public class OperatorBean {
     }
 
     // update operator
-    public void update(String username, String email, String password, UserRole role, String locationAndTrackingData, String environmentalConditionsData, String securityAlertData)
+    public void update(String username, String email, String password, UserRole role)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         Operator operator = find(username);
         em.lock(operator, LockModeType.OPTIMISTIC);
@@ -69,9 +69,6 @@ public class OperatorBean {
             operator.setEmail(email);
             operator.setPassword(hasher.hash(password));
             operator.setRole(role);
-            operator.setLocationAndTrackingData(locationAndTrackingData);
-            operator.setEnvironmentalConditionsData(environmentalConditionsData);
-            operator.setSecurityAlertData(securityAlertData);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
         }

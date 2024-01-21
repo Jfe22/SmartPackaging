@@ -32,9 +32,7 @@ public class ProducerService {
         return new ProducerDTO(
                 producer.getUsername(),
                 producer.getEmail(),
-                producer.getPassword(),
-                producer.getQualityControlData(),
-                producer.getProductResponsibilityCost()
+                producer.getPassword()
         );
     }
 
@@ -93,9 +91,7 @@ public class ProducerService {
                 producerDTO.getUsername(),
                 producerDTO.getEmail(),
                 producerDTO.getPassword(),
-                UserRole.PRODUCER,
-                producerDTO.getQualityControlData(),
-                producerDTO.getProductResponsibilityCost()
+                UserRole.PRODUCER
         );
         Producer newProducer = producerBean.find(producerDTO.getUsername());
         return Response.status(Response.Status.CREATED).entity(toDTO(newProducer)).build();
@@ -109,9 +105,7 @@ public class ProducerService {
                 producerDTO.getUsername(),
                 producerDTO.getEmail(),
                 producerDTO.getPassword(),
-                UserRole.PRODUCER,
-                producerDTO.getQualityControlData(),
-                producerDTO.getProductResponsibilityCost()
+                UserRole.PRODUCER
         );
         Producer updatedProducer = producerBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(updatedProducer)).build();

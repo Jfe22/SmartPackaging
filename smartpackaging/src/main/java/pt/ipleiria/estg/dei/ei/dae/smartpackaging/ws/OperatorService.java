@@ -33,10 +33,7 @@ public class OperatorService {
         return new OperatorDTO(
                 operator.getUsername(),
                 operator.getEmail(),
-                operator.getPassword(),
-                operator.getLocationAndTrackingData(),
-                operator.getEnvironmentalConditionsData(),
-                operator.getSecurityAlertData()
+                operator.getPassword()
         );
     }
 
@@ -89,10 +86,7 @@ public class OperatorService {
                 operatorDTO.getUsername(),
                 operatorDTO.getEmail(),
                 operatorDTO.getPassword(),
-                UserRole.OPERATOR,
-                operatorDTO.getLocationAndTracking(),
-                operatorDTO.getEnvironmentalConditions(),
-                operatorDTO.getSecurityAlerts()
+                UserRole.OPERATOR
         );
         Operator operator = operatorBean.find(operatorDTO.getUsername());
         return Response.status(Response.Status.CREATED).entity(toDTO(operator)).build();
@@ -106,10 +100,7 @@ public class OperatorService {
                 operatorDTO.getUsername(),
                 operatorDTO.getEmail(),
                 operatorDTO.getPassword(),
-                UserRole.OPERATOR,
-                operatorDTO.getLocationAndTracking(),
-                operatorDTO.getEnvironmentalConditions(),
-                operatorDTO.getSecurityAlerts()
+                UserRole.OPERATOR
         );
         Operator operator = operatorBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(operator)).build();

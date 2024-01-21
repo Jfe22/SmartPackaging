@@ -6,19 +6,13 @@ public class OperatorDTO implements Serializable {
     private String username;
     private String email;
     private String password;
-    private String locationAndTracking;
-    private String environmentalConditions;
-    private String securityAlerts;
 
     public OperatorDTO() {}
 
-    public OperatorDTO(String username, String email, String password, String locationAndTracking, String environmentalConditions, String securityAlerts) {
+    public OperatorDTO(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.locationAndTracking = locationAndTracking;
-        this.environmentalConditions = environmentalConditions;
-        this.securityAlerts = securityAlerts;
     }
 
     // Getters and Setters
@@ -46,27 +40,4 @@ public class OperatorDTO implements Serializable {
         this.password = password;
     }
 
-    public String getLocationAndTracking() {
-        return locationAndTracking;
-    }
-
-    public void setLocationAndTracking(String locationAndTracking) {
-        this.locationAndTracking = locationAndTracking;
-    }
-
-    public String getEnvironmentalConditions() {
-        return environmentalConditions;
-    }
-
-    public void setEnvironmentalConditions(String environmentalConditions) {
-        this.environmentalConditions = environmentalConditions;
-    }
-
-    public String getSecurityAlerts() {
-        return securityAlerts;
-    }
-
-    public void setSecurityAlerts(String securityAlerts) {
-        this.securityAlerts = securityAlerts;
-    }
 }

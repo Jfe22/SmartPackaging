@@ -43,9 +43,9 @@ public class ConfigBean {
         // consumers
 
         try {
-            consumerBean.create("consumer1", "consumer1@example.com", "123", UserRole.CONSUMER, null, null, null);
-            consumerBean.create("consumer2", "consumer2@example.com", "123", UserRole.CONSUMER, null, null, null);
-            consumerBean.create("consumer3", "consumer3@example.com", "123", UserRole.CONSUMER, null, null, null);
+            consumerBean.create("consumer1", "consumer1@example.com", "123", UserRole.CONSUMER);
+            consumerBean.create("consumer2", "consumer2@example.com", "123", UserRole.CONSUMER);
+            consumerBean.create("consumer3", "consumer3@example.com", "123", UserRole.CONSUMER);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
@@ -53,18 +53,18 @@ public class ConfigBean {
 
         // operators
         try {
-            operatorBean.create("operator1", "operator1@example.com", "123", UserRole.OPERATOR, null, null, null);
-            operatorBean.create("operator2", "operator2@example.com", "123", UserRole.OPERATOR, null, null, null);
-            operatorBean.create("operator3", "operator3@example.com", "123", UserRole.OPERATOR, null, null, null);
+            operatorBean.create("operator1", "operator1@example.com", "123", UserRole.OPERATOR);
+            operatorBean.create("operator2", "operator2@example.com", "123", UserRole.OPERATOR);
+            operatorBean.create("operator3", "operator3@example.com", "123", UserRole.OPERATOR);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
 
         // producers
         try {
-            producerBean.create("prod1",  "producer1@example.com", "123", UserRole.PRODUCER, null, null);
-            producerBean.create("prod2",  "producer2@example.com", "123", UserRole.PRODUCER, null, null);
-            producerBean.create("prod3",  "producer3@example.com", "123", UserRole.PRODUCER, null, null);
+            producerBean.create("prod1",  "producer1@example.com", "123", UserRole.PRODUCER);
+            producerBean.create("prod2",  "producer2@example.com", "123", UserRole.PRODUCER);
+            producerBean.create("prod3",  "producer3@example.com", "123", UserRole.PRODUCER);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
