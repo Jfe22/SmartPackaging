@@ -68,7 +68,8 @@ public class OrderService {
     @Path("{id}")
     public Response getOrder(@PathParam("id") int id)
     throws MyEntityNotFoundException {
-        Order order = orderBean.find(id);
+        //Order order = orderBean.find(id);
+        Order order = orderBean.findWithSmartPackages(id);
         return  Response.status(Response.Status.CREATED).entity(toDTO(order)).build();
     }
 

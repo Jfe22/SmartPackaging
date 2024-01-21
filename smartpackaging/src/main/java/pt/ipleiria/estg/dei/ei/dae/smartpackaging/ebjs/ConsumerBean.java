@@ -47,13 +47,13 @@ public class ConsumerBean {
     }
 
     // create consumer
-    public void create(String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData)
+    public void create(String username, String email, String password, UserRole role)
             throws MyEntityExistsException, MyConstraintViolationException {
         if (exists(username))
             throw new MyEntityExistsException("Consumer " + username + " already exists");
 
         try {
-            Consumer newConsumer = new Consumer(username, email, hasher.hash(password), role, deliveryUpdatesData, qualityInformationData, securityAlertData);
+            Consumer newConsumer = new Consumer(username, email, hasher.hash(password), role);
             em.persist(newConsumer);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -61,7 +61,7 @@ public class ConsumerBean {
     }
 
     // update consumer
-    public void update(String username, String email, String password, UserRole role, String deliveryUpdatesData, String qualityInformationData, String securityAlertData)
+    public void update(String username, String email, String password, UserRole role)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         Consumer consumer = find(username);
         em.lock(consumer, LockModeType.OPTIMISTIC);
@@ -70,9 +70,6 @@ public class ConsumerBean {
             consumer.setEmail(email);
             consumer.setPassword(hasher.hash(password));
             consumer.setRole(role);
-            consumer.setDeliveryUpdatesData(deliveryUpdatesData);
-            consumer.setQualityInformationData(qualityInformationData);
-            consumer.setSecurityAlertData(securityAlertData);
             em.merge(consumer);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -92,7 +89,7 @@ public class ConsumerBean {
         return password; // Replace this with actual hashed password
     }
 
-    private Consumer getConsumerOrders(String username)
+    public Consumer getConsumerOrders(String username)
     throws MyEntityNotFoundException {
         Consumer consumer = find(username);
         Hibernate.initialize(consumer.getOrders());

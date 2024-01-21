@@ -13,6 +13,7 @@ import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.UserDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.ebjs.ConsumerBean;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.dtos.ConsumerDTO;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Operator;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Product;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.enums.UserRole;
@@ -38,12 +39,8 @@ public class ConsumerService {
         ConsumerDTO consumerDTO = new ConsumerDTO(
                 consumer.getUsername(),
                 consumer.getEmail(),
-                consumer.getPassword(),
-                consumer.getDeliveryUpdatesData(),
-                consumer.getQualityInformationData(),
-                consumer.getSecurityAlertData()
+                consumer.getPassword()
         );
-        consumerDTO.setOrdersDTOs(ordersToDTOs(consumer.getOrders()));
         return consumerDTO;
     }
 
@@ -77,28 +74,15 @@ public class ConsumerService {
     @RolesAllowed({"CONSUMER"})
     public Response getConsumer(@PathParam("username") String username)
             throws MyEntityNotFoundException {
-        var principal = securityContext.getUserPrincipal();
-
-        if (!principal.getName().equals(username)) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
-
-        var entity = consumerBean.find(username);
-        if (entity == null) {
-            var errorMsg = "Username " + username +  "  not found.";
-            var status = Response.Status.NOT_FOUND;
-            return Response.status(status).entity(errorMsg).build();
-        }
-
-        var dto = toDTO(entity);
-        return Response.ok(dto).build();
+        Consumer consumer = consumerBean.find(username);
+        return Response.status(Response.Status.OK).entity(toDTO(consumer)).build();
     }
 
     @GET
     @Path("{username}/orders")
     public Response getConsumerOrders(@PathParam("username") String username)
     throws MyEntityNotFoundException {
-        Consumer consumer = consumerBean.find(username);
+        Consumer consumer = consumerBean.getConsumerOrders(username);
         List<OrderDTO> consOrders = ordersToDTOs(consumer.getOrders());
         return Response.ok(consOrders).build();
     }
@@ -111,10 +95,7 @@ public class ConsumerService {
                 consumerDTO.getUsername(),
                 consumerDTO.getEmail(),
                 consumerDTO.getPassword(),
-                UserRole.CONSUMER,
-                consumerDTO.getDeliveryUpdates(),
-                consumerDTO.getQualityInformation(),
-                consumerDTO.getSecurityAlerts()
+                UserRole.CONSUMER
         );
         Consumer newConsumer = consumerBean.find(consumerDTO.getUsername());
         return Response.status(Response.Status.CREATED).entity(toDTO(newConsumer)).build();
@@ -128,10 +109,7 @@ public class ConsumerService {
                 consumerDTO.getUsername(),
                 consumerDTO.getEmail(),
                 consumerDTO.getPassword(),
-                UserRole.CONSUMER,
-                consumerDTO.getDeliveryUpdates(),
-                consumerDTO.getQualityInformation(),
-                consumerDTO.getSecurityAlerts()
+                UserRole.CONSUMER
         );
         Consumer updatedConsumer = consumerBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(updatedConsumer)).build();

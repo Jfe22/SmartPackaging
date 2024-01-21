@@ -46,13 +46,13 @@ public class ProducerBean {
     }
 
     // create producer
-    public void create(String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost)
+    public void create(String username, String email, String password, UserRole role)
     throws MyEntityExistsException, MyConstraintViolationException {
         if (exists(username))
             throw new MyEntityExistsException("Producer with username: " + username + " alredy exists");
 
         try {
-            Producer newProducer = new Producer(username, email, hasher.hash(password), role, qualityControlData, productResponsibilityCost);
+            Producer newProducer = new Producer(username, email, hasher.hash(password), role);
             em.persist(newProducer);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
@@ -60,7 +60,7 @@ public class ProducerBean {
     }
 
     // update producer
-    public void update(String username, String email, String password, UserRole role, String qualityControlData, String productResponsibilityCost)
+    public void update(String username, String email, String password, UserRole role)
             throws MyEntityNotFoundException, MyConstraintViolationException {
         Producer producer = find(username);
         em.lock(producer, LockModeType.OPTIMISTIC);
@@ -69,8 +69,6 @@ public class ProducerBean {
             producer.setEmail(email);
             producer.setPassword(hasher.hash(password));
             producer.setRole(role);
-            producer.setQualityControlData(qualityControlData);
-            producer.setProductResponsibilityCost(productResponsibilityCost);
             em.merge(producer);
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(e);
