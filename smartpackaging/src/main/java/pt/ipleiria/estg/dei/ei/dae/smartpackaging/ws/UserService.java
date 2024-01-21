@@ -54,10 +54,6 @@ public class UserService {
                 userDTO.getPassword(),
                 userDTO.getEmail(),
                 userDTO.getRole().toString()
-<<<<<<< Updated upstream
-=======
-                //UserRole.valueOf(userDTO.getRole())
->>>>>>> Stashed changes
         );
         User updatedUser = userBean.find(username);
         return Response.status(Response.Status.OK).entity(toDTO(updatedUser)).build();

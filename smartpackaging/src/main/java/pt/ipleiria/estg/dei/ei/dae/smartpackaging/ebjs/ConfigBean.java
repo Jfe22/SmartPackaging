@@ -41,10 +41,6 @@ public class ConfigBean {
         System.out.println("### Smart Packaging ###");
 
         // consumers
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
         try {
             consumerBean.create("consumer1", "consumer1@example.com", "123", UserRole.CONSUMER);
             consumerBean.create("consumer2", "consumer2@example.com", "123", UserRole.CONSUMER);
