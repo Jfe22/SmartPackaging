@@ -98,6 +98,7 @@ public class SmartPackageBean {
         entityManager.remove(smartPackage);
     }
 
+    //DEPRECATED USE orderBean.addPackageToOrder instead
     public void addPackageToOrder(int pack_id, int order_id)
     throws MyEntityNotFoundException {
         SmartPackage smartPackage = find(pack_id);
@@ -110,6 +111,7 @@ public class SmartPackageBean {
         smartPackage.setOrder(order);
     }
 
+    //DEPRECATED USE orderBean.removePackageFromOrder instead
     public void removePackageFromOrder(int pack_id, int order_id)
     throws MyEntityNotFoundException {
         SmartPackage smartPackage = find(pack_id);

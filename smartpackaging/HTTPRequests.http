@@ -67,7 +67,7 @@ Content-Type: application/json
   "id": 1,
   "packType": "SECONDARY",
   "material": "testing",
-  "productId": 133,
+  "productId": 1,
   "currentTemperature": 40,
   "currentHumidity": 90,
   "currentAtmPressure": 80,
@@ -110,6 +110,16 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8080/smartpackaging/api/orders/323
+Content-Type: application/json
+
+
+### SMARTPACAKGES ADDED TO ORDERS -------------------------------
+PUT http://localhost:8080/smartpackaging/api/orders/1/addsmartpackage/1
+Content-Type: application/json
+
+###
+
+PUT http://localhost:8080/smartpackaging/api/orders/1/addsmartpackage/2
 Content-Type: application/json
 
 

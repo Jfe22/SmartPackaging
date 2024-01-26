@@ -9,6 +9,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Consumer;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.Order;
+import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.SmartPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.TransportPackage;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
@@ -110,5 +111,29 @@ public class OrderBean {
 
         consumer.removeOrder(order);
         order.setConsumer(null);
+    }
+
+    public void addPackageToOrder(int orderId, int packageId)
+    throws MyEntityNotFoundException {
+        Order order = find(orderId);
+
+        SmartPackage smartPackage = entityManager.find(SmartPackage.class, packageId);
+        if (smartPackage == null)
+            throw new MyEntityNotFoundException("Smartpackage with id " + packageId + " doesn't exist");
+
+        order.addSmartPackage(smartPackage);
+        smartPackage.setOrder(order);
+    }
+
+    public void removePackageToOrder(int orderId, int packageId)
+    throws MyEntityNotFoundException {
+        Order order = find(orderId);
+
+        SmartPackage smartPackage = entityManager.find(SmartPackage.class, packageId);
+        if (smartPackage == null)
+            throw new MyEntityNotFoundException("Smartpackage with id " + packageId + " doesn't exist");
+
+        order.removeSmartPackage(smartPackage);
+        smartPackage.setOrder(null);
     }
 }

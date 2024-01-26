@@ -100,6 +100,17 @@ public class OrderService {
         return Response.status(Response.Status.OK).entity(toDTO(updatedOrder)).build();
     }
 
+    @PUT
+    @Path("{id}/addsmartpackage/{smartpackid}")
+    public Response addSmartPackageToOrder(@PathParam("id") int id, @PathParam("smartpackid") int smartpackid)
+    throws MyEntityNotFoundException {
+        orderBean.addPackageToOrder(id, smartpackid);
+        Order order = orderBean.find(id);
+
+        return Response.status(Response.Status.OK).entity(toDTO(order)).build();
+    }
+
+
     @DELETE
     @Path("{id}")
     public Response deleteOrder(@PathParam("id") int id)

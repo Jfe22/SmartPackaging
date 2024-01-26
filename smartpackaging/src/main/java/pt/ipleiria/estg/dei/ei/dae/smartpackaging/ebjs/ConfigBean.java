@@ -105,8 +105,10 @@ public class ConfigBean {
 
         // adding packages to orders
         try {
-            smartPackageBean.addPackageToOrder(1, 1);
-            smartPackageBean.addPackageToOrder(2, 1);
+           // smartPackageBean.addPackageToOrder(1, 1);
+           // smartPackageBean.addPackageToOrder(2, 1);
+          //  orderBean.addPackageToOrder(1,1);
+          //  orderBean.addPackageToOrder(1,2);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
