@@ -190,7 +190,7 @@ Accept: application/json
 #### CONSUMERS --------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/consumers
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDcwODc0MjYsImV4cCI6MTcwNzA5MTAyNn0.J8JvBQbbyWiYc2ilQYr1iqJ-WPXqcXaIHS7U419IUlI7oRgntxFay-52ni529BRY
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDcwODgzMzQsImV4cCI6MTcwNzA5MTkzNH0.dKf_HCbltInNYXXa9fFzmf6wVzBLtEck2oPvW_FQKtPibHbqc5vlQCyhi6BCPJ0b
 
 ###
 
@@ -202,14 +202,16 @@ Accept: application/json
 
 GET http://localhost:8080/smartpackaging/api/consumers/consumer1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDcwODEzNDUsImV4cCI6MTcwNzA4NDk0NH0.zJZWKfJSDSq4njws61sNZ8QbvJ2l2GeRAdYgCH-MyAdzk3eYNA_M4_nFXc_5EqMT
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDcwODgzMzQsImV4cCI6MTcwNzA5MTkzNH0.dKf_HCbltInNYXXa9fFzmf6wVzBLtEck2oPvW_FQKtPibHbqc5vlQCyhi6BCPJ0b
+
 
 ###
 POST http://localhost:8080/smartpackaging/api/consumers
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDcwODgzMzQsImV4cCI6MTcwNzA5MTkzNH0.dKf_HCbltInNYXXa9fFzmf6wVzBLtEck2oPvW_FQKtPibHbqc5vlQCyhi6BCPJ0b
+
 
 {
-  "id": 8,
   "username": "consumer4",
   "email": "consumer4@example.com",
   "password": "123"
