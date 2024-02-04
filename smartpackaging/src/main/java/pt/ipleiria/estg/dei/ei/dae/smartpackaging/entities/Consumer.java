@@ -16,7 +16,7 @@ import java.util.List;
         )
 })
 public class Consumer extends User implements Serializable {
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "consumer", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "consumer", cascade = CascadeType.REMOVE)
     List<Order> orders;
 
     public Consumer() {

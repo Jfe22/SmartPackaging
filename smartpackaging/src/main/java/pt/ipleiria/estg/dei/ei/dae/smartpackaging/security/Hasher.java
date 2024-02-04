@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.smartpackaging.security;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.entities.User;
+
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -14,16 +15,19 @@ import java.util.logging.Logger;
 public class Hasher {
     public String hash(String content) {
         try {
-            ByteBuffer passwdBuffer = Charset.defaultCharset().encode(CharBuffer.wrap(content));
+            ByteBuffer passwdBuffer =
+                    Charset.defaultCharset().encode(CharBuffer.wrap(content));
             byte[] passwdBytes = passwdBuffer.array();
 
             MessageDigest mdEnc = MessageDigest.getInstance("SHA-256");
             mdEnc.update(passwdBytes, 0, content.toCharArray().length);
-            char[] encoded = new BigInteger(1, mdEnc.digest()).toString(16).toCharArray();
 
-            return new String(encoded);
+            char[] enconded = new BigInteger(1, mdEnc.digest()).toString(16).toCharArray();
+
+            return new String(enconded);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(User.class.getName()).severe(ex.getMessage());
+
             return "";
         }
     }

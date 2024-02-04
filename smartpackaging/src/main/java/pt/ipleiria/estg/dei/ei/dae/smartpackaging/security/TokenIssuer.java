@@ -1,9 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.smartpackaging.security;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Default;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -19,9 +17,13 @@ public class TokenIssuer {
 
     public String issue(String username) {
         var expiryPeriod = LocalDateTime.now().plusMinutes(EXPIRY_MINS);
-        var expirationDateTime = Date.from(expiryPeriod.atZone(ZoneId.systemDefault()).toInstant());
+
+        var expirationDateTime = Date.from(
+                expiryPeriod.atZone(ZoneId.systemDefault()).toInstant()
+        );
 
         Key key = new SecretKeySpec(SECRET_KEY, ALGORITHM);
+
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())

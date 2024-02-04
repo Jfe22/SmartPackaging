@@ -33,7 +33,7 @@ public class UserBean {
 
     // find user
     public User find(String username)
-            throws MyEntityNotFoundException {
+    throws MyEntityNotFoundException {
         User user = em.find(User.class, username);
         if (user == null)
             throw new MyEntityNotFoundException("User " + username + " doesn't exist");
@@ -50,7 +50,7 @@ public class UserBean {
 
     // can login
     public boolean canLogin(String username, String password)
-            throws MyEntityNotFoundException {
+    throws MyEntityNotFoundException {
         var user = find(username);
         return user != null && user.getPassword().equals(hasher.hash(password));
     }
@@ -62,7 +62,7 @@ public class UserBean {
 
     // create user
     public void create(String username, String email, String password, String role)
-            throws MyEntityExistsException, MyConstraintViolationException {
+    throws MyEntityExistsException, MyConstraintViolationException {
         if (exists(username))
             throw new MyEntityExistsException("User " + username + " already exists");
 
@@ -76,7 +76,7 @@ public class UserBean {
 
     // update user
     public void update(String username, String email, String password, String role)
-            throws MyEntityNotFoundException, MyConstraintViolationException {
+    throws MyEntityNotFoundException, MyConstraintViolationException {
         User user = find(username);
         if (user == null)
             throw new MyEntityNotFoundException("User " + username + " doesn't exist");
@@ -94,7 +94,7 @@ public class UserBean {
 
     // delete user
     public void delete(String username)
-            throws MyEntityNotFoundException {
+    throws MyEntityNotFoundException {
         User user = find(username);
         em.remove(user);
     }

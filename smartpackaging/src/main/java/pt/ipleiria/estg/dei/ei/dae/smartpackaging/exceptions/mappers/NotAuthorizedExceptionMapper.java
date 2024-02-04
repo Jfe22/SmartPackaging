@@ -5,7 +5,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import pt.ipleiria.estg.dei.ei.dae.smartpackaging.exceptions.MyEntityExistsException;
 
-public class MyNotAuthorizedExceptionMapper implements ExceptionMapper<NotAuthorizedException> {
+public class NotAuthorizedExceptionMapper implements ExceptionMapper<NotAuthorizedException> {
     private static final java.util.logging.Logger Logger = java.util.logging.Logger.getLogger(MyEntityExistsException.class.getCanonicalName());
 
     @Override

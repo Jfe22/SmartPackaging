@@ -4,10 +4,10 @@ import io.jsonwebtoken.Jwts;
 import jakarta.annotation.Priority;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.NotAuthorizedException;
-import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
+import jakarta.ws.rs.container.ContainerResponseFilter;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.SecurityContext;
@@ -24,17 +24,18 @@ import java.security.Principal;
 public class AuthenticationFilter implements ContainerRequestFilter {
     @EJB
     private UserBean userBean;
+
     @Context
     private UriInfo uriInfo;
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
         var header = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+
         if (header == null || !header.startsWith("Bearer ")) {
             throw new NotAuthorizedException("Authorization header must be provided");
         }
 
-        // Get token from the HTTP Authorization header
         String token = header.substring("Bearer".length()).trim();
         var user = userBean.findOrFail(getUsername(token));
 
@@ -55,9 +56,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             }
 
             @Override
-            public String getAuthenticationScheme() {
-                return "Bearer";
-            }
+            public String getAuthenticationScheme() { return "Bearer"; }
         });
     }
 
