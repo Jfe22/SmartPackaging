@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 @Path("/consumers")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
 public class ConsumerService {
     @EJB
     private ConsumerBean consumerBean;

@@ -114,6 +114,35 @@ Content-Type: application/json
 
 
 
+#### TRANSPORTPACKAGES ------------------------------------------
+GET http://localhost:8080/smartpackaging/api/transportpackages
+Accept: application/json
+
+###
+GET http://localhost:8080/smartpackaging/api/transportpackages/133
+Accept: application/json
+
+###
+POST http://localhost:8080/smartpackaging/api/transportpackages
+Content-Type: application/json
+
+{
+  "id": 3,
+  "currentLocation": "a chegar",
+  "orderId": "2"
+}
+
+###
+PUT http://localhost:8080/smartpackaging/api/transportpackages/3
+Content-Type: application/json
+
+{
+  "currentLocation": "a chegar",
+  "orderId": 3
+}
+
+
+
 #### USERS ------------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/users
 Accept: application/json
@@ -151,16 +180,29 @@ DELETE http://localhost:8080/smartpackaging/api/users/3
 Content-Type: application/json
 
 
+### REQUEST JWT TOKEN
+POST http://localhost:8080/smartpackaging/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{ "username": "consumer1", "password": "123" }
 
 #### CONSUMERS --------------------------------------------------
 GET http://localhost:8080/smartpackaging/api/consumers
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3OTA1NjgsImV4cCI6MTcwNTc5NDE2OH0.7cRiLOhTe3L56rHKeuUNKNx-DUL1KVY9h93mG1gWmZhcy3VP2APu-fxSzNSR_Vs0
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDcwODc0MjYsImV4cCI6MTcwNzA5MTAyNn0.J8JvBQbbyWiYc2ilQYr1iqJ-WPXqcXaIHS7U419IUlI7oRgntxFay-52ni529BRY
 
 ###
+
+GET http://localhost:8080/smartpackaging/api/consumers
+Accept: application/json
+
+###
+
+
 GET http://localhost:8080/smartpackaging/api/consumers/consumer1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDU3OTA1NjgsImV4cCI6MTcwNTc5NDE2OH0.7cRiLOhTe3L56rHKeuUNKNx-DUL1KVY9h93mG1gWmZhcy3VP2APu-fxSzNSR_Vs0
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb25zdW1lcjEiLCJpYXQiOjE3MDcwODEzNDUsImV4cCI6MTcwNzA4NDk0NH0.zJZWKfJSDSq4njws61sNZ8QbvJ2l2GeRAdYgCH-MyAdzk3eYNA_M4_nFXc_5EqMT
 
 ###
 POST http://localhost:8080/smartpackaging/api/consumers
@@ -258,30 +300,3 @@ DELETE http://localhost:8080/smartpackaging/api/producers/18
 Content-Type: application/json
 
 
-
-#### TRANSPORTPACKAGES ------------------------------------------
-GET http://localhost:8080/smartpackaging/api/transportpackages
-Accept: application/json
-
-###
-GET http://localhost:8080/smartpackaging/api/transportpackages/133
-Accept: application/json
-
-###
-POST http://localhost:8080/smartpackaging/api/transportpackages
-Content-Type: application/json
-
-{
-  "id": 3,
-  "currentLocation": "a chegar",
-  "orderId": "2"
-}
-
-###
-PUT http://localhost:8080/smartpackaging/api/transportpackages/3
-Content-Type: application/json
-
-{
-  "currentLocation": "a chegar",
-  "orderId": 3
-}
